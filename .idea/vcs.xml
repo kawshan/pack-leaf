@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/pack-leaf-company-project-pring-boot" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/pack-leaf-company-project-spring-boot" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/spring-boot-packleaf4" vcs="Git" />
   </component>
 </project>
