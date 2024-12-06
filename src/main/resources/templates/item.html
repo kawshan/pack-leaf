@@ -67,7 +67,7 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label for="txtItemPrice" class="form-label fw-bold">Item Price <i class="text-danger">*</i> </label>
+                <label for="txtItemPrice" class="form-label fw-bold">Item Price </label>
                 <input type="text" id="txtItemPrice" class="form-control text-start" placeholder="Enter Item Price" onkeyup="textValidator(this,'','item','price')">
             </div>
             <div class="col-md-3"></div>
@@ -102,7 +102,7 @@
 
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <label for="txtItemDescription" class="form-label fw-bold">Item Description <i class="text-danger">*</i> </label>
+                <label for="txtItemDescription" class="form-label fw-bold">Item Description  </label>
                 <input type="text" id="txtItemDescription" class="form-control text-start" placeholder="Enter item Description" onkeyup="textValidator(this,'','item','description')">
             </div>
             <div class="col-md-3">
@@ -126,7 +126,7 @@
 
             </div>
             <div class="col-md-3">
-                <label for="selectItemFoil" class="form-label fw-bold">Foil <i class="text-danger">*</i> </label>
+                <label for="selectItemFoil" class="form-label fw-bold">Foil </label>
                 <select id="selectItemFoil" class="form-select text-start" onchange="selectValidator(this,'','item','foil')">
                     <option selected disabled>select an option</option>
                     <option value="true">yes</option>
@@ -145,12 +145,12 @@
 
             <div class="col-md-3"></div>
             <div class="col-md-3">
-                <label for="txtItemColours" class="form-label fw-bold">NO Of Colours <i class="text-danger">*</i> </label>
+                <label for="txtItemColours" class="form-label fw-bold">NO Of Colours  </label>
                 <input type="text" id="txtItemColours" class="form-control text-start" placeholder="Enter NO Of Colours" onkeyup="textValidator(this,'','item','nocolours')">
 
             </div>
             <div class="col-md-3">
-                <label for="txtPlateNumber" class="form-label fw-bold">Plate # <i class="text-danger">*</i> </label>
+                <label for="txtPlateNumber" class="form-label fw-bold">Plate #  </label>
                 <input type="text" id="txtPlateNumber" class="form-control text-start" placeholder="Enter Plate Number" onkeyup="textValidator(this,'','item','plate')">
             </div>
             <div class="col-md-3"></div>
@@ -165,7 +165,7 @@
             <div class="col-md-3"></div>
             <div class="col-md-3">
 
-                <label for="selectItemSpotUV" class="form-label fw-bold">Spot UV <i class="text-danger">*</i> </label>
+                <label for="selectItemSpotUV" class="form-label fw-bold">Spot UV </label>
                 <select id="selectItemSpotUV" class="form-select text-start" onchange="selectValidator(this,'','item','spotuv')">
                     <option selected disabled>select an option</option>
                     <option value="true">yes</option>
@@ -174,7 +174,12 @@
 
             </div>
             <div class="col-md-3">
-
+                <label for="selectItemStatus" class="form-label fw-bold">Item status </label>
+                <select id="selectItemStatus" class="form-select text-start" onchange="selectValidator(this,'','item','status')">
+                    <option selected disabled>select an option</option>
+                    <option value="true">active</option>
+                    <option value="false">not-active</option>
+                </select>
             </div>
             <div class="col-md-3"></div>
 
@@ -189,7 +194,7 @@
                 <button type="reset" class="btn btn-danger">reset</button>
             </div>
             <div class="col-md-3">
-                <button type="button" class="btn btn-warning" onclick="updateItem()" >Update</button>
+                <button type="button" class="btn btn-warning" id="buttonUpdate" style="pointer-events: all" onclick="updateItem()" >Update</button>
             </div>
             <div class="col-md-3">
                 <button type="button" class="btn btn-success" onclick="itemSubmit()">Submit</button>
@@ -220,6 +225,7 @@
         <th>Item laminate</th>
         <th>Item Foil</th>
         <th>Item Spot UV</th>
+        <th>Item Status</th>
         <th>Action</th>
         </thead>
 

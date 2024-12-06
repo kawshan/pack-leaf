@@ -3,6 +3,7 @@ package com.packleaf.packleaf.controller;
 import com.packleaf.packleaf.dao.ItemDao;
 import com.packleaf.packleaf.entity.Item;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,7 +19,7 @@ public class ItemController {
 
     @GetMapping(value = "/findall")
     public List<Item> getAllItems(){
-        return itemDao.findAll();
+        return itemDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
     @GetMapping
@@ -58,7 +59,9 @@ public class ItemController {
     @DeleteMapping
     public String deleteItem(@RequestBody Item item){
         try {
-            itemDao.delete(item);
+            item.setStatus(false);
+            itemDao.save(item);
+//            itemDao.delete(item);
             return "ok";
         }catch (Exception e){
             return "delete not complete"+e.getMessage();

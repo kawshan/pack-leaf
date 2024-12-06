@@ -22,6 +22,7 @@ const refreshItemForm = () =>{
     txtItemColours.style.border="2px solid #ced4da";
     txtPlateNumber.style.border="2px solid #ced4da";
     selectItemSpotUV.style.border="2px solid #ced4da";
+    selectItemStatus.style.border="2px solid #ced4da";
 
 
 
@@ -33,6 +34,7 @@ const refreshItemForm = () =>{
     txtItemColours.value="";
     txtPlateNumber.value="";
     selectItemSpotUV.value="";
+    selectItemStatus.value="";
 
 
     // selectItemCategory
@@ -45,6 +47,10 @@ const refreshItemForm = () =>{
     laminates=ajaxGetRequest("/laminate/findall")
     fillDataIntoSelect(selectLaminate,'Select Item Category',laminates,'name')
 
+
+    //disable update button because user can update instead of delete
+    buttonUpdate.disabled=true;
+    buttonUpdate.style.cursor="not-allowed";       //to show mouse cursor like this 🚫
 
 }
 
@@ -64,8 +70,9 @@ const refreshItemTable = ()=>{
         {dataType: 'text', propertyName: 'description'},
         {dataType: 'text', propertyName: 'nocolours'},
         {dataType: 'function', propertyName: getItemLaminate},
-        {dataType: 'text', propertyName: 'foil'},
-        {dataType: 'text', propertyName: 'spotuv'},
+        {dataType: 'function', propertyName: getItemFoil},
+        {dataType: 'function', propertyName: getItemSpotUV},
+        {dataType: 'function', propertyName: getItemStatus},
     ];
 
     fillDataIntoTable(itemTable,items,displayProperty,true);
@@ -81,6 +88,31 @@ const getItemLaminate = (ob)=>{
     return ob.laminate_id.name;
 }
 
+const getItemStatus = (ob)=>{
+    if (ob.status){
+        return "<p class='text-success'>active</p>"
+    }else {
+        return "<p class='text-danger'>in-active</p>"
+    }
+}
+
+
+const getItemFoil = (ob)=>{
+    if (ob.foil){
+        return "<p class='text-success'>yes</p>"
+    }else {
+        return "<p class='text-danger'>no</p>"
+    }
+}
+
+const getItemSpotUV = (ob)=>{
+    if (ob.spotuv){
+        return "<p class='text-success'>yes</p>"
+    }else {
+        return "<p class='text-danger'>no</p>"
+    }
+}
+
 
 const checkErrors= ()=>{
     let errors = '';
@@ -90,9 +122,9 @@ const checkErrors= ()=>{
         errors=errors+"category cannot Be Empty \n"
     }
 
-    if (item.price == null){
-        errors=errors+"Price Cannot Be Empty \n"
-    }
+    // if (item.price == null){
+    //     errors=errors+"Price Cannot Be Empty \n"
+    // }
 
 
     if (item.code == null){
@@ -103,34 +135,33 @@ const checkErrors= ()=>{
         errors=errors+"Name Cannot Be Empty \n"
     }
 
-    if (item.description == null){
-        errors=errors+"Description Cannot Be Empty \n"
-    }
-
-
-    if (item.description == null){
-        errors=errors+"Description Cannot Be Empty \n"
-    }
+    // if (item.description == null){
+    //     errors=errors+"Description Cannot Be Empty \n"
+    // }
 
     //laminate
     if (item.laminate_id.name == null){
         errors=errors+"Laminate Cannot Be Empty \n"
     }
 
-    if (item.foil == null){
-        errors=errors+"Foil Cannot Be Empty \n"
-    }
+    // if (item.foil == null){
+    //     errors=errors+"Foil Cannot Be Empty \n"
+    // }
 
-    if (item.nocolours == null){
-        errors=errors+"Colours Cannot Be Empty \n"
-    }
+    // if (item.nocolours == null){
+    //     errors=errors+"Colours Cannot Be Empty \n"
+    // }
 
-    if (item.plate == null){
-        errors=errors+"Plate Cannot Be Empty \n"
-    }
+    // if (item.plate == null){
+    //     errors=errors+"Plate Cannot Be Empty \n"
+    // }
 
-    if (item.spotuv == null){
-        errors=errors+"Spot UV Cannot Be Empty \n"
+    // if (item.spotuv == null){
+    //     errors=errors+"Spot UV Cannot Be Empty \n"
+    // }
+
+    if (item.status == null){
+        errors=errors+"Status Cannot Be Empty \n"
     }
 
 
@@ -141,16 +172,10 @@ const itemSubmit = ()=>{
     let errors = checkErrors();
     if (errors==""){
         const userConfirm = confirm("are you sure to add following item"
-        +"\n Item category is"+item.category_id.ctcode
-        +"\n Item price is"+item.price
-        +"\n Item Code is"+item.price
-        +"\n Item Name is"+item.itmname
-        +"\n Item Description is"+item.description
-        +"\n Item Laminate is"+item.laminate_id.name
-        +"\n Item Laminate is"+item.foil
-        +"\n Item Colours are"+item.nocolours
-        +"\n Item plate is"+item.plate
-        +"\n Item Spot UV is"+item.spotuv
+        +"\n Item category is "+item.category_id.ctcode
+        +"\n Item Code is "+item.code
+        +"\n Item Name is "+item.itmname
+        +"\n Item Status is "+item.status
         )
         if (userConfirm){
             let postServerResponse=ajaxPostRequest("/item",item);
@@ -170,6 +195,10 @@ const itemSubmit = ()=>{
 const refillItem = (ob,rowIndex)=>{
 
 
+    buttonUpdate.disabled=false;
+    buttonUpdate.style.cursor="default";
+
+
     item=JSON.parse(JSON.stringify(ob));
     oldItem=JSON.parse(JSON.stringify(ob));
 
@@ -182,8 +211,9 @@ const refillItem = (ob,rowIndex)=>{
     txtItemColours.value=ob.nocolours;
     txtPlateNumber.value=ob.plate;
     selectItemSpotUV.value=ob.spotuv;
+    selectItemStatus.value=ob.status;
 
-
+    // fill data into dynamic select boxes
     fillDataIntoSelect(selectItemCategory,'Select Item Category',itemCategories,'ctcode',ob.category_id.ctcode);
     fillDataIntoSelect(selectLaminate,'Select Item Category',laminates,'name',ob.laminate_id.name)
 
@@ -233,6 +263,10 @@ const checkUpdate = ()=>{
         updates=updates+"Spot UV is updated \n"
     }
 
+    if (item.status != oldItem.status){
+        updates=updates+"Status is updated \n"
+    }
+
     return updates;
 }
 
@@ -264,15 +298,8 @@ const deleteItem = (ob,rowIndex)=>{
 
     const userConfirm = confirm("are you sure to delete following item \n"
         +"\n Item category is"+ob.category_id.ctcode
-        +"\n Item price is"+ob.price
-        +"\n Item Code is"+ob.price
         +"\n Item Name is"+ob.itmname
-        +"\n Item Description is"+ob.description
-        +"\n Item Laminate is"+ob.laminate_id.name
-        +"\n Item Laminate is"+ob.foil
-        +"\n Item Colours are"+ob.nocolours
-        +"\n Item plate is"+ob.plate
-        +"\n Item Spot UV is"+ob.spotuv
+        +"\n Item Status is"+ob.status
     )
     if (userConfirm){
         let deleteServerResponse = ajaxDeleteRequest("/item",ob);

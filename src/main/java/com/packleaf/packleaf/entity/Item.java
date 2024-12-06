@@ -68,6 +68,8 @@ public class Item {
     @Column(name = "deleteuserid")
     private Integer deleteuserid;
 
+    @Column(name = "status")
+    private Boolean status;
 
 
     @ManyToOne
