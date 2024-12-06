@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+<!--    bootstrap links-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!--    bootstrap links-->
+
+    <script src="/commonjs/selectcommonfunction.js"></script>
+    <script src="/commonjs/jquery.js"></script>
+    <script src="/commonjs/validation.js"></script>
+    <script src="/commonjs/ajaxcommonfunction.js"></script>
+    <script src="/commonjs/tablecommonfuntion.js"></script>
+    <script src="/controllerjs/item.js"></script>
+
+</head>
+<body>
+
+
+<!--header area start-->
+<div class="row p-4" style="background-color: #F5EFFF; width: 100%; height: 100px ">
+    <h1 class="text-center">Item Master</h1>
+</div>
+<!--header area start-->
+
+
+<!--    edit delete print button start-->
+<div class="row mt-2">
+    <div id="divModifyButton" class="d-none">
+        <div class="col-md-6">
+            <button type="button" class="btn btn-warning fw-bold"
+                    style="width: 15%; color: whitesmoke; border: 1px solid black;"
+                    onclick="refillItem(window['editOb'],window['editRow'])">
+                <i class="fa-solid fa-recycle fa-beat"></i> Edit
+            </button>
+            <button type="button" id="divModifyButtonDelete" class="btn btn-danger fw-bold"
+                    style=" width: 15%; color: whitesmoke; border: 1px solid black; pointer-events: all"
+                    onclick="deleteItem(window['editOb'],window['editRow'])">
+                <i class="fa-solid fa-trash fa-beat"></i> Delete
+            </button>
+            <button onclick="printStudent(window['editOb'],window['editRow'])" type="button"
+                    class="btn btn-primary fw-bold"
+                    style=" width: 15%; color: whitesmoke;border: 1px solid black">
+                <i class="fa-solid fa-eye fa-beat"></i> Print
+            </button>
+        </div>
+    </div>
+</div>
+<!--    edit delete print button end-->
+
+
+<!--form area start-->
+<div class="card m-5 p-5">
+    <form onsubmit="return false">
+
+        <!--    first row start-->
+        <div class="row mt-5">
+
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <label for="selectItemCategory" class="form-label fw-bold"> Item Category  <i class="text-danger">*</i>  </label>
+                <select id="selectItemCategory" class="form-select text-start" onchange="selectDBValidator(this,'','item','category_id')">
+
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="txtItemPrice" class="form-label fw-bold">Item Price <i class="text-danger">*</i> </label>
+                <input type="text" id="txtItemPrice" class="form-control text-start" placeholder="Enter Item Price" onkeyup="textValidator(this,'','item','price')">
+            </div>
+            <div class="col-md-3"></div>
+
+        </div>
+        <!--    first row end-->
+
+
+
+        <!--    second row start-->
+        <div class="row mt-5">
+
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <label for="txtItemCode" class="form-label fw-bold">Item Code <i class="text-danger">*</i> </label>
+                <input type="text" id="txtItemCode" class="form-control text-start" placeholder="Enter Item Code" onkeyup="textValidator(this,'','item','code')">
+
+            </div>
+            <div class="col-md-3">
+                <label for="txtItemName" class="form-label fw-bold">Item Name <i class="text-danger">*</i> </label>
+                <input type="text" id="txtItemName" class="form-control text-start" placeholder="Enter Item Name" onkeyup="textValidator(this,'','item','itmname')">
+            </div>
+            <div class="col-md-3"></div>
+
+        </div>
+        <!--    second row end-->
+
+
+
+        <!--    third row start-->
+        <div class="row mt-5">
+
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <label for="txtItemDescription" class="form-label fw-bold">Item Description <i class="text-danger">*</i> </label>
+                <input type="text" id="txtItemDescription" class="form-control text-start" placeholder="Enter item Description" onkeyup="textValidator(this,'','item','description')">
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-3"></div>
+
+        </div>
+        <!--    third row end-->
+
+
+        <!--    forth row start-->
+        <div class="row mt-5">
+
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <label for="selectLaminate" class="form-label fw-bold">Laminate <i class="text-danger">*</i> </label>
+                <select id="selectLaminate" class="form-select text-start" onchange="selectDBValidator(this,'','item','laminate_id')">
+
+                </select>
+
+            </div>
+            <div class="col-md-3">
+                <label for="selectItemFoil" class="form-label fw-bold">Foil <i class="text-danger">*</i> </label>
+                <select id="selectItemFoil" class="form-select text-start" onchange="selectValidator(this,'','item','foil')">
+                    <option selected disabled>select an option</option>
+                    <option value="true">yes</option>
+                    <option value="false">no</option>
+                </select>
+            </div>
+            <div class="col-md-3"></div>
+
+        </div>
+        <!--    forth row end-->
+
+
+
+        <!--    fifth row start-->
+        <div class="row mt-5">
+
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <label for="txtItemColours" class="form-label fw-bold">NO Of Colours <i class="text-danger">*</i> </label>
+                <input type="text" id="txtItemColours" class="form-control text-start" placeholder="Enter NO Of Colours" onkeyup="textValidator(this,'','item','nocolours')">
+
+            </div>
+            <div class="col-md-3">
+                <label for="txtPlateNumber" class="form-label fw-bold">Plate # <i class="text-danger">*</i> </label>
+                <input type="text" id="txtPlateNumber" class="form-control text-start" placeholder="Enter Plate Number" onkeyup="textValidator(this,'','item','plate')">
+            </div>
+            <div class="col-md-3"></div>
+
+        </div>
+        <!--    fifth row end-->
+
+
+        <!--    sixth row start-->
+        <div class="row mt-5">
+
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+
+                <label for="selectItemSpotUV" class="form-label fw-bold">Spot UV <i class="text-danger">*</i> </label>
+                <select id="selectItemSpotUV" class="form-select text-start" onchange="selectValidator(this,'','item','spotuv')">
+                    <option selected disabled>select an option</option>
+                    <option value="true">yes</option>
+                    <option value="false">no</option>
+                </select>
+
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-3"></div>
+
+        </div>
+        <!--    sixth row end-->
+
+
+        <!--button row start-->
+        <div class="row mt-5">
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <button type="reset" class="btn btn-danger">reset</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-warning" onclick="updateItem()" >Update</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-success" onclick="itemSubmit()">Submit</button>
+            </div>
+        </div>
+        <!--button row start-->
+
+
+
+
+    </form>
+</div>
+<!--form area end-->
+
+<!--table area start-->
+<div class="card mt-5 p-5">
+    <table class="table table-hover table-striped" id="itemTable">
+
+        <thead>
+        <th>#</th>
+        <th>Item Category</th>
+        <th>Item key</th>
+        <th>Item Price</th>
+        <th>Item Code</th>
+        <th>Item Name</th>
+        <th>Item Description</th>
+        <th>Item Colours</th>
+        <th>Item laminate</th>
+        <th>Item Foil</th>
+        <th>Item Spot UV</th>
+        <th>Action</th>
+        </thead>
+
+        <tbody>
+        </tbody>
+
+    </table>
+</div>
+<!--table area end-->
+
+
+
+</body>
+</html>
