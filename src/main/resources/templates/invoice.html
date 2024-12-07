@@ -33,19 +33,40 @@
 <!--header area start-->
 
 
-<!--form area start-->
-<div class="card">
+<!--form area invoice header start-->
+<div class="card m-4">
     <form onsubmit="return false">
 
 
         <!--button row start-->
         <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-3"></div>
+            <div class="col-md-6">
+<!--                div modify button 2 start-->
+                <div id="divModifyButton2" class="d-none">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-warning fw-bold"
+                                style="width: 15%; color: whitesmoke; border: 1px solid black;"
+                                onclick="refillInvoiceHeaderForm(window['editOb'],window['editRow'])">
+                            <i class="fa-solid fa-recycle fa-beat"></i> Edit
+                        </button>
+                        <button type="button" class="btn btn-danger fw-bold"
+                                style=" width: 15%; color: whitesmoke; border: 1px solid black; pointer-events: all"
+                                onclick="deleteInvoiceHeader(window['editOb'],window['editRow'])">
+                            <i class="fa-solid fa-trash fa-beat"></i> Delete
+                        </button>
+                        <button onclick="printStudent(window['editOb'],window['editRow'])" type="button"
+                                class="btn btn-primary fw-bold"
+                                style=" width: 15%; color: whitesmoke;border: 1px solid black">
+                            <i class="fa-solid fa-eye fa-beat"></i> Print
+                        </button>
+                    </div>
+                </div>
+<!--                div modify button 2 end-->
+            </div>
             <div class="col-md-3">
                 <button type="reset" class="btn btn-danger">reset</button>
-                <button type="button" class="btn btn-warning">Update</button>
-                <button type="reset" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-warning" onclick="updateInvoiceHeader()">Update</button>
+                <button type="submit" class="btn btn-success" onclick="submitInvoiceHeader()">Submit</button>
             </div>
             <div class="col-md-3"></div>
         </div>
@@ -57,15 +78,18 @@
             <div class="col-md-3">
                 <label for="selectCustomer" class="form-label fw-bold"> Customer Name <i class="text-danger">*</i>
                 </label>
-                <select id="selectCustomer" class="form-select text-start" onchange="getCustomerValues(this)">
+                <select id="selectCustomer" class="form-select text-start" onchange="getCustomerValues(this); selectDBValidator(this,'','invoiceHeader','customer_id')">
                     <option></option>
                 </select>
                 <p class="mt-2" id="txtSelectedCustomerAddress" style="padding-left: 20px"></p>
                 <p class="mt-2" id="txtSelectedCustomerPhoneNO" style="padding-left: 20px"></p>
             </div>
-            <div class="col-md-3"></div>
-            <div class="col-md-3"></div>
-            <div class="col-md-3">
+            <div class="col-md-3" style="padding-left: 10%">
+                <label for="selectCompanyName" class="form-label fw-bold">Company name</label>
+                <select id="selectCompanyName" class="form-select text-start" onchange="selectDBValidator(this,'','invoiceHeader','company_id')"></select>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
 
                 <table class="table table-bordered table-striped">
                     <tbody>
@@ -78,7 +102,7 @@
                         </td>
                         <td>
                             <input type="text" id="textInvoiceNO" class="form-control text-start"
-                                   placeholder="Enter Invoice Number">
+                                   placeholder="Enter Invoice Number" onkeyup="textValidator(this,'','invoiceHeader','invno')">
                         </td>
                     </tr>
                     <!--                first row-->
@@ -91,7 +115,7 @@
 
                         </td>
                         <td>
-                            <input type="date" id="textInvoiceDate" class="form-control" placeholder="Enter Invoice Date">
+                            <input type="date" id="textInvoiceDate" class="form-control" placeholder="Enter Invoice Date" onchange="textValidator(this,'','invoiceHeader','invdate')">
                         </td>
                     </tr>
                     <!--                second row-->
@@ -103,7 +127,8 @@
                             <label for="textPoKey" class="form-label fw-bold"> PO key <i class="text-danger">*</i> </label>
                         </td>
                         <td>
-                            <input type="text" id="textPoKey" class="form-control text-start" placeholder="Enter PO Key">                        </td>
+                            <input type="text" id="textPoKey" class="form-control text-start" placeholder="Enter PO Key" onkeyup="textValidator(this,'','invoiceHeader','pokey')">
+                        </td>
                     </tr>
                     <!--                third row-->
 
@@ -114,7 +139,9 @@
                             <label for="textDispatchKey" class="form-label fw-bold">Dispatch Key <i class="text-danger">*</i></label>
                         </td>
                         <td>
-                            <input type="text" id="textDispatchKey" class="form-control" placeholder="enter dispatch key">                    </tr>
+                            <input type="text" id="textDispatchKey" class="form-control" placeholder="enter dispatch key" onkeyup="textValidator(this,'','invoiceHeader','dispatchkey')">
+                        </td>
+                     </tr>
                     <!--                forth row-->
 
 
@@ -124,26 +151,47 @@
 
         </div>
 
-
     </form>
 </div>
-<!--form area end-->
+<!--form area invoice header end-->
+
+
+
+<!--table invoice header start-->
+<div class="card m-4 d-none">
+<table class="table table-hover table-striped"  id="tableInvoiceHeader">
+    <thead>
+            <th>#</th>
+            <th>Customer name</th>
+            <th>Company name</th>
+            <th>Invoice NO</th>
+            <th>Invoice date</th>
+            <th>PO Number</th>
+            <th>Dispatch Number</th>
+            <th>Action</th>
+    </thead>
+    <tbody></tbody>
+</table>
+</div>
+<!--table invoice header end-->
+
 
 
 <!--table item form area start-->
+<div class="card m-4">
 <form onsubmit="return false">
 <table class="table">
     <tbody>
         <tr>
             <td>
                 <label for="selectItemName" class="form-label fw-bold">Item name</label>
-                <select id="selectItemName" class="form-select" onchange="selectDBValidator(this,'','invoiceDetail','item_id'); console.log(this.value)"></select>
+                <select id="selectItemName" class="form-select" onchange="selectDBValidator(this,'','invoiceDetail','item_id'); saveImKey(this)"></select>
             </td>
 
 
             <td>
                 <label for="txtQty" class="form-label fw-bold">Item Qty</label>
-                <input type="text" id="txtQty" class="form-control text-end" placeholder="enter item name" onkeyup="textValidator(this,'','invoiceDetail','invqty')">
+                <input type="text" id="txtQty" class="form-control text-end" placeholder="enter item name" onkeyup="textValidator(this,'','invoiceDetail','invqty'); getMaxInvoiceHeaderKey()">
             </td>
 
 
@@ -162,6 +210,7 @@
             <td>
                 <button type="submit" class="btn btn-warning" id="buttonUpdateInvoiceDetail" onclick="updateInvoiceDetail()" style="width: 100px; height: 70px; pointer-events: all">Update</button>
                 <button type="submit" class="btn btn-success" id="buttonAddInvoiceDetail" onclick="buttonInvoiceDetailsAdd()" style="width: 100px; height: 70px; pointer-events: all ">Add</button>
+                <p class="text-danger" id="paragraphWaringInInvoiceDetails">please complete Invoice header section !</p>
             </td>
 
 
@@ -171,6 +220,7 @@
     </tbody>
 </table>
 </form>
+</div>
 <!--table item form area start-->
 
 
@@ -198,7 +248,9 @@
 </div>
 <!--    edit delete print button end-->
 
-<!--table area start-->
+
+
+<!--table area invoice detail start-->
 <div class="card mt-5 p-5">
     <table class="table table-hover table-striped" id="tableInvoiceDetails">
 
@@ -216,7 +268,7 @@
 
     </table>
 </div>
-<!--table area end-->
+<!--table area invoice detail end-->
 
 
 </body>

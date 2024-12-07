@@ -59,4 +59,17 @@ public class InvoiceDetailController {
         }
     }
 
+
+
+
+    @GetMapping(value = "/getmaxinkey")
+    public String getMaxInKey() {
+        return invoiceDetailDao.getMaxInKey();
+    }
+
+
+
+
+
+
 }
