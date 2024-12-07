@@ -4,7 +4,7 @@ window.addEventListener('load',function () {
 
     refreshItemTable();
 
-
+    refreshTableInsidePrint();
 
 });
 
@@ -318,16 +318,45 @@ const deleteItem = (ob,rowIndex)=>{
 }
 
 
+//fill data into table which inside of the print model
+const refreshTableInsidePrint = ()=>{
+    let getAllItems = ajaxGetRequest("/item/findall");
+
+    let displayColumns = [
+        {dataType: 'text', propertyName: 'code'},
+        {dataType: 'text', propertyName: 'itmname'},
+    ];
+
+    fillDataIntoTable(tablePrintItem,getAllItems,displayColumns,false);
+
+}
 
 
+//mouse click ekedi meka execute venna thama me function eka liwwe
+const printModelButtonMC = ()=>{
+
+    console.log("print works");
+
+    let newWindow = window.open();
+    newWindow.document.write(
+        "<html>\n" +
+        "<head>\n" +
+        "    <!--    bootstrap links-->\n" +
+        "    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css\">\n" +
+        "    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js\"></script>\n" +
+        "    <!--    bootstrap links-->\n" +
+        "</head>\n" +
+        "<body>"+tablePrintItem.outerHTML+"</body>\n" +
+        "</html>"
+    );
 
 
+    setTimeout(()=>{
+        newWindow.stop();
+        newWindow.print();
+        newWindow.close();
+    },1000)
 
-
-
-
-
-
-
+}
 
 
