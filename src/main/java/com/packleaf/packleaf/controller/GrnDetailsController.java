@@ -60,5 +60,13 @@ public class GrnDetailsController {
 
 
 
+    @GetMapping(value = "/getremaininggrnquantity/{id}")
+    public String getRemainingGrnDetailQuantity(@PathVariable("id") String id){
+        return grnDetailsDao.getRemainingGrnDetailQuantity(id);
+    }
+
+
+
+
 
 }

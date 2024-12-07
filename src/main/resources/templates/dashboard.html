@@ -56,12 +56,14 @@
 <!--off canvas start-->
 <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="staticBackdropLabel">Offcanvas</h5>
+        <h5 class="offcanvas-title" id="staticBackdropLabel">Menu</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
 
 
+
+<div class="row mt-2">
 <!--item collapse start-->
         <p class="d-inline-flex gap-1">
             <button class="btn" style="background-color: #54C392; padding-bottom: 5%" type="button" data-bs-toggle="collapse" data-bs-target="#ItemExample" aria-expanded="false" aria-controls="ItemExample">
@@ -85,14 +87,57 @@
                     </li>
 
                     <li class="list-group-item">
-                        <button type="button" class="btn" onclick="window.location.href='/purchaseorderheader'">Purchase Order</button>
+                        <button type="button" class="btn" onclick="window.location.href='/purchaseorderheader'">Customer Purchase Order</button>
                     </li>
 <!--                    <li class="list-group-item">And a fifth one</li>-->
                 </ul>
             </div>
         </div>
 <!--item collapse end-->
+</div>
 
+
+<div class="row mt-2">
+        <!--stock collapse start-->
+        <p class="d-inline-flex gap-1">
+            <button class="btn" style="background-color: #54C392; padding-bottom: 5%" type="button" data-bs-toggle="collapse" data-bs-target="#StockExample" aria-expanded="false" aria-controls="ItemExample">
+                <span class="material-symbols-outlined">category</span> Stock Section
+            </button>
+        </p>
+        <div class="collapse" id="StockExample">
+            <div class="card card-body">
+                <ul class="list-group">
+
+
+                    <li class="list-group-item">
+                        <button class="btn" onclick="window.location.href='/supplier'">Supplier</button>
+                    </li>
+
+
+                    <li class="list-group-item">
+                        <button class="btn" onclick="window.location.href='/rawmaterialcategory'">Raw Material Category</button>
+                    </li>
+
+                    <li class="list-group-item">
+                        <button class="btn" onclick="window.location.href='/rawmaterial'">Raw Material</button>
+                    </li>
+
+                    <li class="list-group-item">
+                        <button class="btn" onclick="window.location.href='/ourpoheader'">Our PO</button>
+                    </li>
+
+                    <li class="list-group-item">
+                        <button class="btn" onclick="window.location.href='/grn-header'">GRN</button>
+                    </li>
+
+
+
+                    <!--                    <li class="list-group-item">And a fifth one</li>-->
+                </ul>
+            </div>
+        </div>
+        <!--stock collapse end-->
+</div>
 
     </div>
 </div>

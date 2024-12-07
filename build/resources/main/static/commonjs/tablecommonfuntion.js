@@ -93,7 +93,7 @@ const fillDataIntoTable2 = (tableId,dataList,columnList,buttonVisibility=true,di
             window['editOb'] = element;
             window['editRow'] = index;
 
-            divModifyElementName.className ='d-block'
+            divModifyElementName.classList.remove('d-none')
         }
         tdButton.appendChild(inputRadio);
 
@@ -179,7 +179,57 @@ const fillDataIntoTableForItemPrint = (tableId, dataList, columnList, buttonVisi
 
 
 
+const fillDataIntoTableWithEditButton = (tableID, dataList, columnsList, editFunction, buttonVisibility = true )=>{
 
+    const tableBody = tableID.children[1];
+    tableBody.innerHTML='';
+
+    dataList.forEach((element,index)=> {
+
+        const tr = document.createElement('tr');
+
+        const tdIndex = document.createElement('td');
+        tdIndex.innerText = parseInt(index) + 1;
+        tr.appendChild(tdIndex);
+
+
+        columnsList.forEach(column => {
+            const td = document.createElement('td');
+
+            if (column.dataType == 'text') {
+                td.innerText = element[column.propertyName];
+            }
+            if (column.dataType == 'function') {
+                td.innerHTML = column.propertyName(element);
+            }
+            tr.appendChild(td);
+        });
+
+
+        const tdButton = document.createElement('td');
+
+
+        const buttonEdit = document.createElement('button');
+        buttonEdit.className = 'btn btn-warning fw-bold';
+        buttonEdit.style.height='50%';
+        buttonEdit.style.width='12%';
+        buttonEdit.innerHTML = '<span class="material-symbols-outlined">edit</span>'
+        tdButton.appendChild(buttonEdit);
+        buttonEdit.onclick = function () {
+            editFunction(element, index);
+
+        }
+
+
+        if (buttonVisibility) {
+            tr.appendChild(tdButton);
+        }
+
+        tableBody.appendChild(tr);
+
+    });
+
+}
 
 
 

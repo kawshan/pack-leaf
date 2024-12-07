@@ -30,13 +30,23 @@ public class GrnDetails {
     @Column(name = "grnheader")
     private String grnheader;
 
+    @Column(name = "itemcode")
+    private String itemcode;
+
+    @Column(name = "gd_description")
+    private String gd_description;
+
+    @Column(name = "gd_referencenumber")
+    private String gd_referencenumber;
 
     @ManyToOne
     @JoinColumn(name = "rawmaterial_id" , referencedColumnName = "id")
     private RawMaterial rawmaterial_id;
 
 
-
+    @ManyToOne
+    @JoinColumn(name = "ourpodetail_id", referencedColumnName = "id")
+    private OurPoDetail ourpodetail_id;
 
 
 

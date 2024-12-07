@@ -258,7 +258,7 @@ const refreshPurchaseOrderDetailTable =()=>{
         {dataType:"function",propertyName:getPoValue},
     ];
 
-    fillDataIntoTable2(purchaseOrderDetailsTable,purchaseOrderDetails,displayProperty,true);
+    fillDataIntoTable2(purchaseOrderDetailsTable,purchaseOrderDetails,displayProperty,true,divModifyButton2);
 
 }
 

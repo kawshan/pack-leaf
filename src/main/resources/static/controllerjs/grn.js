@@ -47,6 +47,8 @@ const grnHeaderFormRefresh = () => {
     displaySupplierAddress.innerHTML="";
     displaySupplierPhoneNumber.innerHTML="";
 
+    //our po details table eka load vena eka hide kara -> meka load venne user po numbber eka type karahama.
+    cardOurPoDetailsInGrnHeader.classList.add('d-none');
 
 }
 
@@ -108,9 +110,19 @@ const checkErrorsGrnHeader = () => {
         errors = errors + "Grn Date Cannot Be Empty \n"
     }
 
-    if (grnHeader.ourponumber == null) {
-        errors = errors + "Our Po Number Cannot Be Empty \n"
+    if (checkBoxWithOutPoNumber.checked){
+        //check nam ee kiyanne proceed without po kiyana option eka tik karala thiyenne
+    }else {
+        //else ekedi venne
+        if (grnHeader.ourponumber == null) {
+            errors = errors + "Our Po Number Cannot Be Empty \n"
+        }
     }
+
+
+
+
+
     return errors;
 }
 
@@ -262,33 +274,39 @@ const printGrnHeader = async (ob,rowIndex)=>{
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>purchase order print</title>
+    <title>Grn Details print</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <!--<div class="container-fluid">-->
 
-<h2 class="text-center m-1">GRN</h2>
+<h2 class="text-center">GRN</h2>
 <!--grn area start-->
 <div class="row">
-<div class="col-md-3"></div>
-<div class="col-md-3"></div>
-<div class="col-md-3"></div>
-    <div class="col-md-3">
+<div class="col-4" style="height: 5%">
+        <div class="card" style="margin-bottom: 5px;">
+            <p style="font-size: 11px">${ob.supplier_id.suppliername}</p>
+            <p style="font-size: 11px">${ob.supplier_id.supplieraddress}</p>
+            <p style="font-size: 11px">${ob.supplier_id.suppliertelephone}</p>
+        </div>
+</div>
+<div class="col-2"></div>
+<div class="col-3"></div>
+    <div class="col-3">
         <table class="table table-bordered">
             <tbody style="font-size: 11px">
                 <tr>
-                    <td>GRN No</td>
-                    <td class="text-end">${ob.grnno}</td>
+                    <td style="padding: 5px">GRN No</td>
+                    <td class="text-end" style="padding: 5px">${ob.grnno}</td>
                 </tr>
                 <tr>
-                    <td>GRN Date</td>
-                    <td class="text-end">${ob.grndate}</td>
+                    <td style="padding: 5px">GRN Date</td>
+                    <td class="text-end" style="padding: 5px">${ob.grndate}</td>
                 </tr>
                 <tr>
-                    <td>Our Po No</td>
-                    <td class="text-end">${ob.ourponumber}</td>
+                    <td style="padding: 5px">Our Po No</td>
+                    <td class="text-end" style="padding: 5px">${ob.ourponumber}</td>
                 </tr>
             </tbody>
         </table>
@@ -297,23 +315,6 @@ const printGrnHeader = async (ob,rowIndex)=>{
 </div>
 <!--grn area end-->
 
-<!-- supplier details  section start-->
-<div class="row">
-<!--supplier area-->
-    <div class="col-6">
-        <div class="card" style="margin-bottom: 5px;">
-            <p style="font-size: 11px">Supplier</p>
-            <p style="font-size: 11px">${ob.supplier_id.suppliername}</p>
-            <p style="font-size: 11px">${ob.supplier_id.supplieraddress}</p>
-            <p style="font-size: 11px">${ob.supplier_id.suppliertelephone}</p>
-        </div>
-    </div>
-    <div class="col-6"></div>
-
-    
-    
-</div>
-<!-- supplier details s section end -->
 
 
 <!--table area start-->
@@ -322,7 +323,7 @@ const printGrnHeader = async (ob,rowIndex)=>{
 
 
 <!--  prepared by, checked by, recieved by area start   -->
-    <div class="row" style="margin-top: 5%">
+    <div class="row" style="margin-top: 20%">
     <div class="col-4 text-start">
     _____________
     <p>Prepared By</p>
@@ -368,11 +369,41 @@ const loadPoDetails =(fieldId)=>{
         {dataType:'text',propertyName:'rate'},
     ];
 
-    fillDataIntoTable(ourPoDetailsTableForGrnHeaderSection,poDetails,displayProperty,false);
+    // fillDataIntoTable2(ourPoDetailsTableForGrnHeaderSection,poDetails,displayProperty,true);
+    fillDataIntoTableWithEditButton(ourPoDetailsTableForGrnHeaderSection,poDetails,displayProperty,refillOurPoDetailsIntoGrnDetails,true)
 
     cardOurPoDetailsInGrnHeader.classList.remove('d-none');
 
 }
+
+
+//our po details table eken data aran grn details ekata add karana function eka
+const refillOurPoDetailsIntoGrnDetails = (ob,rowIndex) =>{
+    txtQty.value=ob.qty;
+    txtRate.value = ob.rate
+
+
+    //raw material eka set karanawa
+    fillDataIntoSelect(selectRawMaterial,'Select Raw Material',rawMaterials,'rmname',ob.rawmaterial_id.rmname);
+    const selectedRawMaterial = JSON.parse(selectRawMaterial.value);
+    grnDetail.rawmaterial_id = selectedRawMaterial;
+    console.log(grnDetail.rawmaterial_id);
+
+
+    grnDetail.quantity = ob.qty;
+    grnDetail.rate = ob.rate;
+
+
+    //our po detail eke id eka set karanawa  // relationship save karana kota mulu object ekama bind karanna one id eka vitharak ba.
+    grnDetail.ourpodetail_id = ob
+    console.log("Our po detail id is"+grnDetail.ourpodetail_id.id);
+
+    getRemainingGrnDetailsQuantityFromOurPoDetail(ob.id);
+
+
+}
+
+
 
 
 
@@ -400,11 +431,17 @@ const refreshGrnDetailsForm = ()=>{
     selectRawMaterial.style.border="2px solid #ced4da";
     txtQty.style.border="2px solid #ced4da";
     txtRate.style.border="2px solid #ced4da";
+    txtItemCode.style.border="2px solid #ced4da";
+    txtItemDescription.style.border="2px solid #ced4da";
+    txtItemReferenceNumber.style.border="2px solid #ced4da";
 
 
     //emptying values
     txtQty.value="";
     txtRate.value="";
+    txtItemCode.value="";
+    txtItemDescription.value="";
+    txtItemReferenceNumber.value="";
 
     rawMaterials  = ajaxGetRequest("/rawmaterial/findall")
     fillDataIntoSelect(selectRawMaterial,'Select Raw Material',rawMaterials,'rmname');
@@ -430,6 +467,9 @@ const refreshGrnDetailsTable = ()=>{
     displayProperty=[
         {dataType:'function',propertyName:getRawMaterial},
         {dataType:'text',propertyName:'quantity'},
+        {dataType:'text',propertyName:'itemcode'},
+        {dataType:'text',propertyName:'gd_description'},
+        {dataType:'text',propertyName:'gd_referencenumber'},
         {dataType:'text',propertyName:'rate'},
     ];
 
@@ -457,10 +497,24 @@ const grnDetailsCheckErrors = ()=>{
         errors=errors+"Quantity Cannot Be Empty \n"
     }
 
+    if (grnDetail.itemcode == null){
+        errors=errors+"Item Code Cannot Be Empty \n"
+    }
+
+    if (grnDetail.gd_description == null){
+        errors=errors+"Description Cannot Be Empty \n"
+    }
+
+    if (grnDetail.gd_referencenumber == null){
+        errors=errors+"Reference Number Cannot Be Empty \n"
+    }
 
     if (grnDetail.rate == null){
         errors=errors+"Rate Cannot Be Empty \n"
     }
+
+
+
     return errors;
 }
 
@@ -478,6 +532,9 @@ const saveGrnDetails = ()=>{
         const userConfirm = confirm(`Are You Sure To Add Following Grn Details \n
         Raw Material Name Is ${grnDetail.rawmaterial_id.rmname}
         Quantity Is ${grnDetail.quantity}
+        Item Code Is ${grnDetail.itemcode}
+        Description Number Is ${grnDetail.gd_description}
+        Reference Number Is ${grnDetail.gd_referencenumber}
         Rate Is ${grnDetail.rate}
         Grn Header Is ${grnDetail.grnheader}
         `);
@@ -505,6 +562,9 @@ const refillGrnDetails = (ob,rowIndex)=>{
 
     txtQty.value= ob.quantity
     txtRate.value= ob.rate
+    txtItemCode.value= ob.itemcode
+    txtItemDescription.value = ob.gd_description
+    txtItemReferenceNumber.value = ob.gd_referencenumber
 
     fillDataIntoSelect(selectRawMaterial,'Select Raw Material',rawMaterials,'rmname',ob.rawmaterial_id.rmname);
 
@@ -521,8 +581,6 @@ const refillGrnDetails = (ob,rowIndex)=>{
 }
 
 
-
-
 const grnDetailsCheckUpdates = ()=>{
     let updates = '';
 
@@ -532,6 +590,19 @@ const grnDetailsCheckUpdates = ()=>{
     if (grnDetail.quantity != oldGrnDetail.quantity){
         updates=updates+"Quantity Is Changed \n"
     }
+
+    if (grnDetail.itemcode != oldGrnDetail.itemcode){
+        updates=updates+"Item Code Is Changed \n"
+    }
+
+    if (grnDetail.gd_description != oldGrnDetail.gd_description){
+        updates=updates+"Description Is Changed \n"
+    }
+
+    if (grnDetail.gd_referencenumber != oldGrnDetail.gd_referencenumber){
+        updates=updates+"Reference Number Is Changed \n"
+    }
+
     if (grnDetail.rate != oldGrnDetail.rate){
         updates=updates+"Rate Is Changed \n"
     }
@@ -570,6 +641,9 @@ const deleteGrnDetails =(ob,rowIndex)=>{
     const userConfirm = confirm(`Are You sure Delete following Grn Details
         Raw Material Name Is ${ob.rawmaterial_id.rmname}
         Quantity Is ${ob.quantity}
+        Item Code Is ${ob.itemcode}
+        Description Is ${ob.gd_description}
+        Reference Number Is ${ob.gd_referencenumber}
         Rate Is ${ob.rate}
         Grn Header Is ${ob.grnheader}
     `);
@@ -586,6 +660,63 @@ const deleteGrnDetails =(ob,rowIndex)=>{
 }
 
 
+const getRemainingGrnDetailsQuantityFromOurPoDetail = (ourpoid)=>{
+    console.log(`id is  ${ourpoid} from getRemainingGrnDetailsQuantityFromOurPoDetail function`);
+
+    const getServerResponse = ajaxGetRequest("/grn-details/getremaininggrnquantity/"+ourpoid)
+    console.log(` ${Number(getServerResponse)}  remaining quantity from sever`);
+
+    const remainingQuantity = Number(getServerResponse);
+
+    displayRemainingQuantity.innerText=`${remainingQuantity} Is Your Remaining Quantity `
+
+    return remainingQuantity;
+
+}
+
+
+const validateGrnDetailsQuantity = (fieldId)=>{
+
+
+
+    if (checkBoxWithOutPoNumber.checked){
+        //checked kiyanne proceed without po kiyana option eka
+    }else {
+        //else kiyanne po ekak thiyenawa kiyana eka
+        //need to get remaining quantity
+        const getRemainingValueFromDisplayText = displayRemainingQuantity.innerText;
+        const integerPart = getRemainingValueFromDisplayText.split(' ');
+        const finalRemainingValue = Number(integerPart[0]);
+
+        console.log(finalRemainingValue);
+
+        if (fieldId.value > finalRemainingValue){
+            fieldId.style.border="2px solid red";
+            grnDetail.quantity = null;
+        }else {
+            fieldId.style.border="2px solid green";
+            grnDetail.quantity = fieldId.value;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
 
 //print area function are starting from here
 
@@ -594,9 +725,11 @@ const loadDataIntoGrnDetailsTableForGrnHeaderPrint = (headerKey)=>{
     const grnDetailsList  = ajaxGetRequest("/grn-details/getgrndetailsbygrnheader/"+headerKey);
 
     const displayProperty=[
+        {dataType:'text',propertyName:'itemcode'},
         {dataType:'function',propertyName:getRawMaterial},
+        {dataType:'text',propertyName:'gd_description'},
+        {dataType:'text',propertyName:'gd_referencenumber'},
         {dataType:'text',propertyName:'quantity'},
-        {dataType:'text',propertyName:'rate'},
     ];
 
 

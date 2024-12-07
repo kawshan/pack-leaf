@@ -21,6 +21,9 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <!--    jquery cdn end-->
 
+    <!--    google icons link-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
 </head>
 <body>
 <div class="container-fluid">
@@ -151,12 +154,18 @@
                         </tr>
                         <!--                second row-->
 
+                        <tr>
+                            <td><label for="checkBoxWithOutPoNumber" class="form-label fw-bold">Proceed Without PO</label></td>
+                            <td><input type="checkbox" id="checkBoxWithOutPoNumber" onclick="
+                                textOurPoNumber.disabled = this.checked;
+                            "
+                            ></td>
+                        </tr>
 
                         <!--                third row-->
                         <tr>
                             <td>
                                 <label for="textOurPoNumber" class="form-label fw-bold">Our Po Number <i class="text-danger">*</i> </label>
-
                             </td>
                             <td>
                                 <input type="text" id="textOurPoNumber" class="form-control text-start" placeholder="Enter Our Po Number" onkeyup="textValidator(this,'','grnHeader','ourponumber'); loadPoDetails(this)">
@@ -176,6 +185,8 @@
     </div>
     <!--form area end-->
 
+
+
 <!--    our po eken ee po number ekata adala details load karala dena table eka -->
     <div class="d-none" id="cardOurPoDetailsInGrnHeader">
         <table class="table table-bordered" id="ourPoDetailsTableForGrnHeaderSection">
@@ -184,6 +195,7 @@
             <th>Item Name</th>
             <th>Qty</th>
             <th>Rate</th>
+            <th>Action</th>
             </thead>
 
             <tbody></tbody>
@@ -206,18 +218,36 @@
 
                 <td>
                     <label for="txtQty" class="form-label fw-bold">Item Qty</label>
-                    <input type="text" id="txtQty" class="form-control" placeholder="enter item name" onkeyup="textValidator(this,'^[1-9][0-9]{0,10}$','grnDetail','quantity')">
+                    <input type="text" id="txtQty" class="form-control" placeholder="enter item name" onkeyup="textValidator(this,'^[1-9][0-9]{0,10}$','grnDetail','quantity'); validateGrnDetailsQuantity(this)">
+                    <p id="displayRemainingQuantity" style="color: red"></p>
+                </td>
+
+
+                <td>
+                    <label for="txtItemCode" class="form-label fw-bold">Item Code</label>
+                    <input type="text" id="txtItemCode" class="form-control" placeholder="enter item name" onkeyup="textValidator(this,'','grnDetail','itemcode')">
+                </td>
+
+                <td>
+                    <label for="txtItemDescription" class="form-label fw-bold">Item Description</label>
+                    <input type="text" id="txtItemDescription" class="form-control" placeholder="enter item description" onkeyup="textValidator(this,'','grnDetail','gd_description')">
+                </td>
+
+
+                <td>
+                    <label for="txtItemReferenceNumber" class="form-label fw-bold">Item Reference Number</label>
+                    <input type="text" id="txtItemReferenceNumber" class="form-control" placeholder="enter reference number" onkeyup="textValidator(this,'','grnDetail','gd_referencenumber')">
                 </td>
 
 
                 <td>
                     <label for="txtRate" class="form-label fw-bold">Item Rate</label>
-                    <input type="text" id="txtRate" class="form-control" placeholder="enter item name" onkeyup="textValidator(this,'^[1-9][0-9]{0,10}$','grnDetail','rate')">
+                    <input type="text" id="txtRate" class="form-control" placeholder="enter item Code" onkeyup="textValidator(this,'^[1-9][0-9]{0,10}$','grnDetail','rate')">
                 </td>
 
-                <td style="padding-left: 10%">
-                    <button type="button" class="btn btn-warning" style="width: 100px; height: 70px; pointer-events: all;" id="buttonUpdateGrnDetails" onclick="updateGrnDetail()" >Update</button>
-                    <button type="button" class="btn btn-success" style="width: 100px; height: 70px; pointer-events: all;" id="buttonAddGrnDetails" onclick="saveGrnDetails()">Add</button>
+                <td style="padding-left: 10px">
+                    <button type="button" class="btn btn-warning" style="width: 35%; height: 70px; pointer-events: all;" id="buttonUpdateGrnDetails" onclick="updateGrnDetail()" >Update</button>
+                    <button type="button" class="btn btn-success" style="width: 35%; height: 70px; pointer-events: all;" id="buttonAddGrnDetails" onclick="saveGrnDetails()">Add</button>
                     <p class="text-danger" id="warningTextInGrnDetailsSection">Please Complete Header Section First</p>
                 </td>
 
@@ -262,6 +292,9 @@
             <th>#</th>
             <th>Item Name</th>
             <th>Qty</th>
+            <th>Item Code</th>
+            <th>Item Description</th>
+            <th>Reference Number</th>
             <th>Rate</th>
             <th>Action</th>
             </thead>
@@ -312,9 +345,11 @@
     <table class="table table-bordered" id="grnDetailsTableForGrnHeaderPrint">
         <thead class="text-center">
         <th>#</th>
+        <th>Item Code</th>
         <th>Item Name</th>
-        <th>Qty</th>
-        <th>Rate</th>
+        <th>Description</th>
+        <th>Reference Number</th>
+        <th>Quantity</th>
         </thead>
 
         <tbody></tbody>
