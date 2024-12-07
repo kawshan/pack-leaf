@@ -9,4 +9,8 @@ public interface InvoiceHeaderDao extends JpaRepository<InvoiceHeader,Integer> {
 
     @Query(value = "select CONCAT('IN',LPAD(MAX(SUBSTRING(i.inkey,3))+1,4,'0'))as  invoicekey from packleaf.invoiceheader as i;",nativeQuery = true)
     public String getInvoiceHeaderMaxInvoiceKey();
+
+
+    @Query(value = "select ih from InvoiceHeader ih where ih.invno like concat(?1,'%') ")
+    public InvoiceHeader getInvoiceHeaderByInvNo(String invno);
 }

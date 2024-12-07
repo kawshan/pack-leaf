@@ -68,6 +68,10 @@ public class InvoiceDetailController {
     }
 
 
+    @GetMapping(value = "/getallinvoicedetailbyinvoicekey/{invoicekey}")
+    public List<InvoiceDetail> getAllInvoiceDetailByInvoiceKey(@PathVariable String invoicekey) {
+        return invoiceDetailDao.getAllInvoiceDetailByInvoiceKey(invoicekey);
+    }
 
 
 

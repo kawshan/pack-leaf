@@ -25,10 +25,10 @@
 </head>
 <body>
 
-
+<div class="container-fluid">
 <!--header area start-->
 <div class="row p-4" style="background-color: #F5EFFF">
-    <h1 class="text-center">Invoice Master</h1>
+    <h1 class="text-center">Invoice</h1>
 </div>
 <!--header area start-->
 
@@ -39,15 +39,15 @@
 
 
         <!--button row start-->
-        <div class="row">
-            <div class="col-md-6">
+        <div class="row mb-2">
+            <div class="col-md-5">
 <!--                div modify button 2 start-->
                 <div id="divModifyButton2" class="d-none">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <button type="button" class="btn btn-warning fw-bold"
                                 style="width: 15%; color: whitesmoke; border: 1px solid black;"
                                 onclick="refillInvoiceHeaderForm(window['editOb'],window['editRow'])">
-                            <i class="fa-solid fa-recycle fa-beat"></i> Edit
+                            <i class="fa-solid fa-recycle fa-beat"></i> Refill
                         </button>
                         <button type="button" class="btn btn-danger fw-bold"
                                 style=" width: 15%; color: whitesmoke; border: 1px solid black; pointer-events: all"
@@ -55,7 +55,7 @@
                             <i class="fa-solid fa-trash fa-beat"></i> Delete
                         </button>
                         <button onclick="printStudent(window['editOb'],window['editRow'])" type="button"
-                                class="btn btn-primary fw-bold"
+                                class="btn btn-primary fw-bold d-none"
                                 style=" width: 15%; color: whitesmoke;border: 1px solid black">
                             <i class="fa-solid fa-eye fa-beat"></i> Print
                         </button>
@@ -63,18 +63,24 @@
                 </div>
 <!--                div modify button 2 end-->
             </div>
+
+
             <div class="col-md-3">
                 <button type="reset" class="btn btn-danger">reset</button>
                 <button type="button" class="btn btn-warning" onclick="updateInvoiceHeader()">Update</button>
                 <button type="submit" class="btn btn-success" onclick="submitInvoiceHeader()">Submit</button>
             </div>
-            <div class="col-md-3"></div>
+
+
+            <div class="col-md-4">
+                <button type="button" style="width: 15%; height: 40px" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">Search</button>
+                <button type="button" style="width: 15%; height: 40px" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">print</button>
+            </div>
         </div>
         <!--button row start-->
 
 
         <div class="row">
-            <h1 class="h2">Invoice</h1>
             <div class="col-md-3">
                 <label for="selectCustomer" class="form-label fw-bold"> Customer Name <i class="text-danger">*</i>
                 </label>
@@ -156,25 +162,12 @@
 <!--form area invoice header end-->
 
 
-
-<!--table invoice header start-->
-<div class="card m-4 d-none">
-<table class="table table-hover table-striped"  id="tableInvoiceHeader">
-    <thead>
-            <th>#</th>
-            <th>Customer name</th>
-            <th>Company name</th>
-            <th>Invoice NO</th>
-            <th>Invoice date</th>
-            <th>PO Number</th>
-            <th>Dispatch Number</th>
-            <th>Action</th>
-    </thead>
-    <tbody></tbody>
-</table>
-</div>
-<!--table invoice header end-->
-
+<!-- invoice header section is finished -->
+<!--  -------------------------------------------------------------------------------------------------------  -->
+<!--  -------------------------------------------------------------------------------------------------------  -->
+<!--  -------------------------------------------------------------------------------------------------------  -->
+<!--  -------------------------------------------------------------------------------------------------------  -->
+<!--  -------------------------------------------------------------------------------------------------------  -->
 
 
 <!--table item form area start-->
@@ -251,7 +244,7 @@
 
 
 <!--table area invoice detail start-->
-<div class="card mt-5 p-5">
+<div class="card mt-5 p-5 d-none">
     <table class="table table-hover table-striped" id="tableInvoiceDetails">
 
         <thead>
@@ -271,5 +264,220 @@
 <!--table area invoice detail end-->
 
 
+
+<!--invoice detail section is finished -->
+<!--    -----------------------------------------------------------------------------------------             -->
+<!--    -----------------------------------------------------------------------------------------             -->
+<!--    -----------------------------------------------------------------------------------------             -->
+<!--    -----------------------------------------------------------------------------------------             -->
+
+
+<!--model area start --------------------------->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header" id="exampleModelHeader">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Print Model</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="row mb-5" id="rowInputDiv">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <label for="textPrintSearchInvNo" class="fw-bold">Invoice NO</label>
+                        <input type="text" id="textPrintSearchInvNo" class="form-control text-start" placeholder="search using invoice number" onkeyup="searchUsingInvoiceNumber(this)">
+                    </div>
+                </div>
+
+
+                <!--                     model body content area start-->
+
+
+                <!--print invoice header area start-->
+                <div class="row mt-2">
+
+                    <!--   print invoice area start-->
+                    <div class="col-md-4">
+                        <div class="card">
+                            <table>
+                                <thead>
+                                <th><h2>INVOICE</h2></th>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <td id="PrintInvCusName"></td>
+                                </tr>
+
+                                <tr>
+                                    <td id="PrintInvCusAddress" ></td>
+                                </tr>
+
+                                <tr>
+                                    <td id="PrintInvCusPhone"></td>
+                                </tr>
+
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                    <!--   print invoice area start-->
+
+
+                    <div class="col-md-5"></div>
+
+                    <!--    invoice header table area -->
+                    <div class="col-md-3">
+                        <table class="table table-bordered">
+                            <tbody>
+
+
+
+                            <tr>
+                                <td>IN: NO</td>
+                                <td id="printInvNumber"></td>
+                            </tr>
+
+
+                            <tr>
+                                <td>IN: DATE</td>
+                                <td id="printInvDate" ></td>
+                            </tr>
+
+                            <tr>
+                                <td>PO NUMBER</td>
+                                <td id="printPoNumber" ></td>
+                            </tr>
+
+                            <tr>
+                                <td>DISPATCH NO</td>
+                                <td id="printDispatchNo"></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--    invoice header table area -->
+
+
+                </div>
+                <!--print invoice header area start-->
+
+
+
+                <!--print table area start-->
+                <div class="row mt-5">
+                    <table id="printInvoiceDetailsTable">
+                        <thead class="table table-striped table-bordered">
+                        <th>#</th>
+                        <th>Item Code</th>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Qty</th>
+                        <th>Price (SLR)</th>
+                        <th>Value</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--print table area end-->
+                <!--                     model body content area end-->
+
+
+
+            </div>
+            <div class="modal-footer" id="ExampleModelFooterDiv">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="printModelButtonMC()" >Print</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--model area end --------------------------->
+<!--           ------------------------------------------------------------------------------         -->
+<!--           ------------------------------------------------------------------------------         -->
+<!--           ------------------------------------------------------------------------------         -->
+<!--           ------------------------------------------------------------------------------         -->
+<!--           ------------------------------------------------------------------------------         -->
+
+
+
+<!--       this is modal area 2 for search invoice header            -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel2">search</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!--table invoice header start-->
+                    <div class="card m-4">
+                        <table class="table table-hover table-striped"  id="tableInvoiceHeader">
+                            <thead>
+                            <th>#</th>
+                            <th>Customer name</th>
+                            <th>Company name</th>
+                            <th>Invoice NO</th>
+                            <th>Invoice date</th>
+                            <th>PO Number</th>
+                            <th>Dispatch Number</th>
+                            <th>Action</th>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <!--table invoice header end-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+<!--       this is modal area 2 for search invoice header            -->
+
+
+
+
+
+
+
+
+</div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

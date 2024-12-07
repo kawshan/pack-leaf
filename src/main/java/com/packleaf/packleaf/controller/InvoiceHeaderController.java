@@ -56,6 +56,10 @@ public class InvoiceHeaderController {
         }
     }
 
+    @GetMapping(value = "/getinvoiceheaderbyinvoicenumber/{invno}")
+    public InvoiceHeader getInvoiceHeaderByInvoiceNumber(@PathVariable("invno") String invno){
+        return invoiceHeaderDao.getInvoiceHeaderByInvNo(invno);
+    }
 
 
 

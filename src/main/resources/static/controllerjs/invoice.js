@@ -1,5 +1,9 @@
 window.addEventListener('load',function () {
 
+    invoiceDetails = ajaxGetRequest("/invoice-detail/findall");
+    invoiceHeaders = ajaxGetRequest("/invoice-header/findall");
+
+
     refreshInvoiceDetailsForm();
 
 
@@ -50,7 +54,7 @@ const refreshInvoiceDetailsForm = ()=>{
 
 const refreshInvoiceDetailsTable = ()=>{
 
-    invoiceDetails = ajaxGetRequest("/invoice-detail/findall");
+
 
     displayProperty=[
         {dataType: 'function', propertyName: getItemName},
@@ -290,7 +294,7 @@ const refreshInvoiceHeaderForm = ()=>{
 
 const refreshInvoiceHeaderTable = ()=>{
 
-    invoiceHeaders = ajaxGetRequest("/invoice-header/findall")
+
 
     displayProperty=[
         {dataType: 'function', propertyName: getCustomerName},
@@ -301,7 +305,7 @@ const refreshInvoiceHeaderTable = ()=>{
         {dataType: 'text', propertyName: 'dispatchkey'},
     ]
     fillDataIntoTable2(tableInvoiceHeader,invoiceHeaders,displayProperty,true);
-
+    $('#tableInvoiceHeader').dataTable();
 }
 
 
@@ -363,8 +367,6 @@ const checkErrorsInvoiceHeader = ()=>{
     return errors;
 }
 
-
-
 const submitInvoiceHeader = ()=>{
 
     let errors = checkErrorsInvoiceHeader();
@@ -422,7 +424,7 @@ const checkUpdatesInvoiceHeader = ()=>{
 
     let updates = "";
 
-    if (invoiceHeader.customer_id.name != oldInvoiceHeader.customer_id.name){
+    if (invoiceHeader.customer_id.customername != oldInvoiceHeader.customer_id.customername){
         updates=updates+"customer name is updated \n"
     }
 
@@ -488,6 +490,165 @@ const deleteInvoiceHeader = (ob,rowIndex)=>{
         }
     }
 }
+
+
+
+
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// print area functions are starting from here
+
+
+//meka haduwe model eke print ekata one nisa
+const searchUsingInvoiceNumber = (fieldID)=>{
+    console.log("search ok");
+
+    let printInvoiceHeader = ajaxGetRequest("/invoice-header/getinvoiceheaderbyinvoicenumber/"+fieldID.value);  //meke invoice header eke define karala thiyenawa
+    console.log(printInvoiceHeader.invno+" invoice number retrieved");  //got it correctly
+    console.log(printInvoiceHeader.inkey+" invoice key retrieved");  //got it correctly
+
+//displaying data into invoice customer section
+    PrintInvCusName.innerHTML=printInvoiceHeader.customer_id.customername
+    PrintInvCusAddress.innerHTML=printInvoiceHeader.customer_id.customeraddress
+    PrintInvCusPhone.innerHTML=printInvoiceHeader.customer_id.customertelephone
+
+//displaying data into invoice table section    //dakunu paththe thiyena table ekata data display keranawa
+    printInvNumber.innerHTML=printInvoiceHeader.invno
+    printInvDate.innerHTML=printInvoiceHeader.invdate
+    printPoNumber.innerHTML=printInvoiceHeader.pokey
+    printDispatchNo.innerHTML=printInvoiceHeader.dispatchkey
+
+    //header eken invoice key eken invoice detail list eke gannawa
+    let printInvoiceDetail = ajaxGetRequest("/invoice-detail/getallinvoicedetailbyinvoicekey/"+printInvoiceHeader.inkey);
+
+    let displayProperty=[
+        {dataType: 'function', propertyName: getItemCode},
+        {dataType: 'function', propertyName: getItemName},
+        {dataType: 'function', propertyName: getItemDescription},
+        {dataType: 'text', propertyName: 'invqty'},
+        {dataType: 'text', propertyName: 'invrate'},
+        {dataType: 'text', propertyName: 'invvalue'},
+    ];
+
+
+    fillDataIntoTable(printInvoiceDetailsTable,printInvoiceDetail,displayProperty,false);
+
+
+}
+
+const getItemCode = (ob)=>{
+    return ob.item_id.code;
+}
+
+const getItemDescription = (ob)=>{
+    return ob.item_id.description;
+}
+
+
+
+const printModelButtonMC = ()=>{
+    console.log("print works");
+
+    ExampleModelFooterDiv.classList.add('d-none');
+    rowInputDiv.classList.add('d-none');
+    exampleModelHeader.classList.add('d-none');
+
+    let newWindow = window.open();
+    newWindow.document.write(
+        "<head>\n" +
+        "    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css\">\n" +
+        "    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js\"></script>\n" +
+        "</head>\n" +
+        "<body>" + exampleModal.outerHTML + "</body>"
+    );
+
+
+    setTimeout(function () {
+        newWindow.stop();
+        newWindow.print();
+        newWindow.close();
+    },1000)
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
