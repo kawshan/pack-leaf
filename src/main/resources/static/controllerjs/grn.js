@@ -269,12 +269,16 @@ const printGrnHeader = async (ob,rowIndex)=>{
 <body>
 <div class="container-fluid">
 
-
+<!-- supplier and grn text area start  -->
 <div class="row" style="margin-top: 5%">
     <div class="col-6"><p style="font-size: 16px">SUPPLIER</p></div>
     <div class="col-6 text-end"><p style="font-size: 16px">GRN Details</p></div>
 </div>
+<!-- supplier and grn text area end  -->
 
+
+
+<!-- supplier details and grn details section start-->
 <div class="row mb-5 d-flex align-items-stretch">
 <!--supplier area-->
     <div class="col-6">
@@ -306,8 +310,31 @@ const printGrnHeader = async (ob,rowIndex)=>{
     
     
 </div>
-<!--table area-->
+<!-- supplier details and grn details section end -->
+
+
+<!--table area start-->
     ${grnDetailsTableForGrnHeaderPrint.outerHTML}
+<!--table area end-->
+
+
+<!--  prepared by, checked by, recieved by area start   -->
+    <div class="row" style="margin-top: 5%">
+    <div class="col-4 text-start">
+    _____________
+    <p>Prepared By</p>
+    </div>
+    <div class="col-4 text-center">
+    _____________
+    <p>Recived By</p>
+    </div>
+    <div class="col-4 text-end">
+    _____________
+    <p>Checked By</p>
+    </div>
+</div>
+<!--  prepared by, checked by, recieved by area end   -->
+
 
 </div>
 </body>
