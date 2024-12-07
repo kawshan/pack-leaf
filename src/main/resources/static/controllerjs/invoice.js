@@ -154,11 +154,12 @@ const buttonInvoiceDetailsAdd = ()=>{
     let errors = checkErrors();
     if (errors==""){
         const userConfirm = confirm("are you sure to add"
-        +"\n Invoice Key is"+invoiceDetail.invoicekey
-        +"\n item name is"+invoiceDetail.item_id.itmname
-        +"\n invoice qty are"+invoiceDetail.invqty
-        +"\n invoice rate is"+invoiceDetail.invrate
-        +"\n invoice value is"+invoiceDetail.invvalue
+        +"\n Invoice Key is "+invoiceDetail.invoicekey
+        +"\n item name is "+invoiceDetail.item_id.itmname
+        +"\n invoice qty are "+invoiceDetail.invqty
+        +"\n invoice rate is "+invoiceDetail.invrate
+        +"\n invoice value is "+invoiceDetail.invvalue
+        +"\n purchase order id is "+invoiceDetail.podetail_id.id
 
     );
         if (userConfirm){
@@ -643,6 +644,10 @@ const deleteInvoiceHeader = (ob,rowIndex)=>{
 
 
 
+
+
+
+
 const validatePoNumberExisting = (fieldId)=>{
     const poNumber = fieldId.value;
     if (new RegExp('^[0-9]{4,10}$').test(poNumber)){
@@ -666,23 +671,29 @@ const validatePoNumberExisting = (fieldId)=>{
 
 
 
-const getPokeyFromPoNumber = (fieldId)=>{
+const getPokeyFromPoNumber = async (fieldId)=>{
     const poNumberValue = fieldId.value
 
     if (new RegExp('^[0-9]{4,10}$').test(poNumberValue)){
-        console.log("validate to check pokey from po number")
+        console.log("validate to check pokey from po number");
 
         //const eka ayin kara eka global variable ekak karanna.
-        getPokeyServerResponse  = ajaxGetRequest("/purchaseorderheader/getpokeyfromponumber/"+fieldId.value)
+        getPokeyServerResponse  = await ajaxGetRequest("/purchaseorderheader/getpokeyfromponumber/"+fieldId.value)
         console.log(getPokeyServerResponse);
 
         //uda get po key server response eken enna time ekak yana nisa set time out ekak damma ||| ee ena key eka invoice header table eke thiyenawa da kiyala bala function eka done
-        setTimeout(()=>{
-            const getInvoiceHeaderFromPoKey = ajaxGetRequest("/invoice-header/getinvoiceheaderbypokey/"+getPokeyServerResponse);
+
+            const getInvoiceHeaderFromPoKey = await ajaxGetRequest("/invoice-header/getinvoiceheaderbypokey/"+getPokeyServerResponse);
 
             if (getInvoiceHeaderFromPoKey==true){
                 console.log(`${getPokeyServerResponse} is available on invoice table`)
-                cardPurchaseOrderDetails.classList.add('d-none');    //nathi ekek issalama type karala thiyena ekak passe type karoth table eka hide venna one nisa
+                // cardPurchaseOrderDetails.classList.add('d-none');    //nathi ekek issalama type karala thiyena ekak passe type karoth table eka hide venna one nisa
+
+                //methana thiyena tika table ekata load karanna
+                cardPurchaseOrderDetails.classList.remove('d-none');
+                refreshPoDetailsFromPoNumberInInvoiceHeader(fieldId.value); // done ✔
+
+
             }else {
                 console.log(`${getPokeyServerResponse} is not available on invoice table`);
                 cardPurchaseOrderDetails.classList.remove('d-none');
@@ -690,12 +701,6 @@ const getPokeyFromPoNumber = (fieldId)=>{
                 //dan nathi tika load karanna one table ekakata // apita enne list ekak me ena po key server response eken table ekata data load karanna
 
             }
-
-
-        },1000)
-
-
-
     }else {
         console.log("not validate to check pokey from po number")
     }
@@ -722,44 +727,61 @@ const refreshPurchaseOrderDetailsTableNotInInvoice = (PoKey)=>{
 }
 
 
-const refillPoDetailsIntoInvoiceDetails = (ob,rowIndex)=>{
+//invoice header eke  purchase order tika table refresh function eka
+const refreshPoDetailsFromPoNumberInInvoiceHeader = (poNumber)=>{
 
-    txtQty.value=ob.poqty
-    txtRate.value=ob.porate
-    txtValue.value=ob.povalue
-
-
-    fillDataIntoSelect(selectItemName,'select item name',itemNames,'itmname',ob.item_id.itmname);
-
-    //value bind karanawa
-    let selectedItem = JSON.parse(selectItemName.value);
-    console.log(selectedItem.imkey);
-    invoiceDetail.imkey=selectedItem.imkey;
+    const purchaseOrderDetailsList = ajaxGetRequest("/purchaseorderdetails/getpurchaseorderdetailsfromponumberininvoiceheader/"+poNumber);
 
 
-    invoiceDetail.invqty = txtQty.value
-    invoiceDetail.invrate = txtRate.value
-    invoiceDetail.invvalue = txtValue.value
+    const displayProperty=[
+        {dataType:"function",propertyName:getItemName},
+        {dataType:"function",propertyName:getPoQty},
+        {dataType:"function",propertyName:getPoRate},
+        {dataType:"function",propertyName:getPoValue},
+    ]
+
+    fillDataIntoTable2(tablePurchaseOrderDetails,purchaseOrderDetailsList,displayProperty,false,divModifyButton3);
+    console.log(purchaseOrderDetailsList);
 
 
-    console.log(invoiceDetail.invqty)
-    console.log(invoiceDetail.invrate)
-    console.log(invoiceDetail.invvalue)
 }
 
 
 
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
+const refillPoDetailsIntoInvoiceDetails=(ob,rowOb)=>{
+
+    //for testing delete those two lines after done testing........ testing is done✔ can delete
+    buttonAddInvoiceDetail.disabled=false
+    buttonAddInvoiceDetail.style.cursor="default"
+
+
+    console.log(ob);
+
+//purchase order eken ena nisa me properties tika venas kara.
+    txtQty.value=ob.poqty
+    txtRate.value=ob.porate
+    txtValue.value=ob.povalue
+
+    invoiceDetail.podetail_id= ob
+
+
+    fillDataIntoSelect(selectItemName,'select an option',itemNames,'itmname',ob.item_id.itmname)
+
+}
+
+
+
 // print area functions are starting from here
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
 
 
 //create a function to get date from like this value 2024-10-02 -> 02-Oct-24

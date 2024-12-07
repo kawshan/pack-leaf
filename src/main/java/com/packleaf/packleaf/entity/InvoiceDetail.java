@@ -38,9 +38,7 @@ public class InvoiceDetail {
     private Item item_id;
 
 
-
-
-
-
-
+    @ManyToOne
+    @JoinColumn(name = "podetail_id", referencedColumnName = "id")
+    private PurchaseOrderDetails podetail_id;
 }

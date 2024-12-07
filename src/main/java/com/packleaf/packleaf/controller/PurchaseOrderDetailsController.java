@@ -1,6 +1,7 @@
 package com.packleaf.packleaf.controller;
 
 import com.packleaf.packleaf.dao.PurchaseOrderDetailDao;
+import com.packleaf.packleaf.entity.InvoiceDetail;
 import com.packleaf.packleaf.entity.PurchaseOrderDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -57,5 +58,11 @@ public class PurchaseOrderDetailsController {
         return purchaseOrderDetailDao.getPurchaseOrderDetailsByPurchaseOrderKey(purchaseOrderKey);
     }
 
+
+    //invoice header eke type karana po number eken po key eka aran.. eka ee po key eka po header eke thiyenawada balala ee po key ekata adala dewal tika gannawa po details table eken.
+    @GetMapping(value = "/getpurchaseorderdetailsfromponumberininvoiceheader/{ponumber}")
+    public List<PurchaseOrderDetails> getPurchaseOrderDetailsByPoKeyFromInvoiceHeader(@PathVariable("ponumber")String ponumber){
+        return purchaseOrderDetailDao.getAvailablePurchaseOrderDetailsByPokeyInInvoiceHeader(ponumber);
+    }
 
 }
