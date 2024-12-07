@@ -25,4 +25,7 @@ public interface InvoiceHeaderDao extends JpaRepository<InvoiceHeader,Integer> {
     public Integer getIdFromInvoiceKey(String invoicekey);
 
 
+    @Query(value = "select ih from InvoiceHeader ih where ih.pokey=?1")
+    public InvoiceHeader getInvoiceHeaderByPokey(String pokey);
+
 }

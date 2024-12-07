@@ -193,6 +193,24 @@ const refillPurchaseOrderHeader = (ob,rowIndex)=>{
     refreshPurchaseOrderDetailTable();
 }
 
+
+const displayCustomerDetails = (fieldId)=>{
+    console.log(fieldId.value)
+    const selectedCustomer = JSON.parse(fieldId.value);
+
+    textDisplayCompanyName.innerHTML=""
+    textDisplayCompanyAddress.innerHTML=""
+    textDisplayCompanyTP.innerHTML=""
+
+
+    textDisplayCompanyName.innerHTML=selectedCustomer.customername;
+    textDisplayCompanyAddress.innerHTML=selectedCustomer.customeraddress;
+    textDisplayCompanyTP.innerHTML=selectedCustomer.customertelephone;
+
+}
+
+
+
 // purchase order header section end
 
 

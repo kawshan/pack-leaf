@@ -149,10 +149,11 @@
                     <!--                third row-->
                     <tr>
                         <td>
-                            <label for="textPoKey" class="form-label fw-bold"> PO key <i class="text-danger">*</i> </label>
+                            <label for="textPoKey" class="form-label fw-bold"> PO Number <i class="text-danger">*</i> </label>
                         </td>
                         <td>
-                            <input type="text" id="textPoKey" class="form-control text-start" placeholder="Enter PO Key" onkeyup="textValidator(this,'','invoiceHeader','pokey')">
+                            <input type="text" id="textPoKey" class="form-control text-start" placeholder="Enter PO Key" onkeyup="textValidator(this,'','invoiceHeader','pokey'); validatePoNumberExisting(this);">
+                            <p class="text-center" id="textExistingPoNumberCheck"></p>
                         </td>
                     </tr>
                     <!--                third row-->
@@ -180,6 +181,11 @@
 </div>
 <!--form area invoice header end-->
 
+
+
+
+
+
 <!--    max invoice header eka ganna table area eka start-->
     <div class="card m-4 d-none" id="cardMaxInvoiceHeader">
     <div class="row m-5">
@@ -199,8 +205,6 @@
     </div>
     </div>
 <!--    max invoice header eka ganna table area eka end-->
-
-
 
 
 <!-- invoice header section is finished -->
@@ -225,7 +229,7 @@
 
             <td>
                 <label for="txtQty" class="form-label fw-bold">Item Qty</label>
-                <input type="text" id="txtQty" class="form-control text-end" placeholder="enter item name" onkeyup="textValidator(this,'','invoiceDetail','invqty'); getMaxInvoiceHeaderKey()">
+                <input type="text" id="txtQty" class="form-control text-end" placeholder="enter item name" onkeyup="textValidator(this,'','invoiceDetail','invqty');">
             </td>
 
 

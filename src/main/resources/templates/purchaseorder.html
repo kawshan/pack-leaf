@@ -74,11 +74,16 @@
 
         <div class="row">
             <div class="col-md-3">
+            <div class="card">
                 <label for="selectCustomer" class="form-label fw-bold"> Customer Name <i class="text-danger">*</i>
                 </label>
-                <select id="selectCustomer" class="form-select text-start" onchange="selectDBValidator(this,'','purchaseOrderHeader','customer_id')">
+                <select id="selectCustomer" class="form-select text-start" onchange="selectDBValidator(this,'','purchaseOrderHeader','customer_id'); displayCustomerDetails(this)">
                     <option></option>
                 </select>
+                <p id="textDisplayCompanyName"></p>
+                <p id="textDisplayCompanyAddress"></p>
+                <p id="textDisplayCompanyTP"></p>
+            </div>
             </div>
             <div class="col-md-3">
                 <label for="selectCompanyName" class="form-label fw-bold"> Company Name <i class="text-danger">*</i>

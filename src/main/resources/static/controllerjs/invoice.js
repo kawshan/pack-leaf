@@ -132,9 +132,13 @@ const checkErrors = ()=>{
 
 
 const buttonInvoiceDetailsAdd = ()=>{
+
+    invoiceDetail.invoicekey=textInvoiceHeaderKey.value
+
     let errors = checkErrors();
     if (errors==""){
         const userConfirm = confirm("are you sure to add"
+        +"\n Invoice Key is"+invoiceDetail.invoicekey
         +"\n item name is"+invoiceDetail.item_id.itmname
         +"\n invoice qty are"+invoiceDetail.invqty
         +"\n invoice rate is"+invoiceDetail.invrate
@@ -301,14 +305,33 @@ const saveImKey = (fieldID)=>{
         invoiceDetail.imkey=selectedItem.imkey;
 }
 
-//to get max invoice header key
+//to get max invoice header key //meka dan one na mokada header eke disaplay text eken gannawa invoice number eka
 const getMaxInvoiceHeaderKey = ()=>{
     let maxInKey = ajaxGetRequest("/invoice-detail/getmaxinkey")    //we have that request in voice detail controller and dao
     console.log(maxInKey);
     invoiceDetail.invoicekey=maxInKey;
 }
 
+const validatePoNumberExisting = (fieldId)=>{
+    const poNumber = fieldId.value;
+    if (new RegExp('^[0-9]{4,10}$').test(poNumber)){
+        console.log(`${poNumber} is validated`)
+        //check validation on backend
+        const checkPoNumberGetServerResponse = ajaxGetRequest("/invoice-header/getinvoiceheaderbypokey/"+poNumber);
+        console.log(checkPoNumberGetServerResponse);
 
+        if (checkPoNumberGetServerResponse==true){
+            alert(`Po number ${poNumber} is already exists`)
+        }else {
+            console.log(`Po number ${poNumber} not exists`)
+        }
+
+
+
+    } else {
+        console.log(`${poNumber} is not validated`);
+    }
+}
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------

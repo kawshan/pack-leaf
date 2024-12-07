@@ -3,6 +3,6 @@
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$/build/generated/sources/annotationProcessor/java/main" libraries="{font-awesome, jquery.dataTables}" />
     <file url="file://$PROJECT_DIR$/src/main" libraries="{font-awesome, jquery.dataTables}" />
-    <file url="PROJECT" libraries="{bootstrap}" />
+    <file url="PROJECT" libraries="{bootstrap, dataTables}" />
   </component>
 </project>

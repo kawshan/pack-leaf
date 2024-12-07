@@ -79,4 +79,17 @@ public class InvoiceHeaderController {
 
 
 
+    @GetMapping(value = "/getinvoiceheaderbypokey/{pokey}")
+    public Boolean getInvoiceHeaderByPoKey(@PathVariable("pokey") String pokey){
+        InvoiceHeader invoiceHeaderExisting = invoiceHeaderDao.getInvoiceHeaderByPokey(pokey);
+        if (invoiceHeaderExisting!=null){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
+
+
 }
