@@ -106,7 +106,7 @@ const fillDataIntoTable2 = (tableId,dataList,columnList,buttonVisibility=true)=>
     });
 }
 
-
+//sir ge new requirement eka -> table eka athule space ekak thiyenna one. eka done ✔
 const fillDataIntoTableForItemPrint = (tableId, dataList, columnList, buttonVisibility = true) => {
     const tableBody = tableId.children[1]; // Get table body
     tableBody.innerHTML = ''; // Clear existing rows

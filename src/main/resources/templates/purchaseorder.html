@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/commonjs/selectcommonfunction.js"></script>
+    <script src="/commonjs/jquery.js"></script>
+    <script src="/commonjs/validation.js"></script>
+    <script src="/commonjs/ajaxcommonfunction.js"></script>
+    <script src="/commonjs/tablecommonfuntion.js"></script>
+    <script src="/controllerjs/purchaseOrder.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+
+<!--header area start-->
+<div class="row p-4" style="background-color: #54C392">
+    <h1 class="text-center">Customer PO</h1>
+</div>
+<!--header area start-->
+
+
+
+    <!--form area start-->
+    <div class="card">
+    <form onsubmit="return false">
+
+
+        <!--button row start-->
+        <div class="row mt-1 mb-1">
+
+
+            <div class="col-md-3">
+                <div id="divModifyButton" class="d-none">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-warning fw-bold"
+                                style="width: 20%; color: whitesmoke; border: 1px solid black;"
+                                onclick="refillPurchaseOrderHeader(window['editOb'],window['editRow'])">
+                            <i class="fa-solid fa-recycle fa-beat"></i> Refill
+                        </button>
+                        <button type="button" class="btn btn-danger fw-bold"
+                                style=" width: 20%; color: whitesmoke; border: 1px solid black; pointer-events: all"
+                                onclick="deletePurchaseOrderHeader(window['editOb'],window['editRow'])">
+                            <i class="fa-solid fa-trash fa-beat"></i> Delete
+                        </button>
+                        <button onclick="printStudent(window['editOb'],window['editRow'])" type="button"
+                                class="btn btn-primary fw-bold d-none"
+                                style=" width: 15%; color: whitesmoke;border: 1px solid black">
+                            <i class="fa-solid fa-eye fa-beat"></i> Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <button type="reset" class="btn btn-danger">reset</button>
+                <button type="button" class="btn btn-success" onclick="submitPurchaseOrderHeader()">Submit</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" style="width: 20%; height: 40px" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">Search</button>
+            </div>
+        </div>
+        <!--button row start-->
+
+
+        <div class="row">
+            <div class="col-md-3">
+                <label for="selectCustomer" class="form-label fw-bold"> Customer Name <i class="text-danger">*</i>
+                </label>
+                <select id="selectCustomer" class="form-select text-start" onchange="selectDBValidator(this,'','purchaseOrderHeader','customer_id')">
+                    <option></option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="selectCompanyName" class="form-label fw-bold"> Company Name <i class="text-danger">*</i>
+                </label>
+                <select id="selectCompanyName" class="form-select text-start" onchange="selectDBValidator(this,'','purchaseOrderHeader','company_id')">
+                    <option></option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="textDisplayPurchaseOrderKey">Purchase Order Key</label>
+                <input type="text" id="textDisplayPurchaseOrderKey" disabled class="form-control text-center">
+            </div>
+            <div class="col-md-3">
+
+                <table class="table table-bordered table-striped">
+                    <tbody>
+
+                    <!--                first row-->
+                    <tr>
+                        <td>
+                            <label for="textPoNO" class="form-label fw-bold"> Po Number <i
+                                    class="text-danger">*</i> </label>
+                        </td>
+                        <td>
+                            <input type="text" id="textPoNO" class="form-control text-start"
+                                   placeholder="Enter Po Number" onkeyup="textValidator(this,'','purchaseOrderHeader','ponumber')">
+                        </td>
+                    </tr>
+                    <!--                first row-->
+
+
+                    <!--                second row-->
+                    <tr>
+                        <td>
+                            <label for="textPoDate" class="form-label fw-bold">Po Date <i class="text-danger">*</i> </label>
+
+                        </td>
+                        <td>
+                            <input type="date" id="textPoDate" class="form-control" onchange="textValidator(this,'','purchaseOrderHeader','podate')">
+                        </td>
+                    </tr>
+                    <!--                second row-->
+
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+    </form>
+</div>
+    <!--form area end-->
+
+
+    <!--purchase order detail form area start-->
+    <form onsubmit="return false">
+        <table class="table">
+            <tbody>
+            <tr>
+                <td>
+                    <label for="selectItemName" class="form-label fw-bold">Item name</label>
+                    <select id="selectItemName" class="form-select" onchange="selectDBValidator(this,'','purchaseOrderDetail','item_id')"></select>
+                </td>
+
+
+                <td>
+                    <label for="txtQty" class="form-label fw-bold">Po Qty</label>
+                    <input type="text" id="txtQty" class="form-control" placeholder="enter item Qty" onkeyup="textValidator(this,'','purchaseOrderDetail','poqty')">
+                </td>
+
+
+                <td>
+                    <label for="txtRate" class="form-label fw-bold">Po Rate</label>
+                    <input type="text" id="txtRate" class="form-control" placeholder="enter item name" onkeyup="textValidator(this,'','purchaseOrderDetail','porate'); generateItemValue(this)">
+                </td>
+
+
+                <td>
+                    <label for="txtValue" class="form-label fw-bold">Item Value</label>
+                    <input type="text" id="txtValue" class="form-control" placeholder="enter item name" onkeyup="textValidator(this,'','purchaseOrderDetail','povalue')">
+                </td>
+
+
+                <td>
+                    <button type="button" class="btn btn-warning" style="width: 100px; height: 70px; pointer-events: all" id="btnUpdatePurchaseOrderDetail" onclick="updatePurchaseOrderDetails()">Update</button>
+                    <button type="button" class="btn btn-success" style="width: 100px; height: 70px; pointer-events: all" id="btnAddPurchaseOrderDetail" onclick="submitPurchaseOrderDetails()">Add</button>
+                </td>
+
+
+
+
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <!--purchase order detail form area end-->
+
+
+
+<!--    div modify button 2 eka start -->
+    <div class="row">
+        <div class="col-md-4">
+<!--            div modify button tika danna one-->
+
+
+            <!--                div modify button 2 start-->
+            <div id="divModifyButton2" class="d-none">
+
+                    <button type="button" class="btn btn-warning fw-bold"
+                            style="width: 15%; color: whitesmoke; border: 1px solid black;"
+                            onclick="refillPurchaseOrderDetails(window['editOb'],window['editRow'])">
+                        <i class="fa-solid fa-recycle fa-beat"></i> Refill
+                    </button>
+
+                    <button type="button" class="btn btn-danger fw-bold"
+                            style=" width: 15%; color: whitesmoke; border: 1px solid black; pointer-events: all"
+                            onclick="deletePurchaseOderDetails(window['editOb'],window['editRow'])">
+                        <i class="fa-solid fa-trash fa-beat"></i> Delete
+                    </button>
+
+                    <button onclick="printStudent(window['editOb'],window['editRow'])" type="button"
+                            class="btn btn-primary fw-bold d-none"
+                            style=" width: 15%; color: whitesmoke;border: 1px solid black">
+                        <i class="fa-solid fa-eye fa-beat"></i> Print
+                    </button>
+
+            </div>
+            <!--                div modify button 2 end-->
+
+
+
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+    </div>
+<!--    div modify button 2 eka end -->
+
+
+
+    <!--    purchase order details table area start   -->
+    <div class="card m-4 d-none" id="divPurchaseOrderDetailTable">
+        <table class="table table-bordered"  id="purchaseOrderDetailsTable">
+            <thead class="text-center">
+            <th>#</th>
+            <th>Item Name</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Value</th>
+            <th>Action</th>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <!--    purchase order details table area end     -->
+
+
+    <!--    purchase oder header table modal area start-->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel2">search</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!--table invoice header start-->
+                    <div class="card m-4">
+                        <table class="table table-hover table-striped"  id="purchaseOrderHeaderTable">
+                            <thead>
+                            <th>#</th>
+                            <th>Item Name</th>
+                            <th>Qty</th>
+                            <th>Rate</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <!--table invoice header end-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    purchase oder header table modal area end-->
+
+
+
+
+</div>
+</body>
+</html>

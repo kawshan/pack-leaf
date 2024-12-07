@@ -449,7 +449,7 @@ if (textInvoiceHeaderKey.value!=""){
     console.log(getInvoiceIDFromInvoiceKey);
 
     invoiceHeader.inkey=textInvoiceHeaderKey.value
-    invoiceHeader.id=getInvoiceIDFromInvoiceKey;
+    invoiceHeader.id=getInvoiceIDFromInvoiceKey;        //key eka set karanne mokada upate ekedi key ekek set wenne na ne eka set venne save eke nisa methanath bind karanna one
 
     setTimeout(()=>{
         let putResponse = ajaxPutRequest("/invoice-header",invoiceHeader)
@@ -540,11 +540,6 @@ const refillInvoiceHeaderForm = (ob,rowIndex)=>{
 
     displayTotalValue(ob.inkey);
 }
-
-
-
-
-
 
 
 const checkUpdatesInvoiceHeader = ()=>{
