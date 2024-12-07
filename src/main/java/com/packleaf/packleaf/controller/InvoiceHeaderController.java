@@ -4,6 +4,8 @@ import com.packleaf.packleaf.dao.InvoiceHeaderDao;
 import com.packleaf.packleaf.entity.InvoiceHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class InvoiceHeaderController {
     }
 
     @PostMapping()
-    public String saveInvoiceHeader(@RequestBody InvoiceHeader invoiceHeader){
+    public ResponseEntity<InvoiceHeader> saveInvoiceHeader(@RequestBody InvoiceHeader invoiceHeader){
         try {
             String invoiceHeaderMax = invoiceHeaderDao.getInvoiceHeaderMaxInvoiceKey();
             if (invoiceHeaderMax == null || invoiceHeaderMax.equals("")) {
@@ -30,10 +32,10 @@ public class InvoiceHeaderController {
             }else {
                 invoiceHeader.setInkey(invoiceHeaderMax);
             }
-            invoiceHeaderDao.save(invoiceHeader);
-            return "ok";
+            InvoiceHeader savedInvoiceHeader =  invoiceHeaderDao.save(invoiceHeader); //save and get the object back
+            return ResponseEntity.ok(savedInvoiceHeader);   //return the saved object
         }catch (Exception e){
-            return "save not complete"+e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
@@ -66,6 +68,12 @@ public class InvoiceHeaderController {
     @GetMapping(value = "/getmostrecentinvoiceheader")
     public List<InvoiceHeader> getMostRecentInvoiceHeader(){
         return invoiceHeaderDao.getMostRecentInvoiceHeader();
+    }
+
+
+    @GetMapping(value = "/getidfrominvoicekey/{invoicekey}")
+    public Integer getIdFromInvoiceKey(@PathVariable("invoicekey") String invoicekey){
+        return invoiceHeaderDao.getIdFromInvoiceKey(invoicekey);
     }
 
 

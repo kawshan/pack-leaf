@@ -20,4 +20,9 @@ public interface InvoiceHeaderDao extends JpaRepository<InvoiceHeader,Integer> {
     @Query(value = "select * from invoiceheader where inkey = (select MAX(inkey) from invoiceheader);",nativeQuery = true)
     public List<InvoiceHeader> getMostRecentInvoiceHeader();
 
+
+    @Query(value = "select id from invoiceheader where inkey=?1",nativeQuery = true)
+    public Integer getIdFromInvoiceKey(String invoicekey);
+
+
 }

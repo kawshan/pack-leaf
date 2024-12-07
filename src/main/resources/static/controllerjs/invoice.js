@@ -21,8 +21,7 @@ window.addEventListener('load',function () {
 
 
     //need to disable invoice header update button because user can click update instead of save button
-    btnUpdateInvoiceHeader.disabled=true;
-    btnUpdateInvoiceHeader.style.cursor = "not-allowed";
+    btnUpdateInvoiceHeader.classList.add('d-none');     //sir kivva vidihata dan button update eken wadak na ee nisa thama me ka d-none ekak vitharak damme button eke ekapaarama ayin karala danne nathuwa
 
 
 });
@@ -373,8 +372,29 @@ const checkErrorsInvoiceHeader = ()=>{
     return errors;
 }
 
+
 const submitInvoiceHeader = ()=>{
 
+if (textInvoiceHeaderKey.value!=""){
+    console.log("update part");
+
+    let getInvoiceIDFromInvoiceKey = ajaxGetRequest("/invoice-header/getidfrominvoicekey/"+textInvoiceHeaderKey.value)
+    console.log(getInvoiceIDFromInvoiceKey);
+
+    invoiceHeader.inkey=textInvoiceHeaderKey.value
+    invoiceHeader.id=getInvoiceIDFromInvoiceKey;
+
+    setTimeout(()=>{
+        let putResponse = ajaxPutRequest("/invoice-header",invoiceHeader)
+        if (putResponse=="ok"){
+            alert("update successful")
+        }
+    },1000)
+
+}
+
+else {
+    console.log("save part")
     let errors = checkErrorsInvoiceHeader();
 
     if (errors==""){
@@ -388,17 +408,22 @@ const submitInvoiceHeader = ()=>{
         );
         if (userConfirm){
             let postServerResponse = ajaxPostRequest("/invoice-header",invoiceHeader);
-            if (postServerResponse=="ok"){
+            if (postServerResponse && postServerResponse.inkey){
                 alert("save successful");
-                refreshInvoiceHeaderForm();
+                // refreshInvoiceHeaderForm();
                 refreshInvoiceHeaderTable();
+
+
+                textInvoiceHeaderKey.value=postServerResponse.inkey;
+
+
                 //need to enable invoice detail button
                 buttonAddInvoiceDetail.disabled=false;
                 buttonAddInvoiceDetail.style.cursor="default";
                 //emptying invoice detail warning paragraph because we need to add invoice details before that
                 paragraphWaringInInvoiceDetails.innerHTML="";
 
-               // cardMaxInvoiceHeader.classList.remove('d-none');    //card eke class name eka remove karala daanawa
+                // cardMaxInvoiceHeader.classList.remove('d-none');    //card eke class name eka remove karala daanawa
                 //dan daapu invoice header eka balananna one nisa max invoice header table eka call karanawa
                 // refreshMaxInvoiceHeaderTable();         //max invoice header eka ganna function eke call karanawa
 
@@ -412,6 +437,17 @@ const submitInvoiceHeader = ()=>{
         alert("you have some errors"+errors)
     }
 }
+
+
+
+
+
+}
+
+
+
+
+
 
 
 const refillInvoiceHeaderForm = (ob,rowIndex)=>{
