@@ -318,16 +318,36 @@ const deleteItem = (ob,rowIndex)=>{
 }
 
 
+let lastCategory = null; // Variable to track the last displayed category
+
+// Function to get the category and display it only when it changes
+const getItemCategoryForNewRequirement = (ob) => {
+    const currentCategory = ob.category_id.ctcode;
+
+    // If the current category is the same as the last one, return an empty string
+    if (currentCategory === lastCategory) {
+        return ''; // Do not display the category again
+    }
+
+    // Otherwise, update the lastCategory and return the current one
+    lastCategory = currentCategory;
+    return currentCategory;
+}
+
+
+
+
 //fill data into table which inside of the print model
 const refreshTableInsidePrint = ()=>{
     let getAllItems = ajaxGetRequest("/item/findall");
 
     let displayColumns = [
+        {dataType: 'function', propertyName: getItemCategoryForNewRequirement},  // Display category
         {dataType: 'text', propertyName: 'code'},
         {dataType: 'text', propertyName: 'itmname'},
     ];
 
-    fillDataIntoTable(tablePrintItem,getAllItems,displayColumns,false);
+    fillDataIntoTableForItemNewRequirement(tablePrintItem,getAllItems,displayColumns,false);
 
 }
 

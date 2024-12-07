@@ -105,3 +105,83 @@ const fillDataIntoTable2 = (tableId,dataList,columnList,buttonVisibility=true)=>
 
     });
 }
+
+
+const fillDataIntoTableForItemNewRequirement = (tableId, dataList, columnList, buttonVisibility = true) => {
+    const tableBody = tableId.children[1]; // Get table body
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    dataList.forEach((element, index) => {
+        const tr = document.createElement('tr');
+
+        // Index column
+        const tdIndex = document.createElement('td');
+        tdIndex.style.lineHeight = 0.1;
+        tdIndex.style.paddingTop = '2%';
+        tdIndex.innerText = parseInt(index) + 1;
+        tr.appendChild(tdIndex);
+
+        // Loop through each column definition
+        columnList.forEach(column => {
+            const td = document.createElement('td');
+            td.style.lineHeight = 0.1; // Set line height
+            td.style.paddingTop = '2%'; // Padding for vertical alignment
+
+            if (column.dataType === 'text') {
+                td.innerText = element[column.propertyName]; // Direct text
+            }
+
+            if (column.dataType === 'function') {
+                td.innerHTML = column.propertyName(element); // Function-based data
+            }
+
+            tr.appendChild(td);
+        });
+
+        // Action button (optional radio button)
+        const tdButton = document.createElement('td');
+        tdButton.className = 'text-center';
+
+        const inputRadio = document.createElement('input');
+        inputRadio.className = 'form-check-input mt-3';
+        inputRadio.name = 'modify';
+        inputRadio.type = 'radio';
+
+        inputRadio.onchange = function () {
+            window['editOb'] = element; // Store the current element for editing
+            window['editRow'] = index;  // Store the row index
+
+            divModifyButton.className = 'd-block'; // Show modify button
+        }
+        tdButton.appendChild(inputRadio);
+
+        if (buttonVisibility) {
+            tr.appendChild(tdButton); // Add button column if visibility is true
+        }
+
+        // Append the row to the table body
+        tableBody.appendChild(tr);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
