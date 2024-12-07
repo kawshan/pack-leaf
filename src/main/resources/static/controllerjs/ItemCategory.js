@@ -6,9 +6,21 @@ window.addEventListener('load',function () {
     refreshItemForm();
 
 
+
 })
 
 const refreshItemForm = ()=>{
+
+    //on refresh, we need to disable update buttons
+    buttonUpdate.disabled=true;
+    buttonUpdate.style.cursor="not-allowed";
+
+
+    //need to enable add button
+    buttonSubmitItemCategory.disabled=false;
+    buttonSubmitItemCategory.style.cursor="default";
+
+
     //create new js object
     itemCategory = new Object();
 
@@ -146,6 +158,16 @@ refreshItemTable();
 
 
 const refillItemCategory = (ob,rowIndex)=>{
+
+
+    //re enable update buttons on the refill
+    buttonUpdate.disabled=false;
+    buttonUpdate.style.cursor="default";
+
+    //disable add button on refill.. because user can click add button instead of update button
+    buttonSubmitItemCategory.disabled=true;
+    buttonSubmitItemCategory.style.cursor="not-allowed";
+
 
     itemCategory=JSON.parse(JSON.stringify(ob));
     oldItemCategory=JSON.parse(JSON.stringify(ob));

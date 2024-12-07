@@ -10,6 +10,15 @@ window.addEventListener('load',function () {
 
 const refreshItemForm = () =>{
 
+    //disable update button because user can update instead of delete
+    buttonUpdate.disabled=true;
+    buttonUpdate.style.cursor="not-allowed";       //to show mouse cursor like this 🚫
+
+    //enable add button and set cursor pointer
+    buttonItemAdd.disabled=false;
+    buttonItemAdd.style.cursor="default";
+
+
     item = new Object();
 
     selectItemCategory.style.border="2px solid #ced4da";
@@ -47,10 +56,6 @@ const refreshItemForm = () =>{
     laminates=ajaxGetRequest("/laminate/findall")
     fillDataIntoSelect(selectLaminate,'Select Item Category',laminates,'name')
 
-
-    //disable update button because user can update instead of delete
-    buttonUpdate.disabled=true;
-    buttonUpdate.style.cursor="not-allowed";       //to show mouse cursor like this 🚫
 
 }
 
@@ -197,6 +202,11 @@ const refillItem = (ob,rowIndex)=>{
 
     buttonUpdate.disabled=false;
     buttonUpdate.style.cursor="default";
+
+    buttonItemAdd.disabled=true;
+    buttonItemAdd.style.cursor="not-allowed";
+
+
 
 
     item=JSON.parse(JSON.stringify(ob));
