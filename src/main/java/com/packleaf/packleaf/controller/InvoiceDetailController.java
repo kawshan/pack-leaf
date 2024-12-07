@@ -74,6 +74,12 @@ public class InvoiceDetailController {
     }
 
 
+    @GetMapping(value = "/gettotalvaluefrominoicekey/{invoicekey}")
+    public String getTotalValueFromInvoiceKey(@PathVariable("invoicekey") String invoicekey) {
+        return invoiceDetailDao.getTotalValueByInvoiceKey(invoicekey);
+    }
+
+
 
 
 }

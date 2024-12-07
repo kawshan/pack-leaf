@@ -17,4 +17,9 @@ public interface InvoiceDetailDao extends JpaRepository<InvoiceDetail,Integer> {
     @Query(value = "select * from invoicedetail where invoicekey=?1",nativeQuery = true)
     public List<InvoiceDetail> getAllInvoiceDetailByInvoiceKey(String invoicekey);
 
+    //api invoice key eka dunnama total value eka aran denawa
+    @Query(value = "select SUM(invvalue) from invoicedetail where invoicekey=?1;",nativeQuery = true)
+    public String getTotalValueByInvoiceKey(String invoicekey);
+
+
 }

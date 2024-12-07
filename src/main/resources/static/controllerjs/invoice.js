@@ -317,7 +317,7 @@ const getCompanyName = (ob)=>{
     return ob.company_id.companyname;
 }
 
-//created an function for get values for heading tag and paragraph tag
+//created a function for get values for heading tag and paragraph tag
 const getCustomerValues = (fieldId)=>{
 
     txtSelectedCustomerAddress.innerHTML="";
@@ -509,7 +509,7 @@ const deleteInvoiceHeader = (ob,rowIndex)=>{
 // print area functions are starting from here
 
 
-//meka haduwe model eke print ekata one nisa
+//meka haduwe model eke print ekata one nisa mekedi table eke total value ekath karanawa
 const searchUsingInvoiceNumber = (fieldID)=>{
     console.log("search ok");
 
@@ -534,14 +534,26 @@ const searchUsingInvoiceNumber = (fieldID)=>{
     let displayProperty=[
         {dataType: 'function', propertyName: getItemCode},
         {dataType: 'function', propertyName: getItemName},
-        {dataType: 'function', propertyName: getItemDescription},
-        {dataType: 'text', propertyName: 'invqty'},
-        {dataType: 'text', propertyName: 'invrate'},
-        {dataType: 'text', propertyName: 'invvalue'},
+        {dataType: 'function', propertyName: getInvQty},
+        {dataType: 'function', propertyName: getInvRate},
+        {dataType: 'function', propertyName: getInvValue},
     ];
 
 
     fillDataIntoTable(printInvoiceDetailsTable,printInvoiceDetail,displayProperty,false);
+
+
+    //calculate total price section start
+    textTotalValueFromINV.innerHTML="";
+    let totalValue = ajaxGetRequest("/invoice-detail/gettotalvaluefrominoicekey/"+printInvoiceHeader.inkey)
+
+    let splitValue = totalValue.split('.');
+    let integerPart = splitValue[0];
+
+    let finalValue = Number(integerPart).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+    textTotalValueFromINV.innerHTML=finalValue; //final value eken thama table eke total value eketa data display karanne
+
 
 
 }
@@ -550,11 +562,17 @@ const getItemCode = (ob)=>{
     return ob.item_id.code;
 }
 
-const getItemDescription = (ob)=>{
-    return ob.item_id.description;
+const getInvQty = (ob)=>{
+    return '<p class="text-end">'+    Number(ob.invqty).toLocaleString('en-US')    +'</p>'
 }
 
+const getInvRate = (ob)=>{
+    return '<P class="text-end">'+   Number(ob.invrate).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})    +'</P>'
+}
 
+const getInvValue = (ob)=>{
+    return '<p class="text-end">'+  Number(ob.invvalue).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})  +'</p>'
+}
 
 const printModelButtonMC = ()=>{
     console.log("print works");
@@ -565,11 +583,30 @@ const printModelButtonMC = ()=>{
 
     let newWindow = window.open();
     newWindow.document.write(
+        "<html>\n" +
         "<head>\n" +
         "    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css\">\n" +
         "    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js\"></script>\n" +
+        "    <style>\n" +
+        "        @media print {\n" +
+        "            .invoice-section, .right-side-table {\n" +
+        "                float: left;\n" +
+        "                width: 48%;\n" +
+        "                margin-right: 2%;\n" +
+        "            }\n" +
+        "            body {\n" +
+        "                margin: 0;\n" +
+        "                padding: 0;\n" +
+        "            }\n" +
+        "            .container {\n" +
+        "                display: flex;\n" +
+        "                flex-wrap: nowrap;\n" +
+        "            }\n" +
+        "        }\n" +
+        "    </style>\n" +
         "</head>\n" +
-        "<body>" + exampleModal.outerHTML + "</body>"
+        "<body>" + exampleModal.outerHTML + "</body>\n" +
+        "</html>"
     );
 
 
@@ -580,72 +617,6 @@ const printModelButtonMC = ()=>{
     },1000)
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
