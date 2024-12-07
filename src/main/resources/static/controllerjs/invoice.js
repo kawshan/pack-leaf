@@ -27,6 +27,19 @@ window.addEventListener('load',function () {
 });
 
 
+
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+//invoice details starts from here
+
 const refreshInvoiceDetailsForm = ()=>{
 
     invoiceDetail = new Object();
@@ -95,6 +108,7 @@ const generateItemValue = (fieldId)=>{
 
 
 const checkErrors = ()=>{
+
     let errors = '';
 
     if (invoiceDetail.item_id.itmname == null){
@@ -164,6 +178,26 @@ const refillInvoiceDetails = (ob,rowindex)=>{
     txtValue.value=ob.invvalue
 
     fillDataIntoSelect(selectItemName,'select an option',itemNames,'itmname',ob.item_id.itmname)
+
+}
+
+
+
+//create function for helping invoice header refill header eke refill eka ebuwama details section eketh table eka print vena vidihata
+const refillInvoiceDetailTable = (invoiceNumber)=>{
+
+    //meka invoice details eke define karala athi
+    let getAllInvoiceDetailsFromInvoiceNumber = ajaxGetRequest("/invoice-detail/getallinvoicedetailbyinvoicekey/"+invoiceNumber);
+
+    displayProperty=[
+        {dataType: 'function', propertyName: getItemName},
+        {dataType: 'text', propertyName: 'invqty'},
+        {dataType: 'text', propertyName: 'invrate'},
+        {dataType: 'text', propertyName: 'invvalue'},
+    ]
+
+
+    fillDataIntoTable(tableInvoiceDetails,getAllInvoiceDetailsFromInvoiceNumber,displayProperty,true)
 
 }
 
@@ -340,15 +374,17 @@ const getCustomerValues = (fieldId)=>{
 
 }
 
+
+// create function to check errors header area
 const checkErrorsInvoiceHeader = ()=>{
 
     let errors = '';
 
-    if (invoiceHeader.customer_id.customername == null){
+    if (invoiceHeader.customer_id == null){
         errors=errors+"Customer Name Cannot Be Empty \n"
     }
 
-    if (invoiceHeader.company_id.companyname == null){
+    if (invoiceHeader.company_id == null){
         errors=errors+"Company Name Cannot Be Empty \n"
     }
 
@@ -377,6 +413,8 @@ const submitInvoiceHeader = ()=>{
 
 if (textInvoiceHeaderKey.value!=""){
     console.log("update part");
+
+    //meka define karaoa thiyenawa invoice header eke
 
     let getInvoiceIDFromInvoiceKey = ajaxGetRequest("/invoice-header/getidfrominvoicekey/"+textInvoiceHeaderKey.value)
     console.log(getInvoiceIDFromInvoiceKey);
@@ -445,11 +483,6 @@ else {
 }
 
 
-
-
-
-
-
 const refillInvoiceHeaderForm = (ob,rowIndex)=>{
 
     btnUpdateInvoiceHeader.disabled=false;
@@ -466,6 +499,13 @@ const refillInvoiceHeaderForm = (ob,rowIndex)=>{
 
     fillDataIntoSelect(selectCustomer,'select customer',customers,'customername',ob.customer_id.customername)
     fillDataIntoSelect(selectCompanyName,'select company',companies,'companyname',ob.company_id.companyname)
+
+    //header ekath fill karanakotama invoice details tikath enna one kiyapu nisa thama me karanne
+    cardInvoiceDetailTable.classList.remove('d-none')   // class eka ayin kara
+    refillInvoiceDetailTable(ob.inkey);         //refill invoice detail table function eke call karala parameter eke vidihata me object eke invoice key eka denawa ethakota normal eke invoice detail ekata fill venawa
+
+
+
 
 }
 
@@ -499,6 +539,7 @@ const checkUpdatesInvoiceHeader = ()=>{
     }
     return updates;
 }
+
 
 const updateInvoiceHeader = ()=>{
     let updates = checkUpdatesInvoiceHeader();
@@ -552,7 +593,7 @@ const deleteInvoiceHeader = (ob,rowIndex)=>{
     }
 }
 
-
+//kohewath call karanna une na mokada sir kivva design ekata adala na.
 const refreshMaxInvoiceHeaderTable = ()=>{
     let maxInvoiceHeader = ajaxGetRequest("/invoice-header/getmostrecentinvoiceheader");  //meke service define eke karala thienne invoice header dao and controller eke..
 
@@ -652,7 +693,7 @@ const searchUsingInvoiceNumber = (fieldID)=>{
 
 }
 
-
+// print ekata one wena getters table walata
 const getItemCode = (ob)=>{
     return '<p class="text-start">'+ob.item_id.code+'</p>';
 }
@@ -669,6 +710,8 @@ const getInvValue = (ob)=>{
     return '<p class="text-end">'+  Number(ob.invvalue).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})  +'</p>'
 }
 
+
+//print model eke yata thiyena print button eke ebuwama ekata adala print karana code eka thama methana thiyenne
 const printModelButtonMC = ()=>{
     console.log("print works");
 
