@@ -2,6 +2,7 @@ package com.packleaf.packleaf.controller;
 
 import com.packleaf.packleaf.dao.GrnHeaderDao;
 import com.packleaf.packleaf.entity.GrnHeader;
+import com.packleaf.packleaf.entity.OurPoDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,6 +76,12 @@ public class GrnHeaderController {
     @GetMapping(value = "/getidfromgrmheaderkey/{grnheaderkey}")
     public Integer getIdFromGrnHeaderKey(@PathVariable("grnheaderkey") String grnheaderkey){
         return grnHeaderDao.getGrnHeaderIdByGrnHeaderKey(grnheaderkey);
+    }
+
+
+    @GetMapping(value = "/getourpodetailsfromourponumber/{ourponumber}")
+    public List<OurPoDetail> getOurPoDetailsFromOurPoNumber(@PathVariable("ourponumber") String ourponumber){
+        return grnHeaderDao.getOurPoDetailsFromPoNumber(ourponumber);
     }
 
 
