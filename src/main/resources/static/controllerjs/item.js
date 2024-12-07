@@ -84,7 +84,6 @@ const getItemCategory = (ob)=>{
     return ob.category_id.ctcode;
 }
 
-
 const getItemLaminate = (ob)=>{
     return ob.laminate_id.name;
 }
@@ -107,7 +106,7 @@ const getItemFoil = (ob)=>{
 }
 
 const getItemSpotUV = (ob)=>{
-    if (ob.spotuv){
+    if (ob.spotuv=="true"){
         return "<p class='text-success'>yes</p>"
     }else {
         return "<p class='text-danger'>no</p>"
@@ -119,7 +118,7 @@ const checkErrors= ()=>{
     let errors = '';
 
     //item category
-    if (item.category_id.ctcode == null){
+    if (item.category_id == null){
         errors=errors+"category cannot Be Empty \n"
     }
 
@@ -141,7 +140,7 @@ const checkErrors= ()=>{
     // }
 
     //laminate
-    if (item.laminate_id.name == null){
+    if (item.laminate_id == null){
         errors=errors+"Laminate Cannot Be Empty \n"
     }
 
@@ -157,9 +156,9 @@ const checkErrors= ()=>{
     //     errors=errors+"Plate Cannot Be Empty \n"
     // }
 
-    // if (item.spotuv == null){
-    //     errors=errors+"Spot UV Cannot Be Empty \n"
-    // }
+    if (item.spotuv == null){
+        errors=errors+"Spot UV Cannot Be Empty \n"
+    }
 
     if (item.status == null){
         errors=errors+"Status Cannot Be Empty \n"
@@ -336,8 +335,7 @@ const getItemCategoryForNewRequirement = (ob) => {
 
 
 
-
-//fill data into table which inside of the print model
+//fill data into table which inside the print model
 const refreshTableInsidePrint = ()=>{
     let getAllItems = ajaxGetRequest("/item/findall");
 
@@ -347,7 +345,7 @@ const refreshTableInsidePrint = ()=>{
         {dataType: 'text', propertyName: 'itmname'},
     ];
 
-    fillDataIntoTableForItemNewRequirement(tablePrintItem,getAllItems,displayColumns,false);
+    fillDataIntoTableForItemPrint(tablePrintItem,getAllItems,displayColumns,false);
 
 }
 
@@ -359,18 +357,28 @@ const printModelButtonMC = ()=>{
 
     let newWindow = window.open();
     newWindow.document.write(
-        "<html>\n" +
-        "<head>\n" +
-        "    <!--    bootstrap links-->\n" +
-        "    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css\">\n" +
-        "    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js\"></script>\n" +
-        "    <!--    bootstrap links-->\n" +
-        "</head>\n" +
-        "<body>"+tablePrintItem.outerHTML+"</body>\n" +
-        "</html>"
+`    <html>
+    <head>
+        <title style="color: white">&nbsp;</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+    <body>
+        <div class="row mt-2">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4 text-center">
+                <h3>Item List</h3>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        ${tablePrintItem.outerHTML}
+    </body>
+    </html>`
     );
 
-
+    newWindow.history.replaceState({}, '', ' '); // Using a non-breaking space
     setTimeout(()=>{
         newWindow.stop();
         newWindow.print();

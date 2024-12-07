@@ -107,19 +107,28 @@ const fillDataIntoTable2 = (tableId,dataList,columnList,buttonVisibility=true)=>
 }
 
 
-const fillDataIntoTableForItemNewRequirement = (tableId, dataList, columnList, buttonVisibility = true) => {
+const fillDataIntoTableForItemPrint = (tableId, dataList, columnList, buttonVisibility = true) => {
     const tableBody = tableId.children[1]; // Get table body
     tableBody.innerHTML = ''; // Clear existing rows
 
-    dataList.forEach((element, index) => {
-        const tr = document.createElement('tr');
+    let lastCategory = null; // Track the last category
 
-        // Index column
-        const tdIndex = document.createElement('td');
-        tdIndex.style.lineHeight = 0.1;
-        tdIndex.style.paddingTop = '2%';
-        tdIndex.innerText = parseInt(index) + 1;
-        tr.appendChild(tdIndex);
+    dataList.forEach((element, index) => {
+        const currentCategory = element.category_id.ctcode; // Get current item category
+
+        // If the current category is different from the last one, insert a blank row before displaying the new category
+        if (lastCategory !== null && currentCategory !== lastCategory) {
+            // Create and append a blank row
+            const blankRow = document.createElement('tr');
+            const blankCell = document.createElement('td');
+            blankCell.colSpan = columnList.length; // Span across all columns
+            blankCell.innerHTML = '&nbsp;'; // Add a non-breaking space for the blank row
+            blankRow.appendChild(blankCell);
+            tableBody.appendChild(blankRow);
+        }
+
+        // Now create a regular row for the current item
+        const tr = document.createElement('tr');
 
         // Loop through each column definition
         columnList.forEach(column => {
@@ -161,8 +170,12 @@ const fillDataIntoTableForItemNewRequirement = (tableId, dataList, columnList, b
 
         // Append the row to the table body
         tableBody.appendChild(tr);
+
+        // Update the last category to the current one
+        lastCategory = currentCategory;
     });
 }
+
 
 
 

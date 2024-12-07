@@ -19,7 +19,7 @@ public class ItemController {
 
     @GetMapping(value = "/findall")
     public List<Item> getAllItems(){
-        return itemDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
+        return itemDao.findAll(Sort.by(Sort.Direction.ASC,"code"));
     }
 
     @GetMapping

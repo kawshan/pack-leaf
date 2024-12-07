@@ -61,7 +61,7 @@ const refreshItemTable = ()=>{
     ];
 
     fillDataIntoTable(itemCategoryTable,itemCategories,displayProperty,true);
-    // $('#itemCategoryTable').dataTable();
+    $("#itemCategoryTable").dataTable();
 
 }
 
