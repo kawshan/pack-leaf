@@ -138,7 +138,22 @@
                     <!--                first row-->
 
 
-                    <!--                second row-->
+
+                    <!--                Second row-->
+                    <tr>
+                        <td>
+                            <label for="textOurPoNumber" class="form-label fw-bold"> PO Number <i
+                                    class="text-danger">*</i> </label>
+                        </td>
+                        <td>
+                            <input type="text" id="textOurPoNumber" class="form-control text-start"
+                                   placeholder="Enter PO NUmber" onkeyup="textValidator(this,'','ourpoheader','ourponumber')">
+                        </td>
+                    </tr>
+                    <!--                Second row-->
+
+
+                    <!--                Third row-->
                     <tr>
                         <td>
                             <label for="textPoDate" class="form-label fw-bold">Po Date <i class="text-danger">*</i> </label>
@@ -148,7 +163,7 @@
                             <input type="date" id="textPoDate" class="form-control" onchange="textValidator(this,'','ourpoheader','ourpodate')">
                         </td>
                     </tr>
-                    <!--                second row-->
+                    <!--                Third row-->
 
 
                     </tbody>
@@ -163,31 +178,31 @@
     <!-- our po header  form area end-->
 
 
-    <!--table item form area start-->
+    <!--table our purchase order details form area start-->
     <form onsubmit="return false">
         <table class="table">
             <tbody>
             <tr>
                 <td>
                     <label for="selectRawMaterial" class="form-label fw-bold">Select Raw Material</label>
-                    <select id="selectRawMaterial" class="form-select"></select>
+                    <select id="selectRawMaterial" class="form-select" onchange="selectDBValidator(this,'','ourPurchaseOrderDetail','rawmaterial_id')"></select>
                 </td>
 
 
                 <td>
                     <label for="txtQty" class="form-label fw-bold">Item Qty</label>
-                    <input type="text" id="txtQty" class="form-control" placeholder="enter item name">
+                    <input type="text" id="txtQty" class="form-control" placeholder="enter item Quantity" onkeyup="textValidator(this,'^[1-9][0-9]{0,10}$','ourPurchaseOrderDetail','qty')">
                 </td>
 
 
                 <td>
                     <label for="txtRate" class="form-label fw-bold">Item Rate</label>
-                    <input type="text" id="txtRate" class="form-control" placeholder="enter item name">
+                    <input type="text" id="txtRate" class="form-control" placeholder="enter item Rate" onkeyup="textValidator(this,'^[1-9][0-9]{0,10}$','ourPurchaseOrderDetail','rate')">
                 </td>
 
                 <td style="padding-left: 10%">
-                    <button type="button" class="btn btn-warning" style="width: 100px; height: 70px">Update</button>
-                    <button type="button" class="btn btn-success" style="width: 100px; height: 70px">Add</button>
+                    <button type="button" class="btn btn-warning" style="width: 100px; height: 70px; pointer-events: all" id="buttonOurPurchaseOrderDetailsUpdate" onclick="updateOurPurchaseOrderDetail()">Update</button>
+                    <button type="button" class="btn btn-success" style="width: 100px; height: 70px; pointer-events: all" id="buttonOurPurchaseOrderDetailsAdd" onclick="submitOurPurchaseOrderDetails()">Add</button>
                 </td>
 
 
@@ -197,17 +212,49 @@
             </tbody>
         </table>
     </form>
-    <!--table item form area start-->
+    <!--table our purchase order details form area end-->
 
 
 
-    <!--table area start-->
-    <div class="card mt-5 p-5 d-none">
-        <table class="table table-hover table-striped">
+
+    <!--    div modify button area for our purchase order detail start -->
+    <div class="row">
+        <div class="col-md-3">
+            <div id="divModifyButton2" class="d-none">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-warning fw-bold"
+                            style="width: 25%; color: whitesmoke; border: 1px solid black;"
+                            onclick="refillOurPurchaseOrderDetails(window['editOb'],window['editRow'])">
+                        <i class="fa-solid fa-recycle fa-beat"></i> Refill
+                    </button>
+                    <button type="button" class="btn btn-danger fw-bold"
+                            style=" width: 25%; color: whitesmoke; border: 1px solid black; pointer-events: all"
+                            onclick="deleteOurPurchaseOrderDetail(window['editOb'],window['editRow'])">
+                        <i class="fa-solid fa-trash fa-beat"></i> Delete
+                    </button>
+<!--                    <button onclick="printStudent(window['editOb'],window['editRow'])" type="button"-->
+<!--                            class="btn btn-primary fw-bold d-none"-->
+<!--                            style=" width: 25%; color: whitesmoke;border: 1px solid black">-->
+<!--                        <i class="fa-solid fa-eye fa-beat"></i> Print-->
+<!--                    </button>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+    </div>
+    <!--    div modify button area for our purchase order detail end -->
+
+
+
+    <!--purchase order details table area start-->
+    <div class="card mt-5 p-5 d-none" id="cardOurPurchaseOrderDetailsTableArea">
+        <table class="table table-hover table-striped" id="ourPurchaseOrderDetailsTable">
 
             <thead>
             <th>#</th>
-            <th>item name</th>
+            <th>Raw Material name</th>
             <th>Qty</th>
             <th>rate</th>
             </thead>
@@ -216,10 +263,10 @@
 
         </table>
     </div>
-    <!--table area end-->
+    <!--purchase order details table area end-->
 
 
-    <!--   our Purchase Order Header table area start   -->
+    <!--   our Purchase Order Header table area start  this is a modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -236,6 +283,7 @@
                             <th>#</th>
                             <th>Supplier Name</th>
                             <th>Ref Quotation</th>
+                            <th>PO Number</th>
                             <th>Date</th>
                             <th>Action</th>
                             </thead>
@@ -248,7 +296,7 @@
             </div>
         </div>
     </div>
-    <!--   our Purchase Order Header table area start   -->
+    <!--   our Purchase Order Header table area start   this is a modal-->
 
 
 

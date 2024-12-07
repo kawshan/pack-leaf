@@ -30,6 +30,10 @@ public class OurPoHeader {
     private String refquotation;
 
 
+    @Column(name = "ourponumber")
+    private String ourponumber;
+
+
     @ManyToOne
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")
     private Supplier supplier_id;
