@@ -509,6 +509,22 @@ const deleteInvoiceHeader = (ob,rowIndex)=>{
 // print area functions are starting from here
 
 
+//create a fucntion to get date from like this value 2024-10-02 -> 02-Oct-24
+function formatDate(dateValue){
+
+    const date = new Date(dateValue);
+
+    //extract the day, month, (as short name) and year
+    const day = String(date.getDate()).padStart(2,'0');
+    const month = date.toLocaleString('en-GB',{month: 'short'});
+    const year = String(date.getFullYear()).slice(-2);
+
+    return `${day}-${month.charAt(0).toUpperCase()  + month.slice(1).toLowerCase()}-${year}`;
+
+}
+
+
+
 //meka haduwe model eke print ekata one nisa mekedi table eke total value ekath karanawa
 const searchUsingInvoiceNumber = (fieldID)=>{
     console.log("search ok");
@@ -524,9 +540,12 @@ const searchUsingInvoiceNumber = (fieldID)=>{
 
 //displaying data into invoice table section    //dakunu paththe thiyena table ekata data display keranawa
     printInvNumber.innerHTML=printInvoiceHeader.invno
-    printInvDate.innerHTML=printInvoiceHeader.invdate
+    printInvDate.innerHTML=formatDate(printInvoiceHeader.invdate)
     printPoNumber.innerHTML=printInvoiceHeader.pokey
     printDispatchNo.innerHTML=printInvoiceHeader.dispatchkey
+
+    labelShowCompanyName.innerHTML="";
+    labelShowCompanyName.innerHTML=`Note* &nbsp; &nbsp; Cheque should be drawn in favour of "<b>${printInvoiceHeader.company_id.companyname} </b>."`
 
     //header eken invoice key eken invoice detail list eke gannawa
     let printInvoiceDetail = ajaxGetRequest("/invoice-detail/getallinvoicedetailbyinvoicekey/"+printInvoiceHeader.inkey);
