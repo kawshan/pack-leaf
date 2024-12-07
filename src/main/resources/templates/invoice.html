@@ -43,6 +43,8 @@
 
         <!--button row start-->
         <div class="row mb-2">
+
+
             <div class="col-md-5">
 <!--                div modify button 2 start-->
                 <div id="divModifyButton2" class="d-none">
@@ -70,8 +72,8 @@
 
             <div class="col-md-3">
                 <button type="reset" class="btn btn-danger">reset</button>
-                <button type="button" class="btn btn-warning" onclick="updateInvoiceHeader()">Update</button>
-                <button type="submit" class="btn btn-success" onclick="submitInvoiceHeader()">Submit</button>
+                <button type="button" class="btn btn-warning" style="pointer-events: all" id="btnUpdateInvoiceHeader" onclick="updateInvoiceHeader()">Update</button>
+                <button type="submit" class="btn btn-success" style="pointer-events: all" id="btnSubmitInvoiceHeader" onclick="submitInvoiceHeader()">Submit</button>
             </div>
 
 
@@ -79,8 +81,10 @@
                 <button type="button" style="width: 15%; height: 40px" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">Search</button>
                 <button type="button" style="width: 15%; height: 40px" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">print</button>
             </div>
+
+
         </div>
-        <!--button row start-->
+        <!--button row end-->
 
 
         <div class="row">
@@ -93,11 +97,23 @@
                 <p class="mt-2" id="txtSelectedCustomerAddress" style="padding-left: 20px"></p>
                 <p class="mt-2" id="txtSelectedCustomerPhoneNO" style="padding-left: 20px"></p>
             </div>
+
+
             <div class="col-md-3" style="padding-left: 10%">
                 <label for="selectCompanyName" class="form-label fw-bold">Company name</label>
                 <select id="selectCompanyName" class="form-select text-start" onchange="selectDBValidator(this,'','invoiceHeader','company_id')"></select>
             </div>
-            <div class="col-md-2"></div>
+
+
+
+
+            <div class="col-md-2">
+                <label for="textInvoiceHeaderKey"></label>
+                <input type="text" class="form-control" id="textInvoiceHeaderKey">
+            </div>
+
+
+
             <div class="col-md-4">
 
                 <table class="table table-bordered table-striped">
@@ -163,6 +179,28 @@
     </form>
 </div>
 <!--form area invoice header end-->
+
+<!--    max invoice header eka ganna table area eka start-->
+    <div class="card m-4 d-none" id="cardMaxInvoiceHeader">
+    <div class="row m-5">
+        <table class="table table-bordered table-hover table-striped" id="tableMaxInvoiceHeader">
+            <thead>
+            <th>#</th>
+            <th>Customer Name</th>
+            <th>Company Name</th>
+            <th>Invoice Number</th>
+            <th>Invoice Date</th>
+            <th>Po Key</th>
+            <th>Dispatch key</th>
+            <th>Action</th>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    </div>
+<!--    max invoice header eka ganna table area eka end-->
+
+
 
 
 <!-- invoice header section is finished -->

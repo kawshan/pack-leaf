@@ -3,6 +3,7 @@ package com.packleaf.packleaf.controller;
 import com.packleaf.packleaf.dao.InvoiceHeaderDao;
 import com.packleaf.packleaf.entity.InvoiceHeader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class InvoiceHeaderController {
 
     @GetMapping(value = "/findall")
     public List<InvoiceHeader> getAllInvoiceHeader(){
-        return invoiceHeaderDao.findAll();
+        return invoiceHeaderDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
     @PostMapping()
@@ -59,6 +60,12 @@ public class InvoiceHeaderController {
     @GetMapping(value = "/getinvoiceheaderbyinvoicenumber/{invno}")
     public InvoiceHeader getInvoiceHeaderByInvoiceNumber(@PathVariable("invno") String invno){
         return invoiceHeaderDao.getInvoiceHeaderByInvNo(invno);
+    }
+
+
+    @GetMapping(value = "/getmostrecentinvoiceheader")
+    public List<InvoiceHeader> getMostRecentInvoiceHeader(){
+        return invoiceHeaderDao.getMostRecentInvoiceHeader();
     }
 
 

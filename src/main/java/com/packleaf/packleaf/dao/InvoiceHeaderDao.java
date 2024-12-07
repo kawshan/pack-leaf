@@ -4,6 +4,8 @@ import com.packleaf.packleaf.entity.InvoiceHeader;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface InvoiceHeaderDao extends JpaRepository<InvoiceHeader,Integer> {
 
 
@@ -13,4 +15,9 @@ public interface InvoiceHeaderDao extends JpaRepository<InvoiceHeader,Integer> {
 
     @Query(value = "select ih from InvoiceHeader ih where ih.invno like concat(?1,'%') ")
     public InvoiceHeader getInvoiceHeaderByInvNo(String invno);
+
+
+    @Query(value = "select * from invoiceheader where inkey = (select MAX(inkey) from invoiceheader);",nativeQuery = true)
+    public List<InvoiceHeader> getMostRecentInvoiceHeader();
+
 }

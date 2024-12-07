@@ -20,6 +20,11 @@ window.addEventListener('load',function () {
     buttonAddInvoiceDetail.style.cursor="not-allowed";
 
 
+    //need to disable invoice header update button because user can click update instead of save button
+    btnUpdateInvoiceHeader.disabled=true;
+    btnUpdateInvoiceHeader.style.cursor = "not-allowed";
+
+
 });
 
 
@@ -392,6 +397,11 @@ const submitInvoiceHeader = ()=>{
                 buttonAddInvoiceDetail.style.cursor="default";
                 //emptying invoice detail warning paragraph because we need to add invoice details before that
                 paragraphWaringInInvoiceDetails.innerHTML="";
+
+               // cardMaxInvoiceHeader.classList.remove('d-none');    //card eke class name eka remove karala daanawa
+                //dan daapu invoice header eka balananna one nisa max invoice header table eka call karanawa
+                // refreshMaxInvoiceHeaderTable();         //max invoice header eka ganna function eke call karanawa
+
             }else {
                 alert("error happened");
                 refreshInvoiceHeaderForm();
@@ -405,6 +415,9 @@ const submitInvoiceHeader = ()=>{
 
 
 const refillInvoiceHeaderForm = (ob,rowIndex)=>{
+
+    btnUpdateInvoiceHeader.disabled=false;
+    btnUpdateInvoiceHeader.style.cursor = "default";
 
     invoiceHeader=JSON.parse(JSON.stringify(ob));
     oldInvoiceHeader=JSON.parse(JSON.stringify(ob));
@@ -462,6 +475,14 @@ const updateInvoiceHeader = ()=>{
                 alert("Update Successful");
                 refreshInvoiceHeaderForm();
                 refreshInvoiceHeaderTable();
+
+
+                //max invoice header table ekath call karanawa
+                // refreshMaxInvoiceHeaderTable()
+
+
+                //div modify button eka disable karannath one
+                divModifyButton2.classList.add('d-none');
             }else {
                 alert("error happened"+updateServerResponse)
             }
@@ -484,6 +505,9 @@ const deleteInvoiceHeader = (ob,rowIndex)=>{
             alert("delete successful");
             refreshInvoiceHeaderForm();
             refreshInvoiceHeaderTable();
+
+            cardMaxInvoiceHeader.classList.add('d-none');
+            divModifyButton2.classList.add('d-none');
         }else {
             alert("error happened \n"+deleteServerResponse);
             refreshInvoiceHeaderForm();
@@ -493,7 +517,21 @@ const deleteInvoiceHeader = (ob,rowIndex)=>{
 }
 
 
+const refreshMaxInvoiceHeaderTable = ()=>{
+    let maxInvoiceHeader = ajaxGetRequest("/invoice-header/getmostrecentinvoiceheader");  //meke service define eke karala thienne invoice header dao and controller eke..
 
+    let displayProperty = [
+        {dataType: 'function', propertyName: getCustomerName},
+        {dataType: 'function', propertyName: getCompanyName},
+        {dataType: 'text', propertyName: 'invno'},
+        {dataType: 'text', propertyName: 'invdate'},
+        {dataType: 'text', propertyName: 'pokey'},
+        {dataType: 'text', propertyName: 'dispatchkey'},
+    ];
+
+    fillDataIntoTable2(tableMaxInvoiceHeader,maxInvoiceHeader,displayProperty,true);
+
+}
 
 
 
@@ -579,8 +617,6 @@ const searchUsingInvoiceNumber = (fieldID)=>{
 }
 
 
-
-
 const getItemCode = (ob)=>{
     return '<p class="text-start">'+ob.item_id.code+'</p>';
 }
@@ -640,14 +676,4 @@ const printModelButtonMC = ()=>{
     },1000)
 
 }
-
-
-
-
-
-
-
-
-
-
 
