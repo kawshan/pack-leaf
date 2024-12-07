@@ -91,5 +91,18 @@ public class InvoiceDetailController {
     }
 
 
+    @GetMapping(value = "/getremainingquantityfrompoid/{podetailid}")
+    public String getRemainingQuantityFromPoDetailID(@PathVariable("podetailid") String podetailid ){
+        return invoiceDetailDao.getRemainingQuantityFromPoDetailId(podetailid);
+    }
+
+
+    @GetMapping(value = "/getpoqtyfromid/{id}")
+    public String getPoQtyFromPoID(@PathVariable("id")String id){
+        return invoiceDetailDao.getPoQtyFromId(id);
+    }
+
+
+
 
 }

@@ -727,6 +727,8 @@ const refreshPurchaseOrderDetailsTableNotInInvoice = (PoKey)=>{
 }
 
 
+
+
 //invoice header eke  purchase order tika table refresh function eka
 const refreshPoDetailsFromPoNumberInInvoiceHeader = (poNumber)=>{
 
@@ -740,7 +742,7 @@ const refreshPoDetailsFromPoNumberInInvoiceHeader = (poNumber)=>{
         {dataType:"function",propertyName:getPoValue},
     ]
 
-    fillDataIntoTable2(tablePurchaseOrderDetails,purchaseOrderDetailsList,displayProperty,false,divModifyButton3);
+    fillDataIntoTable2(tablePurchaseOrderDetails,purchaseOrderDetailsList,displayProperty,true,divModifyButton3);
     console.log(purchaseOrderDetailsList);
 
 
@@ -748,6 +750,9 @@ const refreshPoDetailsFromPoNumberInInvoiceHeader = (poNumber)=>{
 
 
 
+
+
+//refill button eke function eka
 const refillPoDetailsIntoInvoiceDetails=(ob,rowOb)=>{
 
     //for testing delete those two lines after done testing........ testing is done✔ can delete
@@ -767,7 +772,62 @@ const refillPoDetailsIntoInvoiceDetails=(ob,rowOb)=>{
 
     fillDataIntoSelect(selectItemName,'select an option',itemNames,'itmname',ob.item_id.itmname)
 
+
+    getRemainingQuantityFromPoId(ob.id);
 }
+
+// po details eke id eka dunnama eken remaining quantity eka ganna function eka
+const getRemainingQuantityFromPoId = (poId)=>{
+
+    //this defied on invoice details controller and dao files.
+    const getRemainingQuantityServerResponse = ajaxGetRequest("/invoice-detail/getremainingquantityfrompoid/"+poId);
+
+    if (getRemainingQuantityServerResponse!=""){
+        console.log(`${getRemainingQuantityServerResponse} server response of remaining quantity`);
+        let result = getRemainingQuantityServerResponse.split('.');
+        console.log(`${result[0]} is your remaining value`);   //remaining value eke points ayin karala issalama numbers tika vitharak gannawa.
+
+        remainingQuantityText.innerHTML="";
+        remainingQuantityText.innerHTML=`${result[0]} is your remaining value`;
+    }else {
+        console.log("need to return original value from po details table");
+
+        //methana define karanna one ee po id eken ena po qty eka
+
+        //this also use in invoice details section. then this method is defined on invoice details controller and dao files
+        const getRemainingQuantityFromPoDetailsServerResponse = ajaxGetRequest("/invoice-detail/getpoqtyfromid/"+poId);
+        console.log(`${getRemainingQuantityFromPoDetailsServerResponse} is your remaining value`);
+        remainingQuantityText.innerHTML=""
+        remainingQuantityText.innerHTML=`${getRemainingQuantityFromPoDetailsServerResponse} is your remaining value`;
+
+    }
+}
+
+
+const validateItemRemaining = (fieldID)=>{
+    //let's give a message   or bind value to the object and apply green and red colours or add hint using is-invalid and some text
+
+    let getRemainingValueFromDisplayText = remainingQuantityText.innerHTML;
+    let getIntegerPart = getRemainingValueFromDisplayText.split(' ');
+    console.log(`${getIntegerPart[0]} is split value from remaining paragraph text`);
+
+    let result  =  Number(getIntegerPart[0]);
+
+    if (fieldID.value > result){
+        fieldID.style.border="2px solid red";
+        invoiceDetail.invqty = null;
+        displayQuantityValidation.innerHTML=`quantity cannot be greater than remaining quantity`;
+        displayQuantityValidation.style.color="red";
+    }else {
+        displayQuantityValidation.innerHTML=`quantity is validated`;
+        displayQuantityValidation.style.color="green";
+        invoiceDetail.invqty = fieldID.value;
+    }
+
+
+
+}
+
 
 
 

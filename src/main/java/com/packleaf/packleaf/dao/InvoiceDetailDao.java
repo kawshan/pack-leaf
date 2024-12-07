@@ -31,4 +31,12 @@ public interface InvoiceDetailDao extends JpaRepository<InvoiceDetail,Integer> {
     public String getTotalQuantityFromInvoiceKey(String invoicekey);
 
 
+    @Query(value = "select (select sum(podetail.poqty) as total_poqty FROM podetail where id=?1) - (select sum(invoicedetail.invqty) as total_invqty FROM invoicedetail where podetail_id=?1) as remaining;",nativeQuery = true)
+    public String getRemainingQuantityFromPoDetailId(String podetailid);
+
+
+    @Query(value = "select podetail.poqty from podetail where id=?1",nativeQuery = true)
+    public String getPoQtyFromId(String id);
+
+
 }

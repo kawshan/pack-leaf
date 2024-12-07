@@ -218,10 +218,6 @@
 
 
 
-
-
-
-
             </div>
             <div class="col-md-7"></div>
         </div>
@@ -238,7 +234,7 @@
 <!--  -------------------------------------------------------------------------------------------------------  -->
 
 
-<!--table item form area start-->
+<!--invoice details form area start ||  in here we have remaining quantity displaying thing also-->
 <div class="card m-4">
 <form onsubmit="return false">
 <table class="table">
@@ -251,8 +247,10 @@
 
 
             <td>
+<!--            validate remaining item quantity defined on invoice js file PO section...    -->
                 <label for="txtQty" class="form-label fw-bold">Item Qty</label>
-                <input type="text" id="txtQty" class="form-control text-end" placeholder="enter item name" onkeyup="textValidator(this,'','invoiceDetail','invqty');">
+                <input type="text" id="txtQty" class="form-control text-end" placeholder="enter item name" onkeyup="textValidator(this,'','invoiceDetail','invqty'); validateItemRemaining(this);">
+                <div id="displayQuantityValidation"></div>
             </td>
 
 
@@ -281,8 +279,23 @@
     </tbody>
 </table>
 </form>
+
+
+    <!--    remaining quantity display area start-->
+    <div class="row mt-2">
+        <div class="col-md-4 text-end" style="margin-left: 2%">
+            <p id="remainingQuantityText"></p>
+        </div>
+        <div class="col-md-8"></div>
+    </div>
+    <!--remaining quantity display area start-->
+
+
 </div>
-<!--table item form area start-->
+<!--invoice details form area start ||  in here we have remaining quantity displaying thing also-->
+
+
+
 
 
 <!--    edit delete print button start-->
