@@ -103,8 +103,8 @@ const submitPurchaseOrderHeader = ()=>{
         console.log(getIdFromPurchaseOrderHeaderKey);
 
 
-        purchaseOrderHeader.id=getIdFromPurchaseOrderHeaderKey;
-        purchaseOrderHeader.pokey=textDisplayPurchaseOrderKey.value  //key eka set karanne mokada upate ekedi key ekek set wenne na ne eka set venne save eke nisa methanath bind karanna one
+        purchaseOrderHeader.id=getIdFromPurchaseOrderHeaderKey; //id eka nathuwa dunnoth venne ORM ekan eka adura ganne eka save ekak vidihata. id ekath ekakka dunnoth eka aduraganne update ekak vidihata
+        purchaseOrderHeader.pokey=textDisplayPurchaseOrderKey.value  //key eka set karanne mokada upate ekedi key ekek set wenne na ne eka set venne java controller file eke save eke nisa methanath bind karanna one
 
         setTimeout(()=>{
             let putResponse = ajaxPutRequest("/purchaseorderheader",purchaseOrderHeader)
