@@ -69,4 +69,11 @@ public class ItemController {
     }
 
 
+
+    @GetMapping(value = "/getitembyitemname/{itemName}")
+    public Item getItemByItemName(@PathVariable("itemName") String itemName){
+        return itemDao.getItemByItemName(itemName);
+    }
+
+
 }

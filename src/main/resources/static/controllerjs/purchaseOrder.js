@@ -3,7 +3,8 @@ window.addEventListener('load',function (){
     refreshPurchaseOrderHeaderForm();
     refreshPurchaseOrderHeaderTable()
 
-
+    //pending purchase order details refresh function call
+    refreshPendingPurchaseOrderDetailsTable()
 
     refreshPurchaseOrderDetailForm();
     // refreshPurchaseOrderDetailTable(); test kranna one nisa call kare | table eka ok
@@ -460,42 +461,64 @@ const saveImKey = (fieldID)=>{
 
 
 
+//pending order report and print area start
+// ----------------------------------------
+// ----------------------------------------
+// ----------------------------------------
 
 
 
+//modal eka athule pending purchase order details tika table ekata load karana function eka || meka call karala thiyenawa window . add event listener eke refresh venakotama call venna one nisa
+const refreshPendingPurchaseOrderDetailsTable = ()=>{
+
+    const getPendingPurchaseOrderDetailsServerResponse = ajaxGetRequest("/purchaseorderdetails/getpendingpurchaseorderdetails");
+
+    const displayProperty=[
+        {dataType: 'function', propertyName: getItemName},
+        {dataType: 'text', propertyName: "purchaseorderkey"},
+        {dataType: 'function', propertyName: getPoQty},
+        {dataType: 'function', propertyName: getPoRate},
+        {dataType: 'function', propertyName: getPoValue},
+    ];
 
 
+    fillDataIntoTable(tablePendingPurchaseOrderPrint,getPendingPurchaseOrderDetailsServerResponse,displayProperty,false);
 
 
+}
+
+//pending purchase order model eka yata thiyena print button eka click karahama run venna one function eka
+const printPendingOrderMC = ()=>{
+
+    let newWindow = window.open();
+    newWindow.document.write(
+        `
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pending order</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
+</head>
+<body>
 
+<h2 class="h2 text-center">Pending Purchase Order</h2>
+    ${tablePendingPurchaseOrderPrint.outerHTML}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</body>
+</html>
+        `
+    );
+    setTimeout(()=>{
+        newWindow.stop();
+        newWindow.print();
+        newWindow.close();
+    })
+}
 
 
 

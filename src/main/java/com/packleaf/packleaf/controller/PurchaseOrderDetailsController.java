@@ -65,4 +65,11 @@ public class PurchaseOrderDetailsController {
         return purchaseOrderDetailDao.getAvailablePurchaseOrderDetailsByPokeyInInvoiceHeader(ponumber);
     }
 
+
+    @GetMapping(value = "/getpendingpurchaseorderdetails")
+    public List<PurchaseOrderDetails> getPendingPurchaseOrderDetails() {
+        return purchaseOrderDetailDao.getPendingPurchaseOrderDetails();
+    }
+
+
 }

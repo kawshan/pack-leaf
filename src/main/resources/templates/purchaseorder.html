@@ -65,9 +65,14 @@
                 <button type="reset" class="btn btn-danger">reset</button>
                 <button type="button" class="btn btn-success" onclick="submitPurchaseOrderHeader()">Submit</button>
             </div>
+
+
             <div class="col-md-3">
                 <button type="button" style="width: 20%; height: 40px" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">Search</button>
+                <button type="button" style="height: 40px; margin-left: 10px" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3">Pending PO Report</button>
             </div>
+
+
         </div>
         <!--button row start-->
 
@@ -276,6 +281,47 @@
     <!--    purchase oder header table modal area end-->
 
 
+
+    <!--   pending purchase oder modal area start-->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel3">Pending Purchase Order Report</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="card m-4">
+                        <table class="table table-bordered mt-5" id="tablePendingPurchaseOrderPrint">
+                            <thead>
+                            <th>#</th>
+                            <th>Item Name</th>
+                            <th>Po key</th>
+                            <th>Quantity</th>
+                            <th>Rate</th>
+                            <th>Value</th>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+
+
+                <div class="modal-footer" id="ExampleModelFooterDiv">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="printPendingOrderMC()" >Print</button>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <!--   pending purchase oder modal area end-->
 
 
 </div>

@@ -769,8 +769,20 @@ const refillPoDetailsIntoInvoiceDetails=(ob,rowOb)=>{
 
     invoiceDetail.podetail_id= ob
 
+    // we need to get item object from server using item name that we receive from using get request
+    //that process is start form here
+    console.log(ob.item_id.itmname);
+
+    // we get this response from item table. so we defined that request in item controller and item dao files
+    let getItemObFromItemNameServerResponse = ajaxGetRequest("/item/getitembyitemname/"+ob.item_id.itmname);
+    console.log(`${getItemObFromItemNameServerResponse} this is from server`);
+
 
     fillDataIntoSelect(selectItemName,'select an option',itemNames,'itmname',ob.item_id.itmname)
+    selectItemName.disabled=true;
+
+    invoiceDetail.item_id = getItemObFromItemNameServerResponse;
+
 
 
     getRemainingQuantityFromPoId(ob.id);
@@ -859,8 +871,7 @@ function formatDate(dateValue){
 }
 
 
-
-//meka haduwe model eke print ekata one nisa mekedi table eke total value ekath karanawa
+//meka haduwe model eke print ekata one nisa--- mekedi table eke total value ekath karanawa
 const searchUsingInvoiceNumber = (fieldID)=>{
     console.log("search ok");
 
@@ -974,4 +985,10 @@ const printModelButtonMC = ()=>{
     },1000)
 
 }
+
+
+
+
+
+
 

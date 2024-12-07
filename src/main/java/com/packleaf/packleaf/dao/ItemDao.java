@@ -9,7 +9,8 @@ public interface ItemDao extends JpaRepository<Item,Integer> {
     @Query(value = "SELECT CONCAT('IM', LPAD(MAX(CAST(SUBSTRING(i.imkey, 3) AS UNSIGNED)) + 1, 4, '0')) AS itemkey FROM packleaf.item AS i;",nativeQuery = true)
     public String getMaxItemKey();
 
-
+    @Query(value = "select i from Item i where i.itmname=?1")
+    public Item getItemByItemName(String itemName);
 
 
 }

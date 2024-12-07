@@ -20,4 +20,7 @@ public interface PurchaseOrderDetailDao extends JpaRepository<PurchaseOrderDetai
     public List<PurchaseOrderDetails> getAvailablePurchaseOrderDetailsByPokeyInInvoiceHeader(String ponumber);
 
 
+    @Query(value = "select * from podetail where id not in (select podetail_id from invoicedetail)",nativeQuery = true)
+    public List<PurchaseOrderDetails> getPendingPurchaseOrderDetails();
+
 }
