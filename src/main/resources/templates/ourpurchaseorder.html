@@ -40,7 +40,7 @@
                 <div class="col-md-12">
                     <button type="button" class="btn btn-warning fw-bold"
                             style="width: 25%; color: whitesmoke; border: 1px solid black;"
-                            onclick="refillPurchaseOrderHeader(window['editOb'],window['editRow'])">
+                            onclick="refillOurPurchaseOrderHeader(window['editOb'],window['editRow'])">
                         <i class="fa-solid fa-recycle fa-beat"></i> Refill
                     </button>
                     <button type="button" class="btn btn-danger fw-bold"
@@ -69,7 +69,7 @@
 
 
     </div>
-    <!--button row start-->
+    <!--button row end-->
 
 
 
@@ -95,9 +95,12 @@
             <div class="col-md-3">
                 <label for="selectSupplier" class="form-label fw-bold"> Supplier Name <i class="text-danger">*</i>
                 </label>
-                <select id="selectSupplier" class="form-select text-start" onchange="selectDBValidator(this,'','ourpoheader','supplier_id')">
+                <select id="selectSupplier" class="form-select text-start" onchange="selectDBValidator(this,'','ourpoheader','supplier_id'); showSupplierInformation(this)">
                     <option></option>
                 </select>
+                <p style="padding-left: 3%" id="displaySupplierName"></p>
+                <p style="padding-left: 3%" id="displaySupplierAddress"></p>
+                <p style="padding-left: 3%" id="displaySupplierMobileNumber"></p>
             </div>
 
 
@@ -203,6 +206,7 @@
                 <td style="padding-left: 10%">
                     <button type="button" class="btn btn-warning" style="width: 100px; height: 70px; pointer-events: all" id="buttonOurPurchaseOrderDetailsUpdate" onclick="updateOurPurchaseOrderDetail()">Update</button>
                     <button type="button" class="btn btn-success" style="width: 100px; height: 70px; pointer-events: all" id="buttonOurPurchaseOrderDetailsAdd" onclick="submitOurPurchaseOrderDetails()">Add</button>
+                    <p class="text-danger" id="paragraphWarningMSJ">Please Complete Header Section First</p>
                 </td>
 
 
@@ -252,11 +256,12 @@
     <div class="card mt-5 p-5 d-none" id="cardOurPurchaseOrderDetailsTableArea">
         <table class="table table-hover table-striped" id="ourPurchaseOrderDetailsTable">
 
-            <thead>
+            <thead class="text-center">
             <th>#</th>
             <th>Raw Material name</th>
             <th>Qty</th>
             <th>rate</th>
+            <th>action</th>
             </thead>
 
             <tbody></tbody>

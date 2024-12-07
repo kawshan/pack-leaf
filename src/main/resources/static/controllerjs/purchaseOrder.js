@@ -137,7 +137,7 @@ const submitPurchaseOrderHeader = ()=>{
 
                     //purchase order details section eke button eka enable karanawa
                     btnAddPurchaseOrderDetail.disabled=false;
-                    btnAddPurchaseOrderDetail.style.cursor="default"
+                    btnAddPurchaseOrderDetail.style.cursor="default";
 
                 }else {
                     alert("save unsuccessful \n"+postServerResponse)

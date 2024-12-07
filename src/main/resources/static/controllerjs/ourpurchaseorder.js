@@ -8,8 +8,10 @@ window.addEventListener('load',function () {
     //call our purchase order details form function
     refreshOurPurchaseOrderDetailsForm();
 
-    //call our purchase order details table function -> no need now because we only gonna refresh it when our po details are saved. plus there is no header key when it refreshes.
-    // refreshOurPurchaseOrderDetailsTable();
+    //details section eke add button eka disable kara
+    buttonOurPurchaseOrderDetailsAdd.style.cursor="not-allowed";
+    buttonOurPurchaseOrderDetailsAdd.disabled=true;
+
 
 });
 
@@ -31,6 +33,7 @@ const ourPurchaseOrderHeaderFormRefresh = ()=>{
     fillDataIntoSelect(selectSupplier,'Select Supplier',suppliers,'suppliername');
 
 }
+
 
 const refreshColorsInOurPurchaseOrderHeader = ()=>{
     textRefQuotation.style.border='2px solid #ced4da';
@@ -111,6 +114,14 @@ const submitOurPoHeader = async ()=>{
                     textDisplayOurPurchaseOrderKey.value=postServerResponse.ourpokey;
                     refreshOurPurchaseOrderHeaderTable();
                     refreshColorsInOurPurchaseOrderHeader()
+
+
+                    paragraphWarningMSJ.classList.add('d-none');   //that warning text in our purchase order details section disable part (please complete header section first).
+                    //enable details area add button
+                    buttonOurPurchaseOrderDetailsAdd.style.cursor="default";
+                    buttonOurPurchaseOrderDetailsAdd.disabled=false;
+
+
                 }else {
                     alert("Save Unsuccessful");
                 }
@@ -145,7 +156,8 @@ const submitOurPoHeader = async ()=>{
             const putServerResponse = await ajaxPutRequest("/ourpoheader",ourpoheader);
             if (putServerResponse=="ok"){
                 alert("Update Successful")
-                refreshColorsInOurPurchaseOrderHeader()
+                refreshColorsInOurPurchaseOrderHeader();
+                divModifyButton.classList.add('d-none');
             }else {
                 alert("Error Happened During Update \n"+putServerResponse);
             }
@@ -155,7 +167,40 @@ const submitOurPoHeader = async ()=>{
     }
 }
 
+const refillOurPurchaseOrderHeader = (ob,rawIndex)=>{
 
+    //set values to the fields
+    fillDataIntoSelect(selectSupplier,'Select Supplier',suppliers,'suppliername',ob.supplier_id.suppliername);
+
+
+
+    textDisplayOurPurchaseOrderKey.value=ob.ourpokey
+    textRefQuotation.value=ob.refquotation
+    textOurPoNumber.value=ob.ourponumber
+    textPoDate.value=ob.ourpodate
+
+    //also needed to bind to the object. this problem occurs because of the save and update is in the
+    ourpoheader.refquotation = textRefQuotation.value
+    ourpoheader.ourponumber = textOurPoNumber.value
+    ourpoheader.ourpodate = textPoDate.value;
+    ourpoheader.supplier_id = ob.supplier_id;
+
+
+
+
+
+    //refresh details table section
+    refreshOurPurchaseOrderDetailsTable();
+    cardOurPurchaseOrderDetailsTableArea.classList.remove('d-none');
+
+    buttonOurPurchaseOrderDetailsAdd.disabled=false;
+    buttonOurPurchaseOrderDetailsAdd.style.cursor="default";
+
+    //please complete header Section first warning message disable part
+    paragraphWarningMSJ.classList.add('d-none')
+
+
+}
 
 const deleteOurPurchaseOrderHeader = (ob, rowIndex)=>{
     const userConfirm = confirm(`Are You Sure To Delete Following Our Purchase Order header \n
@@ -181,6 +226,14 @@ const deleteOurPurchaseOrderHeader = (ob, rowIndex)=>{
 }
 
 
+const showSupplierInformation = (fieldID)=>{
+    let selectedSupplier = JSON.parse(fieldID.value);
+    displaySupplierName.innerHTML=selectedSupplier.suppliername
+    displaySupplierAddress.innerHTML=selectedSupplier.supplieraddress
+    displaySupplierMobileNumber.innerHTML=selectedSupplier.suppliertelephone
+}
+
+
 
 //our purchase order details area start
 
@@ -192,11 +245,11 @@ const deleteOurPurchaseOrderHeader = (ob, rowIndex)=>{
 const refreshOurPurchaseOrderDetailsForm = ()=>{
 
     //update button eka disable karanawa add button eka enable karanwa
-    buttonOurPurchaseOrderDetailsUpdate.disable=true
+    buttonOurPurchaseOrderDetailsUpdate.disabled=true
     buttonOurPurchaseOrderDetailsUpdate.style.cursor='not-allowed';
 
 
-    buttonOurPurchaseOrderDetailsAdd.disable=false;
+    buttonOurPurchaseOrderDetailsAdd.disabled=false;
     buttonOurPurchaseOrderDetailsAdd.style.cursor="default";
 
 
@@ -287,6 +340,14 @@ const submitOurPurchaseOrderDetails = ()=>{
 
 const refillOurPurchaseOrderDetails = (ob,rowIndex)=>{
 
+    //enable update button
+    buttonOurPurchaseOrderDetailsUpdate.disabled=false
+    buttonOurPurchaseOrderDetailsUpdate.style.cursor='default';
+
+    buttonOurPurchaseOrderDetailsAdd.disabled=true;
+    buttonOurPurchaseOrderDetailsAdd.style.cursor="not-allowed";
+
+
     ourPurchaseOrderDetail=JSON.parse(JSON.stringify(ob));
     oldOurPurchaseOrderDetail = JSON.parse(JSON.stringify(ob));
 
@@ -359,6 +420,7 @@ const deleteOurPurchaseOrderDetail = (ob,rowIndex)=>{
         if (deleteServerResponse=="ok"){
             alert("Delete Successful");
             refreshOurPurchaseOrderDetailsTable();
+            divModifyButton2.classList.add('d-none');
         }else {
             alert("Error Happened \n"+deleteServerResponse);
         }
