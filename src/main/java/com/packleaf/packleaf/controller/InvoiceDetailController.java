@@ -80,6 +80,12 @@ public class InvoiceDetailController {
     }
 
 
+    @GetMapping(value = "/getinvoicedetailsbymaxinvoicekey")
+    public List<InvoiceDetail> getInvoiceDetailByMaxInvoiceKey(String invoicekey){
+        return invoiceDetailDao.getInvoiceDetailByMaxInvoiceKey();
+    }
+
+
 
 
 }

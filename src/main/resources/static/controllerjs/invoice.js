@@ -54,7 +54,7 @@ const refreshInvoiceDetailsForm = ()=>{
 
 const refreshInvoiceDetailsTable = ()=>{
 
-
+   let invoiceDetailsFromMaxInvoiceKey =ajaxGetRequest("/invoice-detail/getinvoicedetailsbymaxinvoicekey") //invoice detail dao eke define karala athi
 
     displayProperty=[
         {dataType: 'function', propertyName: getItemName},
@@ -63,8 +63,8 @@ const refreshInvoiceDetailsTable = ()=>{
         {dataType: 'text', propertyName: 'invvalue'},
     ];
 
-    fillDataIntoTable(tableInvoiceDetails,invoiceDetails,displayProperty,true);
-    $("#tableInvoiceDetails").dataTable();
+    fillDataIntoTable(tableInvoiceDetails,invoiceDetailsFromMaxInvoiceKey,displayProperty,true);
+    // $("#tableInvoiceDetails").dataTable();
 
 }
 
@@ -127,6 +127,7 @@ const buttonInvoiceDetailsAdd = ()=>{
             let postServerResponse = ajaxPostRequest("/invoice-detail",invoiceDetail);
             if (postServerResponse=="ok"){
                 alert("save successful");
+                cardInvoiceDetailTable.classList.remove('d-none')
                 refreshInvoiceDetailsTable();
                 refreshInvoiceDetailsForm();
             }else {
