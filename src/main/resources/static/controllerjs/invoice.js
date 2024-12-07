@@ -28,17 +28,18 @@ window.addEventListener('load',function () {
 
 
 
-// -----------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------
 //invoice details starts from here
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+
 
 const refreshInvoiceDetailsForm = ()=>{
 
@@ -91,6 +92,20 @@ const getItemName = (ob)=>{
 }
 
 
+const getPoQty = (ob)=>{
+    return '<p class="text-end">'+    Number(ob.poqty).toLocaleString('en-US')    +'</p>'
+}
+
+const getPoRate = (ob)=>{
+    return '<P class="text-end">'+   Number(ob.porate).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})    +'</P>'
+}
+
+const getPoValue = (ob)=>{
+    return '<p class="text-end">'+  Number(ob.povalue).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})  +'</p>'
+}
+
+
+
 
 const generateItemValue = (fieldId)=>{
     let value = parseFloat(fieldId.value);
@@ -111,7 +126,7 @@ const checkErrors = ()=>{
 
     let errors = '';
 
-    if (invoiceDetail.item_id.itmname == null){
+    if (invoiceDetail.item_id == null){
         errors=errors+"Item Name Cannot Be Empty \n"
     }
 
@@ -133,6 +148,7 @@ const checkErrors = ()=>{
 
 const buttonInvoiceDetailsAdd = ()=>{
 
+    //invoice key eka aran bind kara
     invoiceDetail.invoicekey=textInvoiceHeaderKey.value
 
     let errors = checkErrors();
@@ -305,46 +321,18 @@ const saveImKey = (fieldID)=>{
         invoiceDetail.imkey=selectedItem.imkey;
 }
 
-//to get max invoice header key //meka dan one na mokada header eke disaplay text eken gannawa invoice number eka
-const getMaxInvoiceHeaderKey = ()=>{
-    let maxInKey = ajaxGetRequest("/invoice-detail/getmaxinkey")    //we have that request in voice detail controller and dao
-    console.log(maxInKey);
-    invoiceDetail.invoicekey=maxInKey;
-}
 
-const validatePoNumberExisting = (fieldId)=>{
-    const poNumber = fieldId.value;
-    if (new RegExp('^[0-9]{4,10}$').test(poNumber)){
-        console.log(`${poNumber} is validated`)
-        //check validation on backend
-        const checkPoNumberGetServerResponse = ajaxGetRequest("/invoice-header/getinvoiceheaderbypokey/"+poNumber);
-        console.log(checkPoNumberGetServerResponse);
-
-        if (checkPoNumberGetServerResponse==true){
-            alert(`Po number ${poNumber} is already exists`)
-        }else {
-            console.log(`Po number ${poNumber} not exists`)
-        }
-
-
-
-    } else {
-        console.log(`${poNumber} is not validated`);
-    }
-}
-
-
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------------------------------------------------------
 // invoice header area start from here but we have refresh calls in window load function
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------
 
 
 const refreshInvoiceHeaderForm = ()=>{
@@ -363,7 +351,7 @@ const refreshInvoiceHeaderForm = ()=>{
     //set values are empty
     textInvoiceNO.value=""
     textInvoiceDate.value=""
-    textPoKey.value=""
+    textPoNumber.value=""
     textDispatchKey.value=""
 
 
@@ -373,7 +361,7 @@ const refreshInvoiceHeaderForm = ()=>{
     selectCompanyName.style.border="2px solid #ced4da";
     textInvoiceNO.style.border="2px solid #ced4da";
     textInvoiceDate.style.border="2px solid #ced4da";
-    textPoKey.style.border="2px solid #ced4da";
+    textPoNumber.style.border="2px solid #ced4da";
     textDispatchKey.style.border="2px solid #ced4da";
 
 
@@ -392,10 +380,10 @@ const refreshInvoiceHeaderTable = ()=>{
         {dataType: 'function', propertyName: getCompanyName},
         {dataType: 'text', propertyName: 'invno'},
         {dataType: 'text', propertyName: 'invdate'},
-        {dataType: 'text', propertyName: 'pokey'},
+        {dataType: 'text', propertyName: 'ponumber'},
         {dataType: 'text', propertyName: 'dispatchkey'},
     ]
-    fillDataIntoTable2(tableInvoiceHeader,invoiceHeaders,displayProperty,true);
+    fillDataIntoTable2(tableInvoiceHeader,invoiceHeaders,displayProperty,true,divModifyButton2);
     $('#tableInvoiceHeader').dataTable();
 }
 
@@ -448,7 +436,7 @@ const checkErrorsInvoiceHeader = ()=>{
         errors=errors+"Invoice Date Cannot Be Empty \n"
     }
 
-    if (invoiceHeader.pokey == null){
+    if (invoiceHeader.ponumber == null){
         errors=errors+"Purchase order Number Cannot Be Empty \n"
     }
 
@@ -461,17 +449,23 @@ const checkErrorsInvoiceHeader = ()=>{
 }
 
 
-const submitInvoiceHeader = ()=>{
+const submitInvoiceHeader = async ()=>{
+
+
+        const getPoKeyForHeader = await getPokeyServerResponse;
+        invoiceHeader.pokey = getPoKeyForHeader;
+        console.log(`invoice header po key is ${invoiceHeader.pokey}`);
+
+
 
 if (textInvoiceHeaderKey.value!=""){
     console.log("update part");
 
     //meka define karaoa thiyenawa invoice header eke
-
     let getInvoiceIDFromInvoiceKey = ajaxGetRequest("/invoice-header/getidfrominvoicekey/"+textInvoiceHeaderKey.value)
     console.log(getInvoiceIDFromInvoiceKey);
 
-    invoiceHeader.inkey=textInvoiceHeaderKey.value
+    invoiceHeader.inkey=textInvoiceHeaderKey.value;
     invoiceHeader.id=getInvoiceIDFromInvoiceKey;        //key eka set karanne mokada upate ekedi key ekek set wenne na ne eka set venne save eke nisa methanath bind karanna one
 
     setTimeout(()=>{
@@ -484,6 +478,7 @@ if (textInvoiceHeaderKey.value!=""){
 }
 
 else {
+
     console.log("save part")
     let errors = checkErrorsInvoiceHeader();
 
@@ -493,7 +488,7 @@ else {
             +"\n Company Name is "+invoiceHeader.company_id.companyname
             +"\n Invoice NO is "+invoiceHeader.invno
             +"\n Invoice Date is "+invoiceHeader.invdate
-            +"\n Purchase Order NO is "+invoiceHeader.pokey
+            +"\n Purchase Order NO is "+invoiceHeader.ponumber
             +"\n Dispatch NO is "+invoiceHeader.dispatchkey
         );
         if (userConfirm){
@@ -503,7 +498,7 @@ else {
                 // refreshInvoiceHeaderForm();
                 refreshInvoiceHeaderTable();
 
-
+                //invoice key eka display karanawa
                 textInvoiceHeaderKey.value=postServerResponse.inkey;
 
 
@@ -512,10 +507,6 @@ else {
                 buttonAddInvoiceDetail.style.cursor="default";
                 //emptying invoice detail warning paragraph because we need to add invoice details before that
                 paragraphWaringInInvoiceDetails.innerHTML="";
-
-                // cardMaxInvoiceHeader.classList.remove('d-none');    //card eke class name eka remove karala daanawa
-                //dan daapu invoice header eka balananna one nisa max invoice header table eka call karanawa
-                // refreshMaxInvoiceHeaderTable();         //max invoice header eka ganna function eke call karanawa
 
             }else {
                 alert("error happened");
@@ -545,7 +536,7 @@ const refillInvoiceHeaderForm = (ob,rowIndex)=>{
 
     textInvoiceNO.value=ob.invno
     textInvoiceDate.value=ob.invdate
-    textPoKey.value=ob.pokey
+    textPoNumber.value=ob.ponumber
     textDispatchKey.value=ob.dispatchkey
     textInvoiceHeaderKey.value=ob.inkey
 
@@ -585,8 +576,8 @@ const checkUpdatesInvoiceHeader = ()=>{
         updates=updates+"Invoice Date is updated \n"
     }
 
-    if (invoiceHeader.pokey != oldInvoiceHeader.pokey){
-        updates=updates+"Purchase Order is updated \n"
+    if (invoiceHeader.ponumber != oldInvoiceHeader.ponumber){
+        updates=updates+"Purchase Order No is updated \n"
     }
 
     if (invoiceHeader.dispatchkey != oldInvoiceHeader.dispatchkey){
@@ -607,11 +598,6 @@ const updateInvoiceHeader = ()=>{
                 alert("Update Successful");
                 refreshInvoiceHeaderForm();
                 refreshInvoiceHeaderTable();
-
-
-                //max invoice header table ekath call karanawa
-                // refreshMaxInvoiceHeaderTable()
-
 
                 //div modify button eka disable karannath one
                 divModifyButton2.classList.add('d-none');
@@ -638,8 +624,7 @@ const deleteInvoiceHeader = (ob,rowIndex)=>{
             refreshInvoiceHeaderForm();
             refreshInvoiceHeaderTable();
 
-            cardMaxInvoiceHeader.classList.add('d-none');
-            divModifyButton2.classList.add('d-none');
+
         }else {
             alert("error happened \n"+deleteServerResponse);
             refreshInvoiceHeaderForm();
@@ -648,21 +633,118 @@ const deleteInvoiceHeader = (ob,rowIndex)=>{
     }
 }
 
-//kohewath call karanna une na mokada sir kivva design ekata adala na.
-const refreshMaxInvoiceHeaderTable = ()=>{
-    let maxInvoiceHeader = ajaxGetRequest("/invoice-header/getmostrecentinvoiceheader");  //meke service define eke karala thienne invoice header dao and controller eke..
 
-    let displayProperty = [
-        {dataType: 'function', propertyName: getCustomerName},
-        {dataType: 'function', propertyName: getCompanyName},
-        {dataType: 'text', propertyName: 'invno'},
-        {dataType: 'text', propertyName: 'invdate'},
-        {dataType: 'text', propertyName: 'pokey'},
-        {dataType: 'text', propertyName: 'dispatchkey'},
-    ];
 
-    fillDataIntoTable2(tableMaxInvoiceHeader,maxInvoiceHeader,displayProperty,true);
+// ---------------------------po section starts from here
+//-------------------------------------------------------
+//-------------------------------------------------------
+//-------------------------------------------------------
+//-------------------------------------------------------
 
+
+
+const validatePoNumberExisting = (fieldId)=>{
+    const poNumber = fieldId.value;
+    if (new RegExp('^[0-9]{4,10}$').test(poNumber)){
+        console.log(`${poNumber} is validated`)
+        //check validation on backend
+        const checkPoNumberGetServerResponse = ajaxGetRequest("/invoice-header/getinvoiceheaderbyponumber/"+poNumber);
+        console.log(checkPoNumberGetServerResponse);
+
+        if (checkPoNumberGetServerResponse==true){
+            alert(`Po number ${poNumber} is already exists`)
+        }else {
+            console.log(`Po number ${poNumber} not exists`)
+        }
+
+
+
+    } else {
+        console.log(`${poNumber} is not validated`);
+    }
+}
+
+
+
+const getPokeyFromPoNumber = (fieldId)=>{
+    const poNumberValue = fieldId.value
+
+    if (new RegExp('^[0-9]{4,10}$').test(poNumberValue)){
+        console.log("validate to check pokey from po number")
+
+        //const eka ayin kara eka global variable ekak karanna.
+        getPokeyServerResponse  = ajaxGetRequest("/purchaseorderheader/getpokeyfromponumber/"+fieldId.value)
+        console.log(getPokeyServerResponse);
+
+        //uda get po key server response eken enna time ekak yana nisa set time out ekak damma ||| ee ena key eka invoice header table eke thiyenawa da kiyala bala function eka done
+        setTimeout(()=>{
+            const getInvoiceHeaderFromPoKey = ajaxGetRequest("/invoice-header/getinvoiceheaderbypokey/"+getPokeyServerResponse);
+
+            if (getInvoiceHeaderFromPoKey==true){
+                console.log(`${getPokeyServerResponse} is available on invoice table`)
+                cardPurchaseOrderDetails.classList.add('d-none');    //nathi ekek issalama type karala thiyena ekak passe type karoth table eka hide venna one nisa
+            }else {
+                console.log(`${getPokeyServerResponse} is not available on invoice table`);
+                cardPurchaseOrderDetails.classList.remove('d-none');
+                refreshPurchaseOrderDetailsTableNotInInvoice(getPokeyServerResponse);
+                //dan nathi tika load karanna one table ekakata // apita enne list ekak me ena po key server response eken table ekata data load karanna
+
+            }
+
+
+        },1000)
+
+
+
+    }else {
+        console.log("not validate to check pokey from po number")
+    }
+
+
+}
+
+
+//invoice header eke nathi purchase order tika table refresh function eka
+const refreshPurchaseOrderDetailsTableNotInInvoice = (PoKey)=>{
+
+    const purchaseOrderDetailsList = ajaxGetRequest("/purchaseorderdetails/getpurchaseorderdetailsbypurchaseorderkey/"+PoKey);
+
+
+    const displayProperty=[
+        {dataType:"function",propertyName:getItemName},
+        {dataType:"function",propertyName:getPoQty},
+        {dataType:"function",propertyName:getPoRate},
+        {dataType:"function",propertyName:getPoValue},
+    ]
+
+    fillDataIntoTable2(tablePurchaseOrderDetails,purchaseOrderDetailsList,displayProperty,true,divModifyButton3);
+
+}
+
+
+const refillPoDetailsIntoInvoiceDetails = (ob,rowIndex)=>{
+
+    txtQty.value=ob.poqty
+    txtRate.value=ob.porate
+    txtValue.value=ob.povalue
+
+
+    fillDataIntoSelect(selectItemName,'select item name',itemNames,'itmname',ob.item_id.itmname);
+
+    //value bind karanawa
+    let selectedItem = JSON.parse(selectItemName.value);
+    console.log(selectedItem.imkey);
+    invoiceDetail.imkey=selectedItem.imkey;
+
+
+    invoiceDetail.invqty = txtQty.value
+    invoiceDetail.invrate = txtRate.value
+    invoiceDetail.invvalue = txtValue.value
+
+
+    console.log(invoiceDetail.invqty)
+    console.log(invoiceDetail.invrate)
+    console.log(invoiceDetail.invvalue)
 }
 
 
@@ -680,7 +762,7 @@ const refreshMaxInvoiceHeaderTable = ()=>{
 // print area functions are starting from here
 
 
-//create a fucntion to get date from like this value 2024-10-02 -> 02-Oct-24
+//create a function to get date from like this value 2024-10-02 -> 02-Oct-24
 function formatDate(dateValue){
 
     const date = new Date(dateValue);

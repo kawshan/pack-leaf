@@ -447,6 +447,13 @@ const deletePurchaseOderDetails= (ob,rowIndex)=>{
 }
 
 
+//create function to save item key
+const saveImKey = (fieldID)=>{
+    let selectedItem = JSON.parse(fieldID.value);
+    console.log(selectedItem.imkey);
+    purchaseOrderDetail.imkey=selectedItem.imkey;
+}
+
 // purchase order details area end
 
 

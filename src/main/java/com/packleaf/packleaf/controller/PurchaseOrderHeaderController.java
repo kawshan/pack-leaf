@@ -77,6 +77,10 @@ public class PurchaseOrderHeaderController {
     }
 
 
+    @GetMapping(value = "/getpokeyfromponumber/{ponumber}")
+    public String getPoKeyFromPurchaseOrderHeaderKey(@PathVariable("ponumber") String ponumber ){
+        return purchaseOrderHeaderDao.getPoKeyFromPoNumber(ponumber);
+    }
 
 
 

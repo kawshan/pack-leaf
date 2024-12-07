@@ -149,11 +149,10 @@
                     <!--                third row-->
                     <tr>
                         <td>
-                            <label for="textPoKey" class="form-label fw-bold"> PO Number <i class="text-danger">*</i> </label>
+                            <label for="textPoNumber" class="form-label fw-bold"> PO Number <i class="text-danger">*</i> </label>
                         </td>
                         <td>
-                            <input type="text" id="textPoKey" class="form-control text-start" placeholder="Enter PO Key" onkeyup="textValidator(this,'','invoiceHeader','pokey'); validatePoNumberExisting(this);">
-                            <p class="text-center" id="textExistingPoNumberCheck"></p>
+                            <input type="text" id="textPoNumber" class="form-control text-start" placeholder="Enter PO Number" onkeyup="textValidator(this,'','invoiceHeader','ponumber'); validatePoNumberExisting(this); getPokeyFromPoNumber(this) ">
                         </td>
                     </tr>
                     <!--                third row-->
@@ -181,30 +180,60 @@
 </div>
 <!--form area invoice header end-->
 
+<!--    purchase order details area tika start-->
+<!--   ---------------------                  -->
+<!--   ---------------------                  -->
+<!--   ---------------------                  -->
 
 
-
-
-
-<!--    max invoice header eka ganna table area eka start-->
-    <div class="card m-4 d-none" id="cardMaxInvoiceHeader">
+<!--    purchase order tika ganna table area eka start-->
+    <div class="card m-4 d-none" id="cardPurchaseOrderDetails">
     <div class="row m-5">
-        <table class="table table-bordered table-hover table-striped" id="tableMaxInvoiceHeader">
-            <thead>
+        <table class="table table-bordered table-hover table-striped" id="tablePurchaseOrderDetails">
+            <thead class="text-center">
             <th>#</th>
-            <th>Customer Name</th>
-            <th>Company Name</th>
-            <th>Invoice Number</th>
-            <th>Invoice Date</th>
-            <th>Po Key</th>
-            <th>Dispatch key</th>
+            <th>Item Name</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Value</th>
             <th>Action</th>
             </thead>
             <tbody></tbody>
         </table>
     </div>
+
+        <div class="row mt-2">
+            <div class="col-md-5">
+
+
+
+
+
+                <div id="divModifyButton3" class="d-none">
+                        <button type="button" class="btn btn-warning fw-bold"
+                                style="width: 10%; color: whitesmoke; border: 1px solid black;"
+                                onclick="refillPoDetailsIntoInvoiceDetails(window['editOb'],window['editRow'])">
+                            <i class="fa-solid fa-recycle fa-beat"></i> Edit
+                        </button>
+                        <button type="button" class="btn btn-danger fw-bold"
+                                style=" width: 10%; color: whitesmoke; border: 1px solid black; pointer-events: all"
+                                onclick="deleteInvoiceDetail(window['editOb'],window['editRow'])">
+                            <i class="fa-solid fa-trash fa-beat"></i> Delete
+                        </button>
+                </div>
+
+
+
+
+
+
+
+            </div>
+            <div class="col-md-7"></div>
+        </div>
+
     </div>
-<!--    max invoice header eka ganna table area eka end-->
+<!--    purchase order tika ganna table area eka end-->
 
 
 <!-- invoice header section is finished -->

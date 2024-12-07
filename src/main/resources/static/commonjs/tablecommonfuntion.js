@@ -57,7 +57,7 @@ const fillDataIntoTable = (tableId,dataList,columnList,buttonVisibility=true)=>{
 }
 
 //just created for only div modify button id duplication problem to solve // same as the above table
-const fillDataIntoTable2 = (tableId,dataList,columnList,buttonVisibility=true)=>{
+const fillDataIntoTable2 = (tableId,dataList,columnList,buttonVisibility=true,divModifyElementName)=>{
     const tableBody = tableId.children[1];
     tableBody.innerHTML='';
 
@@ -93,7 +93,7 @@ const fillDataIntoTable2 = (tableId,dataList,columnList,buttonVisibility=true)=>
             window['editOb'] = element;
             window['editRow'] = index;
 
-            divModifyButton2.className ='d-block'
+            divModifyElementName.className ='d-block'
         }
         tdButton.appendChild(inputRadio);
 
@@ -105,6 +105,9 @@ const fillDataIntoTable2 = (tableId,dataList,columnList,buttonVisibility=true)=>
 
     });
 }
+
+
+
 
 //sir ge new requirement eka -> table eka athule space ekak thiyenna one. eka done ✔
 const fillDataIntoTableForItemPrint = (tableId, dataList, columnList, buttonVisibility = true) => {

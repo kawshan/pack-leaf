@@ -29,6 +29,9 @@ public class InvoiceHeader {
     @Column(name = "invdate")
     private LocalDate invdate;
 
+    @Column(name = "ponumber")
+    private String ponumber;
+
     @Column(name = "pokey")
     private String pokey;
 

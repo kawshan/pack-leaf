@@ -79,14 +79,27 @@ public class InvoiceHeaderController {
 
 
 
-    @GetMapping(value = "/getinvoiceheaderbypokey/{pokey}")
-    public Boolean getInvoiceHeaderByPoKey(@PathVariable("pokey") String pokey){
-        InvoiceHeader invoiceHeaderExisting = invoiceHeaderDao.getInvoiceHeaderByPokey(pokey);
+    @GetMapping(value = "/getinvoiceheaderbyponumber/{ponumber}")
+    public Boolean getInvoiceHeaderByPoNumber(@PathVariable("ponumber") String ponumber){
+        InvoiceHeader invoiceHeaderExisting = invoiceHeaderDao.getInvoiceHeaderByPoNumber(ponumber);
         if (invoiceHeaderExisting!=null){
             return true;
         }else {
             return false;
         }
+    }
+
+
+    @GetMapping(value = "/getinvoiceheaderbypokey/{pokey}")
+    public Boolean getInvoiceHeaderByPoKey(@PathVariable String pokey){
+        InvoiceHeader invoiceHeaderExisting = invoiceHeaderDao.getInvoiceHeaderByPokey(pokey);
+
+        if (invoiceHeaderExisting!=null){
+            return true;
+        }else {
+            return false;
+        }
+
     }
 
 

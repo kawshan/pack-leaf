@@ -15,7 +15,8 @@ public interface PurchaseOrderHeaderDao extends JpaRepository<PurchaseOrderHeade
     @Query(value = "select id from poheader where pokey=?1",nativeQuery = true)
     public String getIdFromPokey(String pokey);
 
-
+    @Query(value = "select pokey from poheader where ponumber=?1",nativeQuery = true)
+    public String getPoKeyFromPoNumber(String ponumber);
 
 
 }
