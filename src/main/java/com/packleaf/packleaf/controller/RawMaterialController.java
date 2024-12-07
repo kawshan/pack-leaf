@@ -3,6 +3,7 @@ package com.packleaf.packleaf.controller;
 import com.packleaf.packleaf.dao.RawMaterialDao;
 import com.packleaf.packleaf.entity.RawMaterial;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,12 +26,19 @@ public class RawMaterialController {
 
     @GetMapping(value = "/findall")
     public List<RawMaterial> findallRawMaterial(){
-        return rawMaterialDao.findAll();
+        return rawMaterialDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
     @PostMapping
     public String saveRawMaterial(@RequestBody RawMaterial rawMaterial){
         try {
+
+            String getMaxRawMaterialKey = rawMaterialDao.getMaxRawMaterialKey();
+            if (getMaxRawMaterialKey==null || getMaxRawMaterialKey.equals("")){
+                rawMaterial.setRmkey("RM0001");
+            }else {
+                rawMaterial.setRmkey(getMaxRawMaterialKey);
+            }
             rawMaterialDao.save(rawMaterial);
             return "ok";
         }catch (Exception e){

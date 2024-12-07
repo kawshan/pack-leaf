@@ -212,10 +212,10 @@ const refillItem = (ob,rowIndex)=>{
     item=JSON.parse(JSON.stringify(ob));
     oldItem=JSON.parse(JSON.stringify(ob));
 
-    txtItemPrice.value=ob.price
-    txtItemCode.value=ob.code
-    txtItemName.value=ob.itmname
-    txtItemDescription.value=ob.description
+    txtItemPrice.value=ob.price;
+    txtItemCode.value=ob.code;
+    txtItemName.value=ob.itmname;
+    txtItemDescription.value=ob.description;
 
     selectItemFoil.value=ob.foil;
     txtItemColours.value=ob.nocolours;

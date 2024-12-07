@@ -21,7 +21,7 @@ const refreshRawMaterialForm = ()=>{
 
 
     textRmName.value="";
-    textRmForm.value="";
+    selectRmForm.value="";
     txtRmPacking.value="";
     txtRmQty.value="";
     txtRmRate.value="";
@@ -29,8 +29,9 @@ const refreshRawMaterialForm = ()=>{
     SelectRmStatus.value="";
 
 
+    selectRmCt.style.border="2px solid #ced4da";
     textRmName.style.border="2px solid #ced4da";
-    textRmForm.style.border="2px solid #ced4da";
+    selectRmForm.style.border="2px solid #ced4da";
     txtRmPacking.style.border="2px solid #ced4da";
     txtRmQty.style.border="2px solid #ced4da";
     txtRmRate.style.border="2px solid #ced4da";
@@ -61,7 +62,7 @@ const refreshRawMaterialTable = ()=>{
     ];
 
     fillDataIntoTable(tableRawMaterial,rawMaterials,displayProperty,true);
-
+    $("#tableRawMaterial").dataTable();
 }
 
 
@@ -161,7 +162,7 @@ const refillRawMaterial = (ob,rowIndex)=>{
     oldrawmaterial = JSON.parse(JSON.stringify(ob));
 
     textRmName.value=ob.rmname
-    textRmForm.value=ob.rmform
+    selectRmForm.value=ob.rmform
     txtRmPacking.value=ob.rmpacking
     txtRmQty.value=ob.rmqty
     txtRmRate.value=ob.rmrate
