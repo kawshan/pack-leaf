@@ -76,6 +76,7 @@ const refreshItemTable = ()=>{
     ];
 
     fillDataIntoTable(itemTable,items,displayProperty,true);
+    $("#itemTable").dataTable();
 
 }
 

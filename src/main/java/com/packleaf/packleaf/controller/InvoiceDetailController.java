@@ -85,6 +85,11 @@ public class InvoiceDetailController {
         return invoiceDetailDao.getInvoiceDetailByMaxInvoiceKey();
     }
 
+    @GetMapping(value = "/gettotalquantityfrominvoicekey/{invoicekey}")
+    public String getTotalQuantityFromInvoiceKey(@PathVariable("invoicekey") String invoicekey ){
+        return invoiceDetailDao.getTotalQuantityFromInvoiceKey(invoicekey);
+    }
+
 
 
 

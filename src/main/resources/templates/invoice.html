@@ -286,21 +286,49 @@
 
 <!--table area invoice detail start-->
 <div class="card mt-5 p-5 d-none" id="cardInvoiceDetailTable">
-    <table class="table table-hover table-striped" id="tableInvoiceDetails">
+
+    <div class="row" style="margin-bottom: 3%">
+
+
+
+        <div class="col-md-7 text-end">
+            <div style="margin-right: 5%">
+            <b >Total Quantity</b><br>
+            <b id="labelTotalQuantity"></b>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-5 text-end">
+            <div style="margin-right: 33%">
+            <b >Total value</b><br>
+            <b id="labelTotalValue"></b>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <table class="table table-bordered table-striped" id="tableInvoiceDetails">
 
         <thead>
-        <th>#</th>
-        <th>item name</th>
-        <th>Qty</th>
-        <th>rate</th>
-        <th>value</th>
-        <th>Action</th>
+        <th class="text-center">#</th>
+        <th class="text-center">item name</th>
+        <th class="text-center">Qty</th>
+        <th class="text-center">rate</th>
+        <th class="text-center">value</th>
+        <th class="text-center">Action</th>
         </thead>
 
         <tbody>
         </tbody>
 
     </table>
+
+
+
 </div>
 <!--table area invoice detail end-->
 

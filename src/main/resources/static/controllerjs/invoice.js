@@ -186,18 +186,47 @@ const refillInvoiceDetails = (ob,rowindex)=>{
 //create function for helping invoice header refill header eke refill eka ebuwama details section eketh table eka print vena vidihata
 const refillInvoiceDetailTable = (invoiceNumber)=>{
 
-    //meka invoice details eke define karala athi
+    //meka invoice details eke define karala athi invoice detail dao ekeyi controller ekei
     let getAllInvoiceDetailsFromInvoiceNumber = ajaxGetRequest("/invoice-detail/getallinvoicedetailbyinvoicekey/"+invoiceNumber);
 
     displayProperty=[
         {dataType: 'function', propertyName: getItemName},
-        {dataType: 'text', propertyName: 'invqty'},
-        {dataType: 'text', propertyName: 'invrate'},
-        {dataType: 'text', propertyName: 'invvalue'},
-    ]
+        {dataType: 'function', propertyName: getInvQty},
+        {dataType: 'function', propertyName: getInvRate},
+        {dataType: 'function', propertyName: getInvValue},
+    ];
 
 
-    fillDataIntoTable(tableInvoiceDetails,getAllInvoiceDetailsFromInvoiceNumber,displayProperty,true)
+    fillDataIntoTable(tableInvoiceDetails,getAllInvoiceDetailsFromInvoiceNumber,displayProperty,true);
+
+}
+
+//mekath help for invoice header refill ekata invoice details wala inovice number eken total eke ganna hadala thiyenne
+const displayTotalQuantity = (invoiceNumber)=>{
+
+
+    let getAllTotalQuantity = ajaxGetRequest("/invoice-detail/gettotalquantityfrominvoicekey/"+invoiceNumber);
+
+    let result= getAllTotalQuantity.split(".")
+    let finalValue = result[0];
+
+    console.log(finalValue);
+
+    labelTotalQuantity.innerHTML=Number(finalValue).toLocaleString('en-US');
+
+}
+
+//mekath helping for invoice header refill ekata invoice detils wala invoice number eke total value eka ganna hadala thiyenne
+const displayTotalValue = (invoiceNumber)=>{
+
+    let getAllTotalValues = ajaxGetRequest("/invoice-detail/gettotalvaluefrominoicekey/"+invoiceNumber);
+
+    let result = getAllTotalValues.split(".");
+    let finalValue = result[0];
+
+    console.log(finalValue);
+    labelTotalValue.innerHTML=Number(finalValue).toLocaleString('en-US',{minimumFractionDigits:2 , maximumFractionDigits:2});
+
 
 }
 
@@ -495,6 +524,8 @@ const refillInvoiceHeaderForm = (ob,rowIndex)=>{
     textInvoiceDate.value=ob.invdate
     textPoKey.value=ob.pokey
     textDispatchKey.value=ob.dispatchkey
+    textInvoiceHeaderKey.value=ob.inkey
+
 
 
     fillDataIntoSelect(selectCustomer,'select customer',customers,'customername',ob.customer_id.customername)
@@ -505,9 +536,15 @@ const refillInvoiceHeaderForm = (ob,rowIndex)=>{
     refillInvoiceDetailTable(ob.inkey);         //refill invoice detail table function eke call karala parameter eke vidihata me object eke invoice key eka denawa ethakota normal eke invoice detail ekata fill venawa
 
 
+    displayTotalQuantity(ob.inkey); //total quantity ganna ekata function ekak call kara object eken ena inkey eka mekata pass karala thiyenawa
 
-
+    displayTotalValue(ob.inkey);
 }
+
+
+
+
+
 
 
 const checkUpdatesInvoiceHeader = ()=>{
