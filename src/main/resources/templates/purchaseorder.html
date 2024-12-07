@@ -49,8 +49,8 @@
                                 onclick="deletePurchaseOrderHeader(window['editOb'],window['editRow'])">
                             <i class="fa-solid fa-trash fa-beat"></i> Delete
                         </button>
-                        <button onclick="printStudent(window['editOb'],window['editRow'])" type="button"
-                                class="btn btn-primary fw-bold d-none"
+                        <button onclick="printPurchaseOrderHeader(window['editOb'],window['editRow'])" type="button"
+                                class="btn btn-primary fw-bold"
                                 style=" width: 15%; color: whitesmoke;border: 1px solid black">
                             <i class="fa-solid fa-eye fa-beat"></i> Print
                         </button>
@@ -265,7 +265,7 @@
                             <th>#</th>
                             <th>Item Name</th>
                             <th>Qty</th>
-                            <th>Rate</th>
+                            <th>Po Number</th>
                             <th>Date</th>
                             <th>Action</th>
                             </thead>
@@ -322,6 +322,29 @@
         </div>
     </div>
     <!--   pending purchase oder modal area end-->
+
+
+    <div class="d-none">
+        <table class="table table-bordered" id="tablePrintPurchaseOrderDetails" style="font-size: 12px; border: 1px solid black;">
+            <thead class="text-center">
+                <th>#</th>
+                <th>Item Name</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th>Value</th>
+            </thead>
+            <tbody></tbody>
+            <tfoot style="border: white">
+
+            <tr style="border: white">
+                <td colspan="4" class="text-end" style="border: white;">Total SLR</td>
+                <td class="text-end" style="border: solid 1px black; font-weight: bold" id="displayTotalValue"></td> <!-- Keep the border for this cell -->
+            </tr>
+
+            </tfoot>
+        </table>
+    </div>
+
 
 
 </div>

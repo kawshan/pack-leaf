@@ -48,7 +48,10 @@ const refreshItemForm = ()=>{
     txtCtDuration.style.border="2px solid #ced4da";
     txtCtPackaging.style.border="2px solid #ced4da";
     txtCtDescription.style.border="2px solid #ced4da";
+    selectItemCategoryStatus.style.border="2px solid #ced4da";
 
+    itemCategoryStatues = ajaxGetRequest("/categorystatus/findall")
+    fillDataIntoSelect(selectItemCategoryStatus,'Select Item Category Status',itemCategoryStatues,'name');
 
 
 }
@@ -70,12 +73,24 @@ const refreshItemTable = ()=>{
         {dataType: 'text', propertyName: 'ctmoq'},
         {dataType: 'text', propertyName: 'ctduration'},
         {dataType: 'text', propertyName: 'ctpacking'},
+        {dataType: 'function', propertyName: getItemCategoryStatus},
     ];
 
     fillDataIntoTable(itemCategoryTable,itemCategories,displayProperty,true);
     $("#itemCategoryTable").dataTable();
 
 }
+
+const getItemCategoryStatus = (ob)=>{
+    if (ob.categorystatus_id.name=="available"){
+        return `<p style="color: green">available</p>`
+    }else if (ob.categorystatus_id.name=="not-available"){
+        return `<p style="color: orange">not-available</p>`
+    }else if (ob.categorystatus_id.name=="delete"){
+        return `<p style="color: red">delete</p>`
+    }
+}
+
 
 const checkError = ()=>{
     let error='';
@@ -94,6 +109,10 @@ const checkError = ()=>{
 
     if (itemCategory.ctshape == null){
         error=error+"shape cannot be empty \n"
+    }
+
+    if (itemCategory.categorystatus_id == null){
+        error=error+"Category status cannot be empty \n"
     }
 
 
@@ -115,6 +134,7 @@ const submitItemCategory = ()=>{
         +"\n category MOQ is "+itemCategory.ctmoq
         +"\n category duration is "+itemCategory.ctduration
         +"\n category packing is "+itemCategory.ctpacking
+        +"\n category status is "+itemCategory.categorystatus_id.name
 
         )
         let postServerResponse = ajaxPostRequest("/item-category",itemCategory);
@@ -140,6 +160,7 @@ const deleteItemCategory = (ob,rowIndex)=>{
         +"\n category size is "+ob.ctsize
         +"\n category shape is "+ob.ctshape
         +"\n category description is "+ob.ctdescription
+        +"\n category status is "+ob.categorystatus_id.name
     );
     if (userconfirm){
         let deleteServerResponse = ajaxDeleteRequest("/item-category",ob);
@@ -184,6 +205,9 @@ const refillItemCategory = (ob,rowIndex)=>{
     txtCtDescription.value=itemCategory.ctdescription
 
 
+    fillDataIntoSelect(selectItemCategoryStatus,'Select Item Category Status',itemCategoryStatues,'name',ob.categorystatus_id.name);
+
+
 }
 
 const checkUpdates = ()=>{
@@ -226,6 +250,10 @@ const checkUpdates = ()=>{
         updates=updates+"packing is updated \n";
     }
 
+    if (itemCategory.categorystatus_id.name != oldItemCategory.categorystatus_id.name){
+        updates=updates+"status is updated \n";
+    }
+
 
     return updates;
 }
@@ -246,6 +274,7 @@ const updateItemCategory = ()=>{
                 alert("update successful");
                 refreshItemForm();
                 divModifyButton.className="d-none";
+                refreshItemTable();
             }else {
                 alert("error happened"+updateServerResponse);
             }

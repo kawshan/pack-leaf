@@ -86,20 +86,8 @@ const checkErrors = ()=>{
     if (supplier.supplieraddress == null){
         errors=errors+"Supplier Address Cannot Be Empty \n"
     }
-    if (supplier.suppliervatno == null){
-        errors=errors+"Supplier Vat No Cannot Be Empty \n"
-    }
     if (supplier.suppliertelephone == null){
         errors=errors+"Supplier Telephone Cannot Be Empty \n"
-    }
-    if (supplier.suppliercontactperson == null){
-        errors=errors+"Supplier Contact Person Cannot Be Empty \n"
-    }
-    if (supplier.suppliercollectingaddress == null){
-        errors=errors+"Supplier Collecting Address Cannot Be Empty \n"
-    }
-    if (supplier.supplierbank == null){
-        errors=errors+"Supplier Bank Cannot Be Empty \n"
     }
     if (supplier.supplierstatus == null){
         errors=errors+"Supplier Status Cannot Be Empty \n"
@@ -115,11 +103,7 @@ const saveSupplier = ()=>{
         const userConfirm = confirm(`Are You Sure To Add Following Supplier
         Supplier Name Is ${supplier.suppliername}
         Supplier Address Is ${supplier.supplieraddress}
-        Supplier Vat No Is ${supplier.suppliervatno}
         Supplier Telephone Is ${supplier.suppliertelephone}
-        Supplier Contact Person ${supplier.suppliercontactperson}
-        Supplier Collecting Address ${supplier.suppliercollectingaddress}
-        Supplier Bank Is ${supplier.supplierbank}
         Supplier Status Is ${supplier.supplierstatus}`
         );
         if (userConfirm){

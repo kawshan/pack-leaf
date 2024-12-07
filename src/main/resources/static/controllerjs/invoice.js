@@ -635,6 +635,21 @@ const deleteInvoiceHeader = (ob,rowIndex)=>{
 }
 
 
+const printInvoiceHeader = async (ob,rowIndex)=>{
+    const newWindow = window.open();
+    await newWindow.document.write(
+        `
+        
+        `
+    );
+
+
+
+
+}
+
+
+
 
 // ---------------------------po section starts from here
 //-------------------------------------------------------
@@ -951,30 +966,124 @@ const printModelButtonMC = ()=>{
 
     let newWindow = window.open();
     newWindow.document.write(
-        "<html>\n" +
-        "<head>\n" +
-        "    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css\">\n" +
-        "    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js\"></script>\n" +
-        "    <style>\n" +
-        "        @media print {\n" +
-        "            .invoice-section, .right-side-table {\n" +
-        "                float: left;\n" +
-        "                width: 48%;\n" +
-        "                margin-right: 2%;\n" +
-        "            }\n" +
-        "            body {\n" +
-        "                margin: 0;\n" +
-        "                padding: 0;\n" +
-        "            }\n" +
-        "            .container {\n" +
-        "                display: flex;\n" +
-        "                flex-wrap: nowrap;\n" +
-        "            }\n" +
-        "        }\n" +
-        "    </style>\n" +
-        "</head>\n" +
-        "<body>" + exampleModal.outerHTML + "</body>\n" +
-        "</html>"
+    `
+    <!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <title>Invoice Print</title>
+</head>
+<body>
+<div class="container-fluid" style="min-height: 100vh; padding-bottom: 50px; position: absolute; top: 3%">
+    <div class="row" style="margin-top: 10%">
+        <div class="col-6"></div>
+        <div class="col-6 text-end">
+            <p style="font-weight: bold; font-size: 18px">INVOICE</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6"><p style="font-size: 16px">CUSTOMER</p></div>
+        <div class="col-6"></div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-5">
+            <div class="card" style="border: 1px solid black">
+                <p style="font-size: 14px; font-weight: bold">${PrintInvCusName.innerText}</p>
+                <p style="font-size: 14px;">${PrintInvCusAddress.innerText}</p>
+                <p style="font-size: 14px;">${PrintInvCusPhone.innerText}</p>
+            </div>
+        </div>
+
+        <div class="col-2"></div>
+
+
+<!--  invoice details table start  -->
+        <div class="col-5">
+            <table class="table table-bordered" style="border: 1px solid black">
+                <tbody>
+
+
+                    <tr>
+                        <td style="line-height: 0.5; font-size: 14px;">Inv No</td>
+                        <td style="font-weight: bold; font-size: 14px; line-height: 0.5;">${printInvNumber.innerText}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="line-height: 0.5; font-size: 14px;">Inv Date</td>
+                        <td style="font-weight: bold; font-size: 14px; line-height: 0.5;" >${printInvDate.innerText}</td>
+                    </tr>
+
+
+                    <tr>
+                        <td style="line-height: 0.5; font-size: 14px;">PO No</td>
+                        <td style="font-weight: bold; font-size: 14px; line-height: 0.5;" >${printPoNumber.innerText}</td>
+                    </tr>
+
+
+                    <tr>
+                        <td style="line-height: 0.5; font-size: 14px;">Dispatch No</td>
+                        <td style="font-weight: bold; font-size: 14px; line-height: 0.5;" >${printDispatchNo.innerText}</td>
+                    </tr>
+
+
+
+                </tbody>
+            </table>
+        </div>
+<!--  invoice details table end  -->
+
+    </div>
+    
+    
+    
+        <div class="row mt-3" style="padding-right: 5px; padding-left: 10px">
+        ${printInvoiceDetailsTable.outerHTML}
+        </div>
+
+        <div style="position: absolute; bottom: 250px ">
+        <p style="font-size: 12px;">${labelShowCompanyName.innerText}</p>
+        </div>
+        
+        
+
+<!-- Position "ooo" slightly above the bottom of the container -->
+<div class="position-absolute w-100" style="bottom: 160px;">
+    <div class="row text-center">
+        <div class="col-4">
+            <p style="font-size: 12px; margin-bottom: 5px;">............................................................</p>
+            <p style="margin: 0; font-size: 12px;">Prepared By</p>
+        </div>
+        <div class="col-4">
+            <p style="font-size: 12px; margin-bottom: 5px;">............................................................</p>
+            <p style="margin: 0; font-size: 12px;">Checked By</p>
+        </div>
+        <div class="col-4">
+            <p style="font-size: 12px; margin-bottom: 5px;">............................................................</p>
+            <p style="margin: 0; font-size: 12px;">Approved By</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+
+    `
     );
 
 
@@ -985,6 +1094,8 @@ const printModelButtonMC = ()=>{
     },1000)
 
 }
+
+
 
 
 

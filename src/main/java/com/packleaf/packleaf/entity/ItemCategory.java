@@ -48,7 +48,9 @@ public class ItemCategory {
     @Column(name = "ctpacking")
     private String ctpacking;
 
-
+    @ManyToOne
+    @JoinColumn(name = "categorystatus_id",referencedColumnName = "id")
+    private CategoryStatus categorystatus_id;
 
 
 }

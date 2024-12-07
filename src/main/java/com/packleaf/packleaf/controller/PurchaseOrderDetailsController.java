@@ -72,4 +72,9 @@ public class PurchaseOrderDetailsController {
     }
 
 
+    @GetMapping(value = "/gettotalpurchaseordervaluesfromheaderkey/{headerkey}")
+    public String getTotalPurchaseOrderValuesFromHeaderKey(@PathVariable("headerkey")String headerkey){
+        return purchaseOrderDetailDao.getPurchaseOrderValueByPurchaseOrderKey(headerkey);
+    }
+
 }

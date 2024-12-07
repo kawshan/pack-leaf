@@ -13,6 +13,7 @@
     <script src="/commonjs/validation.js"></script>
     <script src="/commonjs/ajaxcommonfunction.js"></script>
     <script src="/commonjs/tablecommonfuntion.js"></script>
+    <script src="/commonjs/selectcommonfunction.js"></script>
     <script src="/controllerjs/ItemCategory.js"></script>
 
 
@@ -147,6 +148,19 @@
         </div>
         <!--fifth row start-->
 
+
+        <div class="row mt-5">
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <select id="selectItemCategoryStatus" class="form-select text-start" onchange="selectDBValidator(this,'','itemCategory','categorystatus_id')">
+                </select>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+        </div>
+
+
+
         <div class="row mt-5">
             <div class="col-md-3"></div>
             <div class="col-md-3">
@@ -184,28 +198,12 @@
         <th>Category MOQ</th>
         <th>Category Duration</th>
         <th>Category Packaging</th>
+        <th>Category Status</th>
         <th>Action</th>
         </thead>
 
         <tbody>
-        <tr>
-            <td>1</td>
-            <td>LK100</td>
-            <td>LK100</td>
-            <td>95 X 72 X 131(h) mm</td>
-            <td>Rectangle box with narrow edges</td>
-            <td>description</td>
-            <td>volume</td>
-            <td>MOQ</td>
-            <td>duration</td>
-            <td>packaging</td>
-            <td>
-                <button type="button" class="btn btn-danger">delete</button>
-                <button type="button" class="btn btn-warning">modify</button>
-                <button type="button" class="btn btn-success">print</button>
 
-            </td>
-        </tr>
         </tbody>
 
     </table>

@@ -180,6 +180,10 @@ const refillPurchaseOrderHeader = (ob,rowIndex)=>{
     //refill eke di key eke display vena ekata data set karanna one
     textDisplayPurchaseOrderKey.value= ob.pokey
 
+    btnAddPurchaseOrderDetail.disabled=false;
+    btnAddPurchaseOrderDetail.style.cursor="default";
+
+
 
     textPoNO.value=ob.ponumber
     textPoDate.value=ob.podate
@@ -209,6 +213,151 @@ const displayCustomerDetails = (fieldId)=>{
     textDisplayCompanyTP.innerHTML=selectedCustomer.customertelephone;
 
 }
+
+
+const printPurchaseOrderHeader = async (ob,rowIndex)=>{
+
+    await fillDataIntoPurchaseOrderDetailsTable(ob.pokey);
+
+    await getTotalPurchaseOrderValues(ob.pokey);
+
+    const newWindow = window.open();
+    await newWindow.document.write(
+        `
+        <!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>purchase order print</title>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+    <div class="container-fluid" style="position: relative">
+
+        <div class="row" style="margin-top: 3cm">
+            <div class="col-12 text-center"><p style="font-size: 14px; font-weight: bold">PURCHASE APPROVAL</p></div>
+        </div>
+
+        <div class="row">
+            <div class="col-6"><p style="font-size: 14px">CUSTOMER</p></div>
+        </div>
+
+<!--     customer section and po section start   -->
+        <div class="row">
+            <div class="col-4">
+
+                <div class="card" style="border: 1px solid black">
+                    <p style="font-size: 12px; font-weight: bold; margin-top: 5px; margin-bottom: 2px; margin-left: 10px">${ob.customer_id.customername}</p>
+                    <p style="font-size: 12px; margin-bottom: 2px; margin-left: 10px">${ob.customer_id.customeraddress}</p>
+                    <p style="font-size: 12px; margin-bottom: 2px; margin-left: 10px">${ob.customer_id.customertelephone}</p>
+                </div>
+
+            </div>
+
+            <div class="col-3"></div>
+
+            <div class="col-5">
+                <table class="table table-bordered" style="border: 1px solid black">
+                    <tbody>
+
+
+                    <tr>
+                        <td style="line-height: 0.5; font-size: 12px;">Customer PO No</td>
+                        <td style="font-weight: bold; font-size: 12px; line-height: 0.5;" >${ob.ponumber}</td>
+                    </tr>
+
+
+                    <tr>
+                        <td style="line-height: 0.5; font-size: 12px;">PO Date</td>
+                        <td style="font-weight: bold; font-size: 12px; line-height: 0.5;">${new Date(ob.podate).toLocaleString('en-GB', { day: "2-digit", month: "short", year: "2-digit" })}</td>
+
+                    </tr>
+
+
+                    <tr>
+                        <td style="line-height: 0.5; font-size: 12px;">Our Reference Number</td>
+                        <td style="font-weight: bold; font-size: 12px; line-height: 0.5;" >${ob.pokey}</td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+<!--     customer section and po section end   -->
+
+        <div class="row mt-3" style="padding-right: 10px; padding-left: 8px">
+<!--        main table goes here    -->
+            ${tablePrintPurchaseOrderDetails.outerHTML}
+        </div>
+
+
+
+
+    </div>
+
+
+    <div class="row" style="position: absolute; bottom: 10%; width: 100%">
+        <div class="col-4 text-center">
+            <p>..........................</p>
+            <p style="font-size: 12px">prepared by</p>
+        </div>
+        <div class="col-4 text-center">
+
+        </div>
+        <div class="col-4 text-center">
+            <p>..........................</p>
+            <p style="font-size: 12px">approved by</p>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
+        `
+    );
+
+    newWindow.stop();
+    newWindow.print();
+    newWindow.close();
+
+    divModifyButton.classList.add('d-none');
+}
+
+
+
+//header eke print ekata ganna one nisa header section ekema define kara
+const fillDataIntoPurchaseOrderDetailsTable = (purchaseOrderHeaderKey)=>{
+    const getPurchaseOrderDetailsList = ajaxGetRequest("/purchaseorderdetails/getpurchaseorderdetailsbypurchaseorderkey/"+purchaseOrderHeaderKey);
+
+    displayProperty=[
+        {dataType:"function",propertyName:getItemName},
+        {dataType:"function",propertyName:getPoQty},
+        {dataType:"function",propertyName:getPoRate},
+        {dataType:"function",propertyName:getPoValue},
+    ];
+
+    fillDataIntoTable(tablePrintPurchaseOrderDetails,getPurchaseOrderDetailsList,displayProperty,false);
+
+}
+
+
+//we defined this function here because we need to get total from purchase order header key
+const getTotalPurchaseOrderValues = (purchaseOrderHeaderKey)=>{
+    const getTotalPurchaseOrderValue = ajaxGetRequest("/purchaseorderdetails/gettotalpurchaseordervaluesfromheaderkey/"+purchaseOrderHeaderKey);
+    let result = parseFloat(getTotalPurchaseOrderValue).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    displayTotalValue.innerText = result;
+}
+
+
 
 
 
