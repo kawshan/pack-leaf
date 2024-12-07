@@ -267,50 +267,53 @@ const printGrnHeader = async (ob,rowIndex)=>{
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<div class="container-fluid">
+<!--<div class="container-fluid">-->
 
-<!-- supplier and grn text area start  -->
-<div class="row" style="margin-top: 5%">
-    <div class="col-6"><p style="font-size: 16px">SUPPLIER</p></div>
-    <div class="col-6 text-end"><p style="font-size: 16px">GRN Details</p></div>
-</div>
-<!-- supplier and grn text area end  -->
-
-
-
-<!-- supplier details and grn details section start-->
-<div class="row mb-5 d-flex align-items-stretch">
-<!--supplier area-->
-    <div class="col-6">
-        <div class="card h-100" style="margin-bottom: 5px;">
-            <p style="font-size: 16px">${ob.supplier_id.suppliername}</p>
-            <p>${ob.supplier_id.supplieraddress}</p>
-            <p>${ob.supplier_id.suppliertelephone}</p>
-        </div>
-    </div>
-<!-- grn area    -->
-    <div class="col-6">
-        <table class="table table-bordered h-100 m-0">
-            <tbody>
+<h2 class="text-center m-1">GRN</h2>
+<!--grn area start-->
+<div class="row">
+<div class="col-md-3"></div>
+<div class="col-md-3"></div>
+<div class="col-md-3"></div>
+    <div class="col-md-3">
+        <table class="table table-bordered">
+            <tbody style="font-size: 11px">
                 <tr>
                     <td>GRN No</td>
-                    <td>${ob.grnno}</td>
+                    <td class="text-end">${ob.grnno}</td>
                 </tr>
                 <tr>
                     <td>GRN Date</td>
-                    <td>${ob.grndate}</td>
+                    <td class="text-end">${ob.grndate}</td>
                 </tr>
                 <tr>
                     <td>Our Po No</td>
-                    <td>${ob.ourponumber}</td>
+                    <td class="text-end">${ob.ourponumber}</td>
                 </tr>
             </tbody>
         </table>
+    
     </div>
+</div>
+<!--grn area end-->
+
+<!-- supplier details  section start-->
+<div class="row">
+<!--supplier area-->
+    <div class="col-6">
+        <div class="card" style="margin-bottom: 5px;">
+            <p style="font-size: 11px">Supplier</p>
+            <p style="font-size: 11px">${ob.supplier_id.suppliername}</p>
+            <p style="font-size: 11px">${ob.supplier_id.supplieraddress}</p>
+            <p style="font-size: 11px">${ob.supplier_id.suppliertelephone}</p>
+        </div>
+    </div>
+    <div class="col-6"></div>
+
     
     
 </div>
-<!-- supplier details and grn details section end -->
+<!-- supplier details s section end -->
 
 
 <!--table area start-->
@@ -336,7 +339,7 @@ const printGrnHeader = async (ob,rowIndex)=>{
 <!--  prepared by, checked by, recieved by area end   -->
 
 
-</div>
+<!--</div>-->
 </body>
 </html>
     `);
