@@ -70,7 +70,7 @@ const refreshInvoiceDetailsTable = ()=>{
 
 
 const getItemName = (ob)=>{
-    return ob.item_id.itmname;
+    return '<p class="text-start">'+ ob.item_id.itmname  +'</p>';
 }
 
 
@@ -558,8 +558,11 @@ const searchUsingInvoiceNumber = (fieldID)=>{
 
 }
 
+
+
+
 const getItemCode = (ob)=>{
-    return ob.item_id.code;
+    return '<p class="text-start">'+ob.item_id.code+'</p>';
 }
 
 const getInvQty = (ob)=>{

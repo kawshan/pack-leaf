@@ -1,5 +1,5 @@
 //create tables
-
+//mekata line height ekek damma. passe welawak hambunoth me function eka mehemea thiyennna arala wena function ekek hadla example name fillDataIntoTableWithAdjustedStyles kiyala meke code tika copy krala ee function eketa daala. me dan thiyena fucntion eke vena fillDataIntoTable kiyana eke ee styling tika makanna.. iita passse ewa call wenna one than wala print eke di vitharane call venna one ee print funtion eka  balala eeka athule call karanna
 const fillDataIntoTable = (tableId,dataList,columnList,buttonVisibility=true)=>{
     const tableBody = tableId.children[1];
     tableBody.innerHTML='';
@@ -8,12 +8,19 @@ const fillDataIntoTable = (tableId,dataList,columnList,buttonVisibility=true)=>{
         const tr = document.createElement('tr');
 
         const tdIndex = document.createElement('td');
+        tdIndex.style.lineHeight=0.1;
+        tdIndex.style.paddingTop = '2%';
+
         tdIndex.innerText = parseInt(index)+1;
         tr.appendChild(tdIndex);
 
 
         columnList.forEach(column =>{
             const  td = document.createElement('td');
+            td.style.lineHeight = 0.1; // Set reasonable line height
+            td.style.paddingTop = '2%'; // Add padding for better vertical alignment
+
+
             if (column.dataType == 'text'){
                 td.innerText=element[column.propertyName];
             }
