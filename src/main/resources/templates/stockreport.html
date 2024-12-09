@@ -57,7 +57,7 @@
                 <div class="row mt-2">
                     <div class="col-md-12">
                         <label for="selectRawMaterial" class="form-label">Select Raw Material</label>
-                        <select class="form-select text-start" id="selectRawMaterial" required onchange="selectDBValidator(this,'','stockReport','rawmaterial')"></select>
+                        <select class="form-select text-start" id="selectRawMaterial" onchange="selectDBValidator(this,'','stockReport','rawmaterial')" required></select>
                     </div>
                 </div>
 
@@ -107,7 +107,7 @@
 
                 <div class="modal-footer" id="ExampleModelFooterDiv">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="printStockReportMc()">Print</button>
+                    <button type="button" class="btn btn-primary" id="buttonPrint" style="pointer-events: all;" onclick="printStockReportMc()">Print</button>
                 </div>
 
 
@@ -116,8 +116,25 @@
         </div>
     </div>
     <!--   Stock report modal area end-->
+    <div class="card d-none">
+    <table class="table table-bordered" id="printStockReportTable" style="font-size: 12px; border: 1px solid black">
 
+        <thead class="text-center" style="font-size: 12px">
+        <th>#</th>
+<!--        <th>Raw Material Name</th>-->
+<!--        <th>Reference Number</th>-->
+        <th>Grn Date</th>
+        <th>Supplier name</th>
+        <th>Reference Number</th>
+        <th>Quantity</th>
+        <th>Issue Note</th>
+        <th>Balance</th>
+        </thead>
 
+        <tbody></tbody>
+
+    </table>
+    </div>
 
 
 

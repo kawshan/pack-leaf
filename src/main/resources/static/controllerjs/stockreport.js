@@ -8,6 +8,10 @@ window.addEventListener('load',function (){
 
 const refreshStockReportForm = ()=>{
 
+    //
+    buttonPrint.disabled=true;
+    buttonPrint.style.cursor="not-allowed";
+
     stockReport = new Object();
 
     selectRawMaterial.style.border="2px solid #ced4da";
@@ -50,6 +54,8 @@ const loadReportTable = ()=>{
 
     fillDataIntoTable(stockGrnDetailsTable,getReportDataList,displayProperty,false);
 
+    buttonPrint.disabled=false;
+    buttonPrint.style.cursor="default";
 }
 
 const getRawMaterial = (ob)=>{
@@ -59,6 +65,9 @@ const getRawMaterial = (ob)=>{
 
 
 const printStockReportMc =  async ()=>{
+
+    await fillDataIntoPrintTable();
+
     let newWindow = window.open();
     await newWindow.document.write(
         `
@@ -88,7 +97,7 @@ const printStockReportMc =  async ()=>{
 
     <!--    table area start-->
     <div class="row mt-3">
-    ${stockGrnDetailsTable.outerHTML}
+    ${printStockReportTable.outerHTML}
     </div>
     <!--    table area end-->
 
@@ -105,21 +114,53 @@ const printStockReportMc =  async ()=>{
 }
 
 
+const fillDataIntoPrintTable = ()=>{
+
+    const getDataListForPrint = ajaxGetRequest(`/stockreport/getjointableresultforstockreport/${selectedItem.id}/${selectFromDate.value}/${selectToDate.value}`);
+
+    const displayProperty =[
+        // {dataType:'function',propertyName:getRawMaterialNameForPrint},
+        {dataType:'function',propertyName:getGrnDateForPrint},
+        {dataType:'function',propertyName:getSupplierNameForPrint},
+        {dataType:'function',propertyName:getGrnHeaderForPrint},
+        {dataType:'function',propertyName:getQuantityForPrint},
+        {dataType:'function',propertyName:getIssueNoteForPrint},
+    ];
+
+    fillDataIntoTable(printStockReportTable,getDataListForPrint,displayProperty,false);
 
 
+}
 
 
+const getRawMaterialNameForPrint = (ob)=>{
+    return `<p class="text-center" ">${ob[0].rawmaterial_id.rmname}</p>`;
+}
+
+const getGrnHeaderForPrint = (ob)=>{
+    return `<p class="text-center">${ob[0].grnheader}</p>`;
+}
+
+const getGrnDateForPrint = (ob)=>{
+    return `<p class="text-center">${ob[1].grndate}</p>`;
+}
+
+const getSupplierNameForPrint = (ob)=>{
+    return `<p class="text-center">${ob[1].supplier_id.suppliername}</p>`;
+}
+
+const getQuantityForPrint = (ob)=>{
+    return `<p class="text-end">${ob[0].quantity}</p>`
+}
 
 
-
-
-
-
-
-
-
-
-
+const getIssueNoteForPrint = (ob) =>{
+    if (ob[0].grnheader==""){
+        return '1';
+    }else {
+        return `<p class="text-center"></p>`;
+    }
+}
 
 
 
