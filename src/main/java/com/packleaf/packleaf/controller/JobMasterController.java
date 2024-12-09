@@ -5,6 +5,7 @@ import com.packleaf.packleaf.dao.JobMasterStatusDao;
 import com.packleaf.packleaf.entity.JobMaster;
 import com.packleaf.packleaf.entity.JobMasterStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,7 +31,7 @@ public class JobMasterController {
 
     @GetMapping(value = "/findall")
     public List<JobMaster> getAllJobs(){
-        return jobDao.findAll();
+        return jobDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
     @PostMapping
