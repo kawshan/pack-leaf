@@ -279,34 +279,38 @@ const printGrnHeader = async (ob,rowIndex)=>{
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<!--<div class="container-fluid">-->
+<div class="container-fluid" style="position: relative">
 
+
+<div class="row">
 <h2 class="text-center">GRN</h2>
+</div>
+
 <!--grn area start-->
 <div class="row">
-<div class="col-4" style="height: 5%">
-        <div class="card" style="margin-bottom: 5px;">
-            <p style="font-size: 11px">${ob.supplier_id.suppliername}</p>
-            <p style="font-size: 11px">${ob.supplier_id.supplieraddress}</p>
-            <p style="font-size: 11px">${ob.supplier_id.suppliertelephone}</p>
+<div class="col-4">
+        <div class="card" style="border: 1px solid black">
+            <p style="font-size: 11px; font-weight: bold; margin-top: 5px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.suppliername}</p>
+            <p style="font-size: 11px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.supplieraddress}</p>
+            <p style="font-size: 11px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.suppliertelephone}</p>
         </div>
 </div>
 <div class="col-2"></div>
 <div class="col-3"></div>
     <div class="col-3">
-        <table class="table table-bordered">
-            <tbody style="font-size: 11px">
+        <table class="table table-bordered" style="border: 1px solid black">
+            <tbody>
                 <tr>
-                    <td style="padding: 5px">GRN No</td>
-                    <td class="text-end" style="padding: 5px">${ob.grnno}</td>
+                    <td style="line-height: 0.5; font-size: 12px;">GRN No</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.grnno}</td>
                 </tr>
                 <tr>
-                    <td style="padding: 5px">GRN Date</td>
-                    <td class="text-end" style="padding: 5px">${ob.grndate}</td>
+                    <td style="line-height: 0.5; font-size: 12px;">GRN Date</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.grndate}</td>
                 </tr>
                 <tr>
-                    <td style="padding: 5px">Our Po No</td>
-                    <td class="text-end" style="padding: 5px">${ob.ourponumber}</td>
+                    <td style="line-height: 0.5; font-size: 12px;">Our Po No</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.ourponumber}</td>
                 </tr>
             </tbody>
         </table>
@@ -321,26 +325,30 @@ const printGrnHeader = async (ob,rowIndex)=>{
     ${grnDetailsTableForGrnHeaderPrint.outerHTML}
 <!--table area end-->
 
+</div>
 
+
+<div style="position: absolute; bottom: 3%; width: 100%" >
 <!--  prepared by, checked by, recieved by area start   -->
-    <div class="row" style="margin-top: 20%">
+    <div class="row">
     <div class="col-4 text-start">
     _____________
-    <p>Prepared By</p>
+    <p style="font-size: 11px">Prepared By</p>
     </div>
     <div class="col-4 text-center">
     _____________
-    <p>Recived By</p>
+    <p style="font-size: 11px">Recived By</p>
     </div>
     <div class="col-4 text-end">
     _____________
-    <p>Checked By</p>
+    <p style="font-size: 11px; margin-right: 3px">Checked By</p>
     </div>
 </div>
 <!--  prepared by, checked by, recieved by area end   -->
+</div>
 
 
-<!--</div>-->
+
 </body>
 </html>
     `);
@@ -729,7 +737,7 @@ const loadDataIntoGrnDetailsTableForGrnHeaderPrint = (headerKey)=>{
         {dataType:'function',propertyName:getRawMaterial},
         {dataType:'text',propertyName:'gd_description'},
         {dataType:'text',propertyName:'gd_referencenumber'},
-        {dataType:'text',propertyName:'quantity'},
+        {dataType:'function',propertyName:getQuantityGrnDetails},
     ];
 
 
@@ -737,7 +745,9 @@ const loadDataIntoGrnDetailsTableForGrnHeaderPrint = (headerKey)=>{
 
 }
 
-
+const getQuantityGrnDetails = (ob)=>{
+    return `<p class="text-end">${ob.quantity}</p>`
+}
 
 
 

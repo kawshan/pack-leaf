@@ -240,13 +240,20 @@ const printPurchaseOrderHeader = async (ob,rowIndex)=>{
 </head>
 <body>
     <div class="container-fluid" style="position: relative">
-
+    
         <div class="row" style="margin-top: 3cm">
+            <div class="col-6"></div>
+            <div class="col-6 text-end">
+            <p style="font-size: 14px">${ob.company_id.companyname}</p>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-12 text-center"><p style="font-size: 14px; font-weight: bold">PURCHASE APPROVAL</p></div>
         </div>
 
         <div class="row">
-            <div class="col-6"><p style="font-size: 14px">CUSTOMER</p></div>
+            <div class="col-8"><p style="font-size: 14px">CUSTOMER</p></div>
         </div>
 
 <!--     customer section and po section start   -->
@@ -617,6 +624,26 @@ const saveImKey = (fieldID)=>{
 
 
 
+let lastPurchaseOrderKey = null; // Variable to track the last displayed purchase order key
+
+// Function to get the purchase order key and display it only when it changes
+const getPurchaseOrderKeyForNewRequirement = (ob) => {
+    const currentPurchaseOrderKey = ob.purchaseorderkey;
+
+    // If the current purchase order key is the same as the last one, return an empty string
+    if (currentPurchaseOrderKey === lastPurchaseOrderKey) {
+        return ''; // Do not display the purchase order key again
+    }
+
+    // Otherwise, update lastPurchaseOrderKey and return the current one
+    lastPurchaseOrderKey = currentPurchaseOrderKey;
+    return currentPurchaseOrderKey;
+};
+
+
+
+
+
 //modal eka athule pending purchase order details tika table ekata load karana function eka || meka call karala thiyenawa window . add event listener eke refresh venakotama call venna one nisa
 const refreshPendingPurchaseOrderDetailsTable = ()=>{
 
@@ -624,20 +651,30 @@ const refreshPendingPurchaseOrderDetailsTable = ()=>{
 
     const displayProperty=[
         {dataType: 'function', propertyName: getItemName},
-        {dataType: 'text', propertyName: "purchaseorderkey"},
+        {dataType: 'function', propertyName: getPurchaseOrderKeyForNewRequirement},
         {dataType: 'function', propertyName: getPoQty},
         {dataType: 'function', propertyName: getPoRate},
         {dataType: 'function', propertyName: getPoValue},
     ];
 
 
-    fillDataIntoTable(tablePendingPurchaseOrderPrint,getPendingPurchaseOrderDetailsServerResponse,displayProperty,false);
+    fillDataIntoTableForPendingPurchaseOrderPrint(tablePendingPurchaseOrderPrint,getPendingPurchaseOrderDetailsServerResponse,displayProperty,false);
 
 
 }
 
 //pending purchase order model eka yata thiyena print button eka click karahama run venna one function eka
 const printPendingOrderMC = ()=>{
+
+    let currentDate = new Date();
+
+// Get day, month, and year
+    let day = currentDate.getDate();
+    let month = currentDate.toLocaleString('en-GB', { month: 'short' }); // Gets short month name like "Nov"
+    let year = currentDate.getFullYear();
+
+// Format the date as "DD-MMM-YYYY"
+    let formattedDate = `${day < 10 ? '0' + day : day}-${month}-${year}`;
 
     let newWindow = window.open();
     newWindow.document.write(
@@ -655,7 +692,12 @@ const printPendingOrderMC = ()=>{
 </head>
 <body>
 
-<h2 class="h2 text-center">Pending Purchase Order</h2>
+    <div class="row">
+    <div class="col-4"></div>
+    <div class="col-4 text-center"><p style="font-size: 14px; font-weight: bold">Pending PO Items</p></div>
+    <div class="col-4 text-end"><p>${formattedDate}</p></div>
+    </div>
+
     ${tablePendingPurchaseOrderPrint.outerHTML}
 
 </body>

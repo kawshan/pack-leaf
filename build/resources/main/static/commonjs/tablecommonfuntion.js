@@ -178,7 +178,6 @@ const fillDataIntoTableForItemPrint = (tableId, dataList, columnList, buttonVisi
 }
 
 
-
 const fillDataIntoTableWithEditButton = (tableID, dataList, columnsList, editFunction, buttonVisibility = true )=>{
 
     const tableBody = tableID.children[1];
@@ -232,6 +231,71 @@ const fillDataIntoTableWithEditButton = (tableID, dataList, columnsList, editFun
 }
 
 
+const fillDataIntoTableForPendingPurchaseOrderPrint = (tableId, dataList, columnList, buttonVisibility = true) => {
+    const tableBody = tableId.children[1]; // Get table body
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    let lastPurchaseOrderKey = null; // Track the last purchase order key
+
+    dataList.forEach((element, index) => {
+        const currentPurchaseOrderKey = element.purchaseorderkey; // Get current purchase order key
+
+        // If the current purchase order key is different from the last one, insert a blank row
+        if (lastPurchaseOrderKey !== null && currentPurchaseOrderKey !== lastPurchaseOrderKey) {
+            const blankRow = document.createElement('tr');
+            const blankCell = document.createElement('td');
+            blankCell.colSpan = columnList.length; // Span across all columns
+            blankCell.innerHTML = '&nbsp;'; // Add a non-breaking space for the blank row
+            blankRow.appendChild(blankCell);
+            tableBody.appendChild(blankRow);
+        }
+
+        // Create a regular row for the current item
+        const tr = document.createElement('tr');
+
+        // Loop through each column definition
+        columnList.forEach(column => {
+            const td = document.createElement('td');
+            td.style.lineHeight = 0.1; // Set line height
+            td.style.paddingTop = '2%'; // Padding for vertical alignment
+
+            if (column.dataType === 'text') {
+                td.innerText = element[column.propertyName]; // Direct text
+            } else if (column.dataType === 'function') {
+                td.innerHTML = column.propertyName(element); // Function-based data
+            }
+
+            tr.appendChild(td);
+        });
+
+        // Optional Action Button (Radio Button)
+        const tdButton = document.createElement('td');
+        tdButton.className = 'text-center';
+
+        const inputRadio = document.createElement('input');
+        inputRadio.className = 'form-check-input mt-3';
+        inputRadio.name = 'modify';
+        inputRadio.type = 'radio';
+
+        inputRadio.onchange = function () {
+            window['editOb'] = element; // Store the current element for editing
+            window['editRow'] = index;  // Store the row index
+
+            divModifyButton.className = 'd-block'; // Show modify button
+        };
+        tdButton.appendChild(inputRadio);
+
+        if (buttonVisibility) {
+            tr.appendChild(tdButton); // Add button column if visibility is true
+        }
+
+        // Append the row to the table body
+        tableBody.appendChild(tr);
+
+        // Update last purchase order key to the current one
+        lastPurchaseOrderKey = currentPurchaseOrderKey;
+    });
+};
 
 
 
