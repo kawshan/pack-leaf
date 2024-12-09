@@ -42,7 +42,15 @@ public class IssueNoteDetailController {
 
 
 
-    //delete mapping
+    @DeleteMapping
+    public String deleteIssueNoteDetail(@RequestBody IssueNoteDetail issueNoteDetail){
+        try {
+            issueNoteDetailDao.delete(issueNoteDetail);
+            return "ok";
+        }catch (Exception e){
+            return "Issue Note Detail Not Complete"+e.getMessage();
+        }
+    }
 
 
 

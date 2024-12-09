@@ -52,7 +52,7 @@
                             onclick="deleteIssueNoteHeader(window['editOb'],window['editRow'])">
                         <i class="fa-solid fa-trash fa-beat"></i> Delete
                     </button>
-                    <button onclick="printGrnHeader(window['editOb'],window['editRow'])" type="button"
+                    <button onclick="issueNoteHeaderPrint(window['editOb'],window['editRow'])" type="button"
                             class="btn btn-primary fw-bold"
                             style=" width: 25%; color: whitesmoke;border: 1px solid black">
                         <i class="fa-solid fa-eye fa-beat"></i> Print
@@ -187,7 +187,7 @@
                 <td style="padding-left: 10%">
                     <button type="button" class="btn btn-warning" style="width: 100px; height: 70px; pointer-events: all" id="buttonIssueNoteDetailUpdate" onclick="updateIssueNoteDetail()">Update</button>
                     <button type="button" class="btn btn-success" style="width: 100px; height: 70px; pointer-events: all" id="buttonIssueNoteDetailAdd" onclick="submitIssueNoteDetail()">Add</button>
-                    <p style="color: #ff0000">Please Complete Header Section First</p>
+                    <p id="warningMessageInIssueNoteDetailsSection" style="color: #ff0000">Please Complete Header Section First</p>
                 </td>
 
 
@@ -209,18 +209,13 @@
                 <div class="col-md-12">
                     <button type="button" class="btn btn-warning fw-bold"
                             style="width: 25%; color: whitesmoke; border: 1px solid black;"
-                            onclick="issueNoteRefillForm(window['editOb'],window['editRow'])">
+                            onclick="issueNoteDetailRefillForm(window['editOb'],window['editRow'])">
                         <i class="fa-solid fa-recycle fa-beat"></i> Refill
                     </button>
                     <button type="button" class="btn btn-danger fw-bold"
                             style=" width: 25%; color: whitesmoke; border: 1px solid black; pointer-events: all"
-                            onclick="deleteIssueNoteHeader(window['editOb'],window['editRow'])">
+                            onclick="deleteIssueNoteDetail(window['editOb'],window['editRow'])">
                         <i class="fa-solid fa-trash fa-beat"></i> Delete
-                    </button>
-                    <button onclick="printGrnHeader(window['editOb'],window['editRow'])" type="button"
-                            class="btn btn-primary fw-bold"
-                            style=" width: 25%; color: whitesmoke;border: 1px solid black">
-                        <i class="fa-solid fa-eye fa-beat"></i> Print
                     </button>
                 </div>
             </div>
@@ -233,13 +228,14 @@
 
     <!--table area issue note detail start-->
     <div class="card mt-5 p-5 d-none" id="cardIssueNoteDetailForTable">
-        <table class="table table-hover table-striped" style="font-size: 12px" id="tableIssueNoteDetail">
+        <table class="table table-bordered" style="font-size: 12px" id="tableIssueNoteDetail">
 
-            <thead>
+            <thead class="text-center">
             <th>#</th>
             <th>item name</th>
             <th>Qty</th>
             <th>Description</th>
+            <th>Action</th>
             </thead>
 
             <tbody></tbody>
@@ -247,6 +243,25 @@
         </table>
     </div>
     <!--table area issue note detail end-->
+
+
+
+    <!--table area issue note detail for print start-->
+    <div class="card mt-5 p-5 d-none" id="cardIssueNoteDetailForTablePrint">
+        <table class="table table-bordered" style="font-size: 12px" id="tableIssueNoteDetailForPrint">
+
+            <thead class="text-center">
+            <th>#</th>
+            <th>item name</th>
+            <th>Description</th>
+            <th>Qty</th>
+            </thead>
+
+            <tbody></tbody>
+
+        </table>
+    </div>
+    <!--table area issue note detail for print end-->
 
 
 

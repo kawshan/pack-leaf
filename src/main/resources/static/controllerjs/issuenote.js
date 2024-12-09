@@ -28,7 +28,17 @@ const refreshIssueNoteHeader = ()=>{
     jobList = ajaxGetRequest("/jobmaster/findall");
     fillDataIntoSelect(selectJob,'Select Job Number',jobList,'jobnumber');
 
+    divModifyButton.classList.add('d-none');    //reset button ekedith me function eka call karana nisa meka add kare.. reaseon eka thama reset karahama me button 3 th hide venna one nisa-> specific reason-> when user refill issue note header section is also view the table then user can do changes and then finish the task with out reloading the whole page
+    cardIssueNoteDetailForTable.classList.add('d-none');
+    divModifyButtonIssueNoteDetail.classList.add('d-none');
 
+    //details section eke thiyena button 2 disable karanawa
+    buttonIssueNoteDetailUpdate.disabled=true;
+    buttonIssueNoteDetailUpdate.style.cursor="not-allowed";
+
+
+    buttonIssueNoteDetailAdd.disabled=true;
+    buttonIssueNoteDetailAdd.style.cursor="not-allowed";
 }
 
 const changeColoursInIssueNoteHeader = ()=>{
@@ -95,6 +105,11 @@ const submitIssueNoteHeader = async ()=>{
                     displayIssueNoteKey.value=postServerResponse.headerkey;
                     refreshIssueNoteHeaderTable();
                     changeColoursInIssueNoteHeader();
+
+                    //add button ekayi warning message ekayi enable karanwa
+                    buttonIssueNoteDetailAdd.disabled=false;
+                    buttonIssueNoteDetailAdd.style.cursor="default";
+                    warningMessageInIssueNoteDetailsSection.classList.add('d-none');
                 }else {
                     alert(`Save Unsuccessful \n ${postServerResponse}`);
                 }
@@ -173,6 +188,7 @@ const refillIssueNoteHeader = (ob,rowIndex)=>{
 
     refreshIssueNoteDetailTable() //header eke key eka aran details table ekath fill karanna one nisa meke call kare.
 
+    warningMessageInIssueNoteDetailsSection.classList.add('d-none');
 }
 
 
@@ -201,10 +217,89 @@ const deleteIssueNoteHeader = (ob,rowIndex)=>{
 
 
 const issueNoteHeaderPrint = async (ob,rowIndex)=>{
+
+   await fillDataIntoTablePrint(ob.headerkey);
+
     const newWindow = window.open();
     await newWindow.document.write(
         `
-        
+        <!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Issue Note Print</title>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+<div class="container-fluid" style="position: relative">
+
+    <div class="row">
+        <div class="col-12 text-center"><h3>Issue Note</h3></div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-3"></div>
+        <div class="col-5"></div>
+        <div class="col-4">
+            <table class="table table-bordered" style="border: 1px solid black">
+                <tbody>
+                <tr>
+                    <td style="line-height: 0.5; font-size: 12px;">Job Number</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.jobmaster_id.jobnumber}</td>
+                </tr>
+                <tr>
+                    <td style="line-height: 0.5; font-size: 12px;">Issue Note Number</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.issuenotenumber}</td>
+                </tr>
+
+                <tr>
+                    <td style="line-height: 0.5; font-size: 12px;">Date</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.issuenotedate}</td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="row">
+    ${tableIssueNoteDetailForPrint.outerHTML}
+    </div>
+
+
+</div>
+
+<div style="position: absolute; bottom: 1%; width: 100%" >
+    <!--  prepared by, checked by, recieved by area start   -->
+    <div class="row">
+        <div class="col-4 text-start">
+            _____________
+            <p style="font-size: 11px">Prepared By</p>
+        </div>
+        <div class="col-4 text-center">
+            _____________
+            <p style="font-size: 11px">Received By</p>
+        </div>
+        <div class="col-4 text-end">
+            _____________
+            <p style="font-size: 11px; margin-right: 3px">Checked By</p>
+        </div>
+    </div>
+    <!--  prepared by, checked by, recieved by area end   -->
+</div>
+
+
+
+</body>
+</html>
         `
     );
     newWindow.stop();
@@ -227,6 +322,7 @@ const refreshIssueNoteDetailForm = ()=>{
 
     selectRawMaterial.style.border="2px solid #ced4da";
     txtQty.style.border="2px solid #ced4da";
+    txtDescription=document.getElementById("txtDescription");
     txtDescription.style.border="2px solid #ced4da";
 
     txtQty.value="";
@@ -235,6 +331,13 @@ const refreshIssueNoteDetailForm = ()=>{
     rawmaterialList = ajaxGetRequest("/rawmaterial/findall");
     fillDataIntoSelect(selectRawMaterial,"Select Raw Material",rawmaterialList,'rmname')
 
+    //add button eka enable karanwa update eka disable karanawa
+    buttonIssueNoteDetailAdd.disabled=false;
+    buttonIssueNoteDetailAdd.style.cursor="default";
+
+
+    buttonIssueNoteDetailUpdate.disabled=true;
+    buttonIssueNoteDetailUpdate.style.cursor="not-allowed";
 }
 
 
@@ -259,7 +362,7 @@ const getRawMaterial = (ob)=>{
 }
 
 const getItemQuantity = (ob)=>{
-    return Number(ob.quantity).toLocaleString('en-US');
+    return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US')}</p>`
 }
 
 
@@ -305,16 +408,22 @@ const submitIssueNoteDetail = ()=>{
 
 }
 
-const issueNoteRefillForm = (ob)=>{
+const issueNoteDetailRefillForm = (ob)=>{
     issueNoteDetail = JSON.parse(JSON.stringify(ob));
     oldIssueNoteDetail = JSON.parse(JSON.stringify(ob));
 
     txtQty.value=ob.quantity;
-    txtDescription = ob.description;
+    txtDescription.value = ob.description;
 
     fillDataIntoSelect(selectRawMaterial,"Select Raw Material",rawmaterialList,'rmname',ob.rawmaterial_id.rmname)
 
 
+    //add button eka disable karanla update button eka enable karanna one
+    buttonIssueNoteDetailAdd.disabled=true;
+    buttonIssueNoteDetailAdd.style.cursor="not-allowed";
+
+    buttonIssueNoteDetailUpdate.disabled=false;
+    buttonIssueNoteDetailUpdate.style.cursor="default";
 
 }
 
@@ -362,12 +471,41 @@ const updateIssueNoteDetail = ()=>{
 }
 
 
+const deleteIssueNoteDetail = (ob,rowIndex)=>{
+    const userConfirm = confirm(`Are You Sure to delete following Issue Note Detail \n
+    Raw Material Is ${ob.rawmaterial_id.rmname}
+    Quantity is ${ob.quantity}
+    Header Is ${ob.issuenoteheader}
+    `);
+    if (userConfirm){
+        const deleteServerResponse = ajaxDeleteRequest("/issuenotedetail",ob)
+        if (deleteServerResponse=="ok"){
+            alert("Delete Successful");
+            refreshIssueNoteDetailTable();
+            divModifyButtonIssueNoteDetail.classList.add('d-none');
+        }else {
+            alert(`Delete Unsuccessful \n ${deleteServerResponse}`);
+            refreshIssueNoteDetailTable();
+        }
+    }else {
+        alert(`User Cancelled The Operation`)
+    }
+}
 
 
 
 
+const fillDataIntoTablePrint = (headerKeyFromIssueNoteHeader)=>{
+    const issueNoteDetailListForPrint = ajaxGetRequest(`/issuenotedetail/getallissuenotefromheaderkey/${headerKeyFromIssueNoteHeader}`);
 
+    const displayProperty = [
+        {dataType:'function',propertyName:getRawMaterial},
+        {dataType: 'text',propertyName:'description'},
+        {dataType: 'function',propertyName:getItemQuantity}
+    ];
 
+    fillDataIntoTable2(tableIssueNoteDetailForPrint,issueNoteDetailListForPrint,displayProperty,false)
+}
 
 
 
