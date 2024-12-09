@@ -87,7 +87,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
-                    <button type="reset" class="btn btn-danger">reset</button>
+                    <button type="button" class="btn btn-danger" onclick="refreshIssueNoteHeader()">reset</button>
                     <button type="button" class="btn btn-success" onclick="submitIssueNoteHeader()">Submit</button>
                 </div>
                 <div class="col-md-3"></div>
@@ -162,32 +162,32 @@
     <!--form area end-->
 
 
-    <!--table item form area start-->
+    <!--Issue note Detail form area start-->
     <form onsubmit="return false">
         <table class="table">
             <tbody>
             <tr>
                 <td>
                     <label for="selectRawMaterial" class="form-label fw-bold">Select Raw Material</label>
-                    <select id="selectRawMaterial" class="form-select"></select>
+                    <select id="selectRawMaterial" class="form-select" onchange="selectDBValidator(this,'','issueNoteDetail','rawmaterial_id')"></select>
                 </td>
 
 
                 <td>
                     <label for="txtQty" class="form-label fw-bold">Item Qty</label>
-                    <input type="text" id="txtQty" class="form-control" placeholder="Enter Item Quantity">
+                    <input type="text" id="txtQty" class="form-control" placeholder="Enter Item Quantity" onkeyup="textValidator(this,'','issueNoteDetail','quantity')">
                 </td>
 
 
                 <td>
-                    <label for="txtRate" class="form-label fw-bold">Item Description</label>
-                    <input type="text" id="txtRate" class="form-control" placeholder="enter item Description">
+                    <label for="txtDescription" class="form-label fw-bold">Item Description</label>
+                    <input type="text" id="txtDescription" class="form-control" placeholder="enter item Description" onkeyup="textValidator(this,'','issueNoteDetail','description')">
                 </td>
 
                 <td style="padding-left: 10%">
-                    <button type="button" class="btn btn-warning" style="width: 100px; height: 70px; pointer-events: all" id="buttonIssueNoteDetailUpdate">Update</button>
-                    <button type="button" class="btn btn-success" style="width: 100px; height: 70px; pointer-events: all" id="buttonIssueNoteDetailAdd">Add</button>
-                    <p style="color: red">Please Complete Header Section First</p>
+                    <button type="button" class="btn btn-warning" style="width: 100px; height: 70px; pointer-events: all" id="buttonIssueNoteDetailUpdate" onclick="updateIssueNoteDetail()">Update</button>
+                    <button type="button" class="btn btn-success" style="width: 100px; height: 70px; pointer-events: all" id="buttonIssueNoteDetailAdd" onclick="submitIssueNoteDetail()">Add</button>
+                    <p style="color: #ff0000">Please Complete Header Section First</p>
                 </td>
 
 
@@ -197,26 +197,58 @@
             </tbody>
         </table>
     </form>
-    <!--table item form area start-->
+    <!--Issue note Detail form area start-->
 
 
 
-    <!--table area start-->
-    <div class="card mt-5 p-5 d-none">
-        <table class="table table-hover table-striped">
+
+    <!--    issue note detail ekata adala div modify button eka    -->
+    <div class="row">
+        <div class="col-md-3">
+            <div id="divModifyButtonIssueNoteDetail" class="d-none">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-warning fw-bold"
+                            style="width: 25%; color: whitesmoke; border: 1px solid black;"
+                            onclick="issueNoteRefillForm(window['editOb'],window['editRow'])">
+                        <i class="fa-solid fa-recycle fa-beat"></i> Refill
+                    </button>
+                    <button type="button" class="btn btn-danger fw-bold"
+                            style=" width: 25%; color: whitesmoke; border: 1px solid black; pointer-events: all"
+                            onclick="deleteIssueNoteHeader(window['editOb'],window['editRow'])">
+                        <i class="fa-solid fa-trash fa-beat"></i> Delete
+                    </button>
+                    <button onclick="printGrnHeader(window['editOb'],window['editRow'])" type="button"
+                            class="btn btn-primary fw-bold"
+                            style=" width: 25%; color: whitesmoke;border: 1px solid black">
+                        <i class="fa-solid fa-eye fa-beat"></i> Print
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    issue note detail ekata adala div modify button eka    -->
+
+
+
+
+    <!--table area issue note detail start-->
+    <div class="card mt-5 p-5 d-none" id="cardIssueNoteDetailForTable">
+        <table class="table table-hover table-striped" style="font-size: 12px" id="tableIssueNoteDetail">
 
             <thead>
             <th>#</th>
             <th>item name</th>
             <th>Qty</th>
-            <th>rate</th>
+            <th>Description</th>
             </thead>
 
             <tbody></tbody>
 
         </table>
     </div>
-    <!--table area end-->
+    <!--table area issue note detail end-->
+
+
 
 
 
@@ -233,7 +265,7 @@
                     <!--Table Our Purchase Order Header Start-->
                     <div class="card m-4">
                         <table class="table table-hover table-striped"  id="issueNoteHeaderTable">
-                            <thead>
+                            <thead class="text-center">
                             <th>#</th>
                             <th>Job Number</th>
                             <th>Issue Note Number</th>

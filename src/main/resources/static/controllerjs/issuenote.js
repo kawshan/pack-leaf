@@ -2,14 +2,15 @@ window.addEventListener('load',function (){
 
 
     refreshIssueNoteHeader();
-
-
-
     refreshIssueNoteHeaderTable();
+
+
+
+    refreshIssueNoteDetailForm();
 
 });
 
-
+//issue note header section is Started
 const refreshIssueNoteHeader = ()=>{
 
     issueNoteHeader = new Object();
@@ -169,6 +170,9 @@ const refillIssueNoteHeader = (ob,rowIndex)=>{
 
     let selectedJob = JSON.parse(selectJob.value);
     issueNoteHeader.jobmaster_id = selectedJob;
+
+    refreshIssueNoteDetailTable() //header eke key eka aran details table ekath fill karanna one nisa meke call kare.
+
 }
 
 
@@ -196,7 +200,164 @@ const deleteIssueNoteHeader = (ob,rowIndex)=>{
 }
 
 
-const issueNoteHeaderPrint = (ob,rowIndex)=>{
+const issueNoteHeaderPrint = async (ob,rowIndex)=>{
+    const newWindow = window.open();
+    await newWindow.document.write(
+        `
+        
+        `
+    );
+    newWindow.stop();
+    newWindow.print();
+    newWindow.close();
+
+
+
+}
+
+//issue note header section is finished
+
+
+
+//issue note detail section start
+
+const refreshIssueNoteDetailForm = ()=>{
+
+    issueNoteDetail = new Object();
+
+    selectRawMaterial.style.border="2px solid #ced4da";
+    txtQty.style.border="2px solid #ced4da";
+    txtDescription.style.border="2px solid #ced4da";
+
+    txtQty.value="";
+    txtDescription.value="";
+
+    rawmaterialList = ajaxGetRequest("/rawmaterial/findall");
+    fillDataIntoSelect(selectRawMaterial,"Select Raw Material",rawmaterialList,'rmname')
+
+}
+
+
+const refreshIssueNoteDetailTable = ()=>{
+
+    cardIssueNoteDetailForTable.classList.remove('d-none');
+
+    issueNoteDetailList = ajaxGetRequest(`/issuenotedetail/getallissuenotefromheaderkey/${displayIssueNoteKey.value}`);//find all eka venuwate header eken key eka aran ekata adla dewal vitharayi pennnanna one
+
+    const displayProperty = [
+        {dataType:'function',propertyName:getRawMaterial},
+        {dataType: 'function',propertyName:getItemQuantity},
+        {dataType: 'text',propertyName:'description'}
+    ];
+
+    fillDataIntoTable2(tableIssueNoteDetail,issueNoteDetailList,displayProperty,true,divModifyButtonIssueNoteDetail)
+
+}
+
+const getRawMaterial = (ob)=>{
+    return ob.rawmaterial_id.rmname;
+}
+
+const getItemQuantity = (ob)=>{
+    return Number(ob.quantity).toLocaleString('en-US');
+}
+
+
+const checkErrorIssueNoteDetail = ()=>{
+    let errors = "";
+
+    if (issueNoteDetail.rawmaterial_id == null){
+        errors=errors+"Raw Material Cannot Be Empty \n"
+    }
+    if (issueNoteDetail.quantity == null){
+        errors=errors+"Quantity Cannot Be Empty \n"
+    }
+
+    return errors;
+}
+
+const submitIssueNoteDetail = ()=>{
+    let errors = checkErrorIssueNoteDetail();
+
+    issueNoteDetail.issuenoteheader = displayIssueNoteKey.value
+
+    if (errors==""){
+        const userConfirm = confirm(`Are You Sure to Add Following Issue Note Detail \n
+        Raw Material Is ${issueNoteDetail.rawmaterial_id.rmname}
+        Quantity is ${issueNoteDetail.quantity}
+        Header Is ${issueNoteDetail.issuenoteheader}
+        `);
+        if (userConfirm){
+            const postServerResponse = ajaxPostRequest("/issuenotedetail",issueNoteDetail);
+            if (postServerResponse=="ok"){
+                alert("Save Successful");
+                refreshIssueNoteDetailTable();
+                refreshIssueNoteDetailForm();
+            }else {
+                alert("Save Unsuccessful")
+            }
+        }else {
+            alert("User cancelled The Operation")
+        }
+    }
+
+
+
+}
+
+const issueNoteRefillForm = (ob)=>{
+    issueNoteDetail = JSON.parse(JSON.stringify(ob));
+    oldIssueNoteDetail = JSON.parse(JSON.stringify(ob));
+
+    txtQty.value=ob.quantity;
+    txtDescription = ob.description;
+
+    fillDataIntoSelect(selectRawMaterial,"Select Raw Material",rawmaterialList,'rmname',ob.rawmaterial_id.rmname)
+
+
+
+}
+
+
+
+const checkUpdatesIssueNoteDetail = ()=>{
+    let updates = ""
+
+    if (issueNoteDetail.rawmaterial_id.rmname != oldIssueNoteDetail.rawmaterial_id.rmname){
+        updates=updates+"Raw Material Is Updated \n"
+    }
+    if (issueNoteDetail.quantity != oldIssueNoteDetail.quantity){
+        updates=updates+"Quantity Is Updated \n"
+    }
+    if (issueNoteDetail.description != oldIssueNoteDetail.description){
+        updates=updates+"Description Is Updated \n"
+    }
+    return updates;
+}
+
+const updateIssueNoteDetail = ()=>{
+    let updates = checkUpdatesIssueNoteDetail();
+
+    if (updates!=""){
+        const userConfirm = confirm(`Are You Sure To Add Following Updates \n ${updates}`);
+        if (userConfirm){
+            const putServerResponse = ajaxPutRequest("/issuenotedetail",issueNoteDetail)
+            if (putServerResponse=="ok"){
+                alert("Update Successful");
+                refreshIssueNoteDetailTable();
+                refreshIssueNoteDetailForm();
+                divModifyButtonIssueNoteDetail.classList.add('d-none');
+            }else {
+                alert(`Error Happened ${putServerResponse}`);
+            }
+        }else {
+            alert("User Cancelled the Operation")
+        }
+    }else {
+        alert(`Nothing To Update`)
+    }
+
+
 
 }
 
