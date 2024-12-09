@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,8 +35,28 @@ public class StockReportController {
 
     @GetMapping(value = "/getjointableresultforstockreport/{rawmaterialid}/{fromdate}/{todate}")
     public List<Object[]> getJoinTableResult(@PathVariable("rawmaterialid") RawMaterial rawmaterialid, @PathVariable("fromdate") LocalDate fromdate, @PathVariable("todate")LocalDate todate){
-        return reportsDao.joinTablesResult(rawmaterialid,fromdate,todate);
+        return reportsDao.joinTablesResultForGrn(rawmaterialid,fromdate,todate);
+
     }
+
+    @GetMapping(value = "/getjointableresultfromissuenote/{rawmaterialid}/{fromdate}/{todate}")
+    public List<Object[]> getJoinTableResultFromIssueNote(@PathVariable("rawmaterialid") RawMaterial rawmaterialid, @PathVariable("fromdate") LocalDate fromdate, @PathVariable("todate")LocalDate todate){
+        return reportsDao.joinTablesResultForIssueNote(rawmaterialid,fromdate,todate);
+    }
+
+
+    @GetMapping(value = "/merge_result_grn_and_issuenote/{rawmaterialid}/{fromdate}/{todate}")
+    public List<Object[]> getMergedResultFromGrnAndIssueNote(@PathVariable("rawmaterialid") RawMaterial rawmaterialid, @PathVariable("fromdate") LocalDate fromdate, @PathVariable("todate")LocalDate todate){
+        List<Object[]> grnResults = reportsDao.joinTablesResultForGrn(rawmaterialid,fromdate,todate);
+        List<Object[]> issueNoteResults = reportsDao.joinTablesResultForIssueNote(rawmaterialid,fromdate,todate);
+        List<Object[]> mergedResults = new ArrayList<>();
+        mergedResults.addAll(grnResults);
+        mergedResults.addAll(issueNoteResults);
+        return mergedResults;
+    }
+
+
+
 
 
 

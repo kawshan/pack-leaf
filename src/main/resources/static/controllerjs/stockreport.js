@@ -116,13 +116,13 @@ const printStockReportMc =  async ()=>{
 
 const fillDataIntoPrintTable = ()=>{
 
-    const getDataListForPrint = ajaxGetRequest(`/stockreport/getjointableresultforstockreport/${selectedItem.id}/${selectFromDate.value}/${selectToDate.value}`);
+    const getDataListForPrint = ajaxGetRequest(`/stockreport/merge_result_grn_and_issuenote/${selectedItem.id}/${selectFromDate.value}/${selectToDate.value}`);
 
     const displayProperty =[
         // {dataType:'function',propertyName:getRawMaterialNameForPrint},
         {dataType:'function',propertyName:getGrnDateForPrint},
         {dataType:'function',propertyName:getSupplierNameForPrint},
-        {dataType:'function',propertyName:getGrnHeaderForPrint},
+        {dataType:'function',propertyName:getReference},
         {dataType:'function',propertyName:getQuantityForPrint},
         {dataType:'function',propertyName:getIssueNoteForPrint},
     ];
@@ -137,28 +137,51 @@ const getRawMaterialNameForPrint = (ob)=>{
     return `<p class="text-center" ">${ob[0].rawmaterial_id.rmname}</p>`;
 }
 
-const getGrnHeaderForPrint = (ob)=>{
-    return `<p class="text-center">${ob[0].grnheader}</p>`;
+const getReference = (ob)=>{
+    // return `<p class="text-center">${ob[0].grnheader}</p>`;
+    // return `<p class="text-center">${ob[1]?.grnheader ? "GRN" : "Issue Note"}</p>`;
+
+    if (ob[0].grnheader){
+        return `<p class="text-center">GRN</p>`
+    }else {
+        return `<p class="text-center">Issue Note</p>`
+    }
+
+
 }
 
 const getGrnDateForPrint = (ob)=>{
-    return `<p class="text-center">${ob[1].grndate}</p>`;
+    // return `<p class="text-center">${ob[1].grndate}</p>`;
+    if (ob[1].grndate!=undefined){
+        return `<p class="text-center">${ob[1].grndate}</p>`;
+    }else {
+        return `<p class="text-center">${ob[1].issuenotedate}</p>`
+    }
 }
 
 const getSupplierNameForPrint = (ob)=>{
-    return `<p class="text-center">${ob[1].supplier_id.suppliername}</p>`;
+    // return `<p class="text-center">${ob[1].supplier_id.suppliername}</p>`;
+    return `<p class="text-center">${
+        ob[1]?.supplier_id?.suppliername || " "
+    }</p>`;
+
+
 }
 
 const getQuantityForPrint = (ob)=>{
-    return `<p class="text-end">${ob[0].quantity}</p>`
+    if (ob[0].grnheader){
+        return `<p class="text-end">${Number(ob[0].quantity).toLocaleString('en-US')}</p>`
+    }else {
+        return " ";
+    }
 }
 
 
 const getIssueNoteForPrint = (ob) =>{
-    if (ob[0].grnheader==""){
-        return '1';
+    if (ob[0].grnheader){
+        return ' ';
     }else {
-        return `<p class="text-center"></p>`;
+        return `<p class="text-end">${Number(ob[0].quantity).toLocaleString('en-US')}</p>`;
     }
 }
 

@@ -17,6 +17,11 @@ public interface ReportsDao extends JpaRepository<Company,Integer> {
 
 //    @Query(value = "select gd, gh from GrnDetails gd inner join GrnHeader gh on gd.grnheader = gh.grnheaderkey and gd.rawmaterial_id=?1 and gh.grndate between ?2 and ?3")
       @Query(value = "select gd, gh from GrnDetails gd inner join GrnHeader gh on gd.grnheader = gh.grnheaderkey and gd.rawmaterial_id=?1 and gh.grndate between ?2 and ?3")
-      public List<Object[]> joinTablesResult(RawMaterial rawmaterialid, LocalDate fromdate, LocalDate todate);
+      public List<Object[]> joinTablesResultForGrn(RawMaterial rawmaterialid, LocalDate fromdate, LocalDate todate);
+
+
+      @Query(value = "select ind, inh from IssueNoteDetail ind inner join IssueNoteHeader inh on ind.issuenoteheader = inh.headerkey and ind.rawmaterial_id=?1 and inh.issuenotedate between ?2 and  ?3")
+      public List<Object[]> joinTablesResultForIssueNote(RawMaterial rawmaterialid, LocalDate fromdate, LocalDate todate);
+
 
 }
