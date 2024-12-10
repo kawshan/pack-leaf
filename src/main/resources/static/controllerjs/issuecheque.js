@@ -26,15 +26,14 @@ const refreshIssueChequeForm = ()=>{
     textAmount.value = "";
 
     fromAccountList = ajaxGetRequest("/ownbankaccount/findall");
-    fillDataIntoSelect(selectFromAcc,"Select Account",fromAccountList,'account_no')
+    fillDataIntoSelect(selectFromAcc,"Select Account",fromAccountList,'bank_short_name');
 
     issueChequeStatusList = ajaxGetRequest("/issuechequestatus/findall");
     fillDataIntoSelect(selectIssueChequeStatus,'Select Status',issueChequeStatusList,'name');
 
     divModifyButton.classList.add('d-none');    //refill ekak karala reset karanna  one kiyala user ta hithla karoth iita passe div modify section eka hide venna one nisa
-    showAccountsShortName.innerText=""; //bank eke short name eka show karana paragraph tag eka empty karala damma...
 
-    buttonIssueChequeAdd.disabled=false
+    buttonIssueChequeAdd.disabled=false;
     buttonIssueChequeAdd.style.cursor="default";
 
     buttonIssueChequeUpdate.disabled=true;
@@ -64,7 +63,7 @@ const refreshIssueChequeTable = ()=>{
 }
 
 const getFromAccountShortName = (ob)=>{
-    return ob.ownbankaccount_id.bankshortname_id.name;
+    return ob.ownbankaccount_id.bank_short_name;
 }
 
 
@@ -84,7 +83,7 @@ const checkErrors = ()=>{
         errors=errors+"Date Cannot Be Empty \n"
     }
     if (issueCheque.ownbankaccount_id == null){
-        errors=errors+"Bank Account Cannot Be Empty \n"
+        errors=errors+"Bank Short Name Cannot Be Empty \n"
     }
     if (issueCheque.cheque_number == null){
         errors=errors+"Cheque Number Cannot Be Empty \n"
@@ -106,7 +105,7 @@ const saveIssueCheque = ()=>{
     if (errors==''){
         const userConfirm = confirm(`Are You Sure To Add Following Details \n
         Date Is ${issueCheque.issue_cheque_date}
-        Short Name Is ${issueCheque.ownbankaccount_id.bankshortname_id.name}
+        Short Name Is ${issueCheque.ownbankaccount_id.bank_short_name}
         Cheque Number Is ${issueCheque.cheque_number}
         Cheque Amount Is ${issueCheque.cheque_amount}
         Status Is ${issueCheque.issuechequestatus_id.name}
@@ -142,7 +141,7 @@ const refillIssueCheque = (ob)=>{
     textDescription.value = ob.description;
     textAmount.value = ob.cheque_amount;
 
-    fillDataIntoSelect(selectFromAcc,"Select Account",fromAccountList,'account_no',ob.ownbankaccount_id.account_no);
+    fillDataIntoSelect(selectFromAcc,"Select Account",fromAccountList,'bank_short_name',ob.ownbankaccount_id.bank_short_name);
     fillDataIntoSelect(selectIssueChequeStatus,'Select Status',issueChequeStatusList,'name',ob.issuechequestatus_id.name);
 
 
@@ -162,8 +161,8 @@ const checkUpdates = ()=>{
     if (issueCheque.issue_cheque_date != oldIssueCheque.issue_cheque_date){
         updates=updates+"Cheque Date Is Updated \n";
     }
-    if (issueCheque.ownbankaccount_id.account_no != oldIssueCheque.ownbankaccount_id.account_no){
-        updates=updates+"Account Is Updated \n"
+    if (issueCheque.ownbankaccount_id.bank_short_name != oldIssueCheque.ownbankaccount_id.bank_short_name){
+        updates=updates+"Short Name Is Updated \n"
     }
     if (issueCheque.cheque_number != oldIssueCheque.cheque_number){
         updates=updates+"Cheque Number Is Updated \n"
@@ -215,7 +214,7 @@ const updateIssueCheque = ()=>{
 const deleteIssueCheque = (ob)=>{
     const userConfirm = confirm(`Are You Sure To Delete Following Issue Note \n
         Date Is ${ob.issue_cheque_date}
-        Short Name Is ${ob.ownbankaccount_id.bankshortname_id.name}
+        Short Name Is ${ob.ownbankaccount_id.bank_short_name}
         Cheque Number Is ${ob.cheque_number}
         Amount Is ${ob.cheque_amount}
         Status Is ${ob.issuechequestatus_id.name}
@@ -336,7 +335,7 @@ const printOneIssueCheque = async (ob)=>{
 
                 <tr>
                     <td>From Account</td>
-                    <td>${ob.ownbankaccount_id.bankshortname_id.name}</td>
+                    <td>${ob.ownbankaccount_id.bank_short_name}</td>
                 </tr>
 
                 <tr>
@@ -378,14 +377,6 @@ const printOneIssueCheque = async (ob)=>{
 
 }
 
-const showShortName = (fieldId)=>{
-    const selectedValue = JSON.parse(fieldId.value);
-    console.log(selectedValue.bankshortname_id.name);
-    showAccountsShortName.innerText="";
-    showAccountsShortName.innerText=`Bank Short Name Is ${selectedValue.bankshortname_id.name}`;
-
-
-}
 
 
 

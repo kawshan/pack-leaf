@@ -74,14 +74,13 @@
 
                 <div class="col-md-3">
                     <label for="selectFromAcc" class="form-label fw-bold">From Acc <i class="text-danger">*</i> </label>
-                    <select class="form-select text-center" id="selectFromAcc" onchange="selectDBValidator(this,'','issueCheque','ownbankaccount_id'); showShortName(this)"></select>
-                    <p id="showAccountsShortName" style="color: green"></p>
+                    <select class="form-select text-center" id="selectFromAcc" onchange="selectDBValidator(this,'','issueCheque','ownbankaccount_id');"></select>
                 </div>
 
 
                 <div class="col-md-3">
                     <label for="textChequeNo" class="form-label fw-bold">Cheque No <i class="text-danger">*</i> </label>
-                    <input type="text" id="textChequeNo" class="form-control text-start" placeholder="Enter Cheque No" onkeyup="textValidator(this,'','issueCheque','cheque_number')">
+                    <input type="text" id="textChequeNo" class="form-control text-start" placeholder="Enter Cheque No" onkeyup="textValidator(this,'^[0-9]{6}$','issueCheque','cheque_number')">
                 </div>
 
                 <div class="col-md-3">

@@ -36,8 +36,8 @@ public class CheckBookMaster {
     private CheckBookMasterStatus checkbookmasterstatus_id;
 
     @ManyToOne
-    @JoinColumn(name = "bankshortname_id",referencedColumnName = "id")
-    private BankShortName bankshortname_id;
+    @JoinColumn(name = "ownbankaccount_id", referencedColumnName = "id")
+    private OwnBankAccount ownbankaccount_id;
 
 
 }

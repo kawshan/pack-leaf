@@ -65,8 +65,8 @@
         <!--    first row start-->
         <div class="row mt-5">
             <div class="col-md-3">
-                <label for="selectBankShortName" class="form-label fw-bold">Bank Short Name <i class="text-danger">*</i> </label>
-                <select class="form-select text-start" id="selectBankShortName" onchange="selectDBValidator(this,'','ownBankAccount','bankshortname_id')"></select>
+                <label for="textBankShortName" class="form-label fw-bold">Bank Short Name <i class="text-danger">*</i> </label>
+                <input type="text" id="textBankShortName" class="form-control text-start" placeholder="Enter Bank Short Name" onkeyup="textValidator(this,'','ownBankAccount','bank_short_name')">
             </div>
             <div class="col-md-3">
                 <label for="textBankAccountName" class="form-label fw-bold">Bank Account Name <i class="text-danger">*</i> </label>

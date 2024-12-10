@@ -12,7 +12,7 @@ const refreshOwnBankAccountForm = ()=>{
 
     ownBankAccount = new Object();
 
-    selectBankShortName.style.border="2px solid #ced4da";
+    textBankShortName.style.border="2px solid #ced4da";
     textBankAccountName.style.border="2px solid #ced4da";
     textBankName.style.border="2px solid #ced4da";
     textBankCode.style.border="2px solid #ced4da";
@@ -23,12 +23,10 @@ const refreshOwnBankAccountForm = ()=>{
     selectOwnBankStatus.style.border="2px solid #ced4da";
 
 
-    bankShortNames= ajaxGetRequest("/bankshortname/findall");
-    fillDataIntoSelect(selectBankShortName,"Select Bank Short Name",bankShortNames,'name');
-
     ownBankAccountStatuses = ajaxGetRequest("/ownbankaccountstatus/findall");
     fillDataIntoSelect(selectOwnBankStatus,'Select Own Bank Account Status',ownBankAccountStatuses,'name');
 
+    textBankShortName.value="";
     textBankAccountName.value="";
     textBankName.value="";
     textBankCode.value="";
@@ -54,7 +52,7 @@ const refreshOwnBankAccountTable = ()=>{
     ownBankAccountList = ajaxGetRequest("ownbankaccount/findall");
 
     displayProperty = [
-        {dataType:'function',propertyName:getBankShortName},
+        {dataType:'text',propertyName:'bank_short_name'},
         {dataType: 'text',propertyName:'bank_account_name'},
         {dataType: 'text',propertyName:'bank_name'},
         {dataType: 'text',propertyName:'bank_code'},
@@ -70,9 +68,7 @@ const refreshOwnBankAccountTable = ()=>{
 }
 
 
-const getBankShortName = (ob)=>{
-    return `<p>${ob.bankshortname_id.name}</p>`
-}
+
 
 
 
@@ -85,7 +81,7 @@ const checkErrors = ()=>{
 
     let errors = '';
 
-    if (ownBankAccount.bankshortname_id == null){
+    if (ownBankAccount.bank_short_name == null){
         errors=errors+"Bank Short Name Cannot Be Empty \n"
     }
     if (ownBankAccount.bank_account_name == null){
@@ -113,7 +109,7 @@ const submitOwnBankAccountDetails = ()=>{
 
     if (errors==''){
         const userConfirm = confirm(`Are You Sure To Add Following Own Bank Account Details \n 
-        Bank Short Name Is ${ownBankAccount.bankshortname_id.name}
+        Bank Short Name Is ${ownBankAccount.bank_short_name}
         Bank Account Name Is ${ownBankAccount.bank_account_name}
         Bank Name Is ${ownBankAccount.bank_name}
         Branch Name Is ${ownBankAccount.branch_name}
@@ -149,6 +145,7 @@ const refillOwnBankAccountDetails = (ob,rowIndex)=>{
     oldOwnbankAccount = JSON.parse(JSON.stringify(ob));
 
 
+    textBankShortName.value = ob.bank_short_name
     textBankAccountName.value=ob.bank_account_name
     textBankName.value=ob.bank_name
     textBankCode.value=ob.bank_code
@@ -158,7 +155,6 @@ const refillOwnBankAccountDetails = (ob,rowIndex)=>{
     textDescription.value=ob.bank_description
 
 
-    fillDataIntoSelect(selectBankShortName,"Select Bank Short Name",bankShortNames,'name',ob.bankshortname_id.name);
     fillDataIntoSelect(selectOwnBankStatus,'Select Own Bank Account Status',ownBankAccountStatuses,'name',ob.ownbankaccountstatus_id.name);
 
     buttonAddOwnBankAccount.style.cursor="not-allowed";
@@ -174,7 +170,7 @@ const refillOwnBankAccountDetails = (ob,rowIndex)=>{
 const checkUpdates = ()=>{
     let updates = '';
 
-    if (ownBankAccount.bankshortname_id.name != oldOwnbankAccount.bankshortname_id.name){
+    if (ownBankAccount.bank_short_name != oldOwnbankAccount.bank_short_name){
         updates=updates+"Bank Short Name Is Updated \n"
     }
     if (ownBankAccount.bank_account_name != oldOwnbankAccount.bank_account_name){
@@ -233,7 +229,7 @@ const updateOwnBankAccountDetails =()=>{
 
 const deleteOwnBankAccountDetails = (ob,rowIndex)=>{
     const userConfirm = confirm(`Are You Sure To Delete Following Own Bank Account Details \n 
-        Bank Short Name Is ${ob.bankshortname_id.name}
+        Bank Short Name Is ${ob.bank_short_name}
         Bank Account Name Is ${ob.bank_account_name}
         Bank Name Is ${ob.bank_name}
         Branch Name Is ${ob.branch_name}
@@ -303,7 +299,7 @@ const loadDataIntoTablePrint = ()=>{
     const ownBankAccountList = ajaxGetRequest("ownbankaccount/findall");
 
     const displayProperty = [
-        {dataType:'function',propertyName:getBankShortName},
+        {dataType: 'text',propertyName:'bank_short_name'},
         {dataType: 'text',propertyName:'bank_account_name'},
         {dataType: 'text',propertyName:'bank_name'},
         {dataType: 'text',propertyName:'bank_code'},
@@ -345,7 +341,7 @@ const oneBankAccountDetailPrint = (ob)=>{
 
         <tr>
             <td>Bank Short Name</td>
-            <td>${ob.bankshortname_id.name}</td>
+            <td>${ob.bank_short_name}</td>
         </tr>
 
         <tr>

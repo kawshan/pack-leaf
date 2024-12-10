@@ -1,7 +1,9 @@
 package com.packleaf.packleaf.dao;
 
 import com.packleaf.packleaf.entity.PurchaseOrderHeader;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface PurchaseOrderHeaderDao extends JpaRepository<PurchaseOrderHeader,Integer> {
@@ -17,6 +19,11 @@ public interface PurchaseOrderHeaderDao extends JpaRepository<PurchaseOrderHeade
 
     @Query(value = "select pokey from poheader where ponumber=?1",nativeQuery = true)
     public String getPoKeyFromPoNumber(String ponumber);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from podetail where purchaseorderkey=?1",nativeQuery = true)
+    public void deletePoDetailsFromPoKey(String pokey);
 
 
 }

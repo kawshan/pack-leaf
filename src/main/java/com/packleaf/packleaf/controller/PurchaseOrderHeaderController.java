@@ -63,6 +63,7 @@ public class PurchaseOrderHeaderController {
     @DeleteMapping
     public String deletePurchaseOrderHeader(@RequestBody PurchaseOrderHeader purchaseOrderHeader){
         try {
+            purchaseOrderHeaderDao.deletePoDetailsFromPoKey(purchaseOrderHeader.getPokey());
             purchaseOrderHeaderDao.delete(purchaseOrderHeader);
             return "ok";
         }catch (Exception e){

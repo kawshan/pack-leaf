@@ -27,24 +27,6 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
 
-
-<!--            <ul class="navbar-nav">-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link active" aria-current="page" href="#">Home</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#">Features</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#">Pricing</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>-->
-<!--                </li>-->
-<!--            </ul>-->
-
-
-
         </div>
 
 
@@ -82,14 +64,15 @@
                     <li class="list-group-item">
                         <button class="btn" onclick="window.location.href='/customer' ">Customer Master</button>
                     </li>
-                    <li class="list-group-item">
-                        <button type="button" class="btn" onclick="window.location.href='/invoice-detail'">Invoice</button>
-                    </li>
 
                     <li class="list-group-item">
                         <button type="button" class="btn" onclick="window.location.href='/purchaseorderheader'">Customer Purchase Order</button>
                     </li>
-<!--                    <li class="list-group-item">And a fifth one</li>-->
+
+                    <li class="list-group-item">
+                        <button type="button" class="btn" onclick="window.location.href='/invoice-detail'">Invoice</button>
+                    </li>
+
                 </ul>
             </div>
         </div>
@@ -149,7 +132,47 @@
 
 
 <div class="row mt-2">
-            <!--stock collapse start-->
+            <!--finance section collapse start-->
+            <p class="d-inline-flex gap-1">
+                <button class="btn" style="background-color: #54C392; padding-bottom: 5%" type="button" data-bs-toggle="collapse" data-bs-target="#FinanceExample" aria-expanded="false" aria-controls="ItemExample">
+                    <span class="material-symbols-outlined">category</span> Stock Section
+                </button>
+            </p>
+            <div class="collapse" id="FinanceExample">
+                <div class="card card-body">
+                    <ul class="list-group">
+
+
+                        <li class="list-group-item">
+                            <button class="btn" onclick="window.location.href='/ownbankaccount'">Own Bank Account Master</button>
+                        </li>
+
+
+                        <li class="list-group-item">
+                            <button class="btn" onclick="window.location.href='/checkbookmaster'">Cheque Book Master</button>
+                        </li>
+
+                        <li class="list-group-item">
+                            <button class="btn" onclick="window.location.href='/issuecheque'">Issue Cheque</button>
+                        </li>
+
+
+
+
+
+
+                    </ul>
+                </div>
+            </div>
+            <!--finance section collapse end-->
+</div>
+
+
+
+
+
+<div class="row mt-2">
+            <!--report collapse start-->
             <p class="d-inline-flex gap-1">
                 <button class="btn" style="background-color: #54C392; padding-bottom: 5%" type="button" data-bs-toggle="collapse" data-bs-target="#reportExample" aria-expanded="false" aria-controls="reportExample">
                     <span class="material-symbols-outlined">pie_chart</span> Report Section
@@ -163,13 +186,11 @@
                         <li class="list-group-item">
                             <button class="btn" onclick="window.location.href='/stockreport'">Stock Report</button>
                         </li>
-
-                        <!--                    <li class="list-group-item">And a fifth one</li>-->
                     </ul>
                 </div>
             </div>
-            <!--stock collapse end-->
-        </div>
+            <!--report collapse end-->
+</div>
 
 
     </div>

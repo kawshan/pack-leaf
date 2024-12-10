@@ -25,8 +25,8 @@ const refreshChequeBookMasterForm = ()=>{
     textEndNumber.value="";
 
 
-    bankShortNamesList = ajaxGetRequest("/bankshortname/findall");
-    fillDataIntoSelect(selectBankShortName,'Select Bank Short Name',bankShortNamesList,'name');
+    bankShortNamesList = ajaxGetRequest("/ownbankaccount/findall");
+    fillDataIntoSelect(selectBankShortName,'Select Bank Short Name',bankShortNamesList,'bank_short_name');
 
     chequeBookStatusesList = ajaxGetRequest("/checkbookstatus/findall");
     fillDataIntoSelect(selectStatus,'Select Status',chequeBookStatusesList,'name');
@@ -61,7 +61,7 @@ const refreshChequeBookMasterTable = ()=>{
 }
 
 const getBankShortName = (ob)=>{
-    return ob.bankshortname_id.name;
+    return ob.ownbankaccount_id.bank_short_name
 }
 
 const getNumberOfCheques = (ob)=>{
@@ -92,7 +92,7 @@ const getChequeBookMasterStatus = (ob)=>{
 const checkErrors = ()=>{
     let errors= '';
 
-    if (chequeBookMaster.bankshortname_id == null){
+    if (chequeBookMaster.ownbankaccount_id == null){
         errors=errors+"Bank Short Name Cannot Be Empty \n"
     }
     if (chequeBookMaster.number_of_checks==null){
@@ -116,7 +116,7 @@ const submitCheque = ()=>{
 
     if (errors==""){
         const userConfirm = confirm(`Are You Sure To Add Following Cheque Book Details \n
-        Bank Short Name Is ${chequeBookMaster.bankshortname_id.name}
+        Bank Short Name Is ${chequeBookMaster.ownbankaccount_id.bank_short_name}
         Running Number Is ${chequeBookMaster.running_number}
         Number Of Cheques Are ${chequeBookMaster.number_of_checks}
         Start Number Is ${chequeBookMaster.start_number}
@@ -140,6 +140,13 @@ const submitCheque = ()=>{
 
 
 const refillChequeBookMaster = (ob)=>{
+
+    buttonChequeBookAdd.disabled=true;
+    buttonChequeBookAdd.style.cursor="not-allowed";
+
+    buttonChequeBookUpdate.disabled=false;
+    buttonChequeBookUpdate.style.cursor="default";
+
     chequeBookMaster = JSON.parse(JSON.stringify(ob));
     oldChequeBookMaster = JSON.parse(JSON.stringify(ob));
 
@@ -149,17 +156,8 @@ const refillChequeBookMaster = (ob)=>{
     textEndNumber.value=ob.end_number;
 
 
-    fillDataIntoSelect(selectBankShortName,'Select Bank Short Name',bankShortNamesList,'name',ob.bankshortname_id.name);
+    fillDataIntoSelect(selectBankShortName,'Select Bank Short Name',bankShortNamesList,'bank_short_name',ob.ownbankaccount_id.bank_short_name);
     fillDataIntoSelect(selectStatus,'Select Status',chequeBookStatusesList,'name',ob.checkbookmasterstatus_id.name);
-
-
-    buttonChequeBookAdd.disabled=true;
-    buttonChequeBookAdd.style.cursor="not-allowed";
-
-    buttonChequeBookUpdate.disabled=false;
-    buttonChequeBookUpdate.style.cursor="default";
-
-
 }
 
 
@@ -169,7 +167,7 @@ const refillChequeBookMaster = (ob)=>{
 const checkUpdates = ()=>{
     let updates = "";
 
-    if (chequeBookMaster.bankshortname_id.name != oldChequeBookMaster.bankshortname_id.name){
+    if (chequeBookMaster.ownbankaccount_id.bank_short_name != oldChequeBookMaster.ownbankaccount_id.bank_short_name){
         updates=updates+"Short Name Is Updated \n"
     }
     if (chequeBookMaster.number_of_checks != oldChequeBookMaster.number_of_checks){
@@ -217,7 +215,7 @@ const updateChequeBookMaster = ()=>{
 
 const deleteCheckBookMaster = (ob)=>{
     const userConfirm = confirm(`Are You Sure To Delete Following Check Book Master \n
-        Bank Short Name Is ${ob.bankshortname_id.name}
+        Bank Short Name Is ${ob.ownbankaccount_id.bank_short_name}
         Running Number Is ${ob.running_number}
         Number Of Cheques Are ${ob.number_of_checks}
         Start Number Is ${ob.start_number}
@@ -329,7 +327,7 @@ const printOneChequeBook = async (ob)=>{
 
                 <tr>
                     <td>Bank Short Name</td>
-                    <td>${ob.bankshortname_id.name}</td>
+                    <td>${ob.ownbankaccount_id.bank_short_name}</td>
                 </tr>
 
                 <tr>

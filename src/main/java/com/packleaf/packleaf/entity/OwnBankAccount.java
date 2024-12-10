@@ -42,9 +42,9 @@ public class OwnBankAccount {
     @Column(name = "bank_description")
     private String bank_description;
 
-    @ManyToOne
-    @JoinColumn(name = "bankshortname_id",referencedColumnName = "id")
-    private BankShortName bankshortname_id;
+    @Column(name = "bank_short_name")
+    private String bank_short_name;
+
 
     @ManyToOne
     @JoinColumn(name = "ownbankaccountstatus_id",referencedColumnName = "id")
