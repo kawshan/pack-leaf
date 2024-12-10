@@ -106,7 +106,7 @@
             <input type="text" id="txtSupplierVatNo" class="form-control text-start" placeholder="Enter Supplier Vat No" onkeyup="textValidator(this,'','supplier','suppliervatno')">
         </div>
         <div class="col-md-3">
-            <label for="txtSupplierTelephone" class="form-label fw-bold"> Supplier Telephone  <i class="text-danger">*</i>  </label>
+            <label for="txtSupplierTelephone" class="form-label fw-bold"> Supplier Telephone</label>
             <input type="text" id="txtSupplierTelephone" class="form-control text-start" placeholder="Enter Supplier Telephone" onkeyup="textValidator(this,'','supplier','suppliertelephone')">
         </div>
         <div class="col-md-3"></div>
@@ -141,7 +141,7 @@
         <div class="col-md-3">
             <label for="selectSupplierStatus" class="form-label fw-bold"> Supplier Status  <i class="text-danger">*</i>  </label>
             <select id="selectSupplierStatus" class="form-select text-start" onchange="selectValidator(this,'','supplier','supplierstatus')">
-                <option selected disabled>select an option</option>
+                <option selected disabled value="">select an option</option>
                 <option value="true">active</option>
                 <option value="false">in-active</option>
             </select>

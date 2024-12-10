@@ -95,27 +95,27 @@ const checkErrors = ()=>{
     if (rawmaterialcategory.rmctname == null){
         errors =errors+"category name cannot be empty\n"
     }
-    if (rawmaterialcategory.rmctsize == null){
-        errors=errors+"category size cannot be empty \n"
-    }
-    if (rawmaterialcategory.rmctshape == null){
-        errors=errors+"shape cannot be empty \n"
-    }
-    if (rawmaterialcategory.rmctdescription == null){
-        errors=errors+"description cannot be empty \n"
-    }
-    if (rawmaterialcategory.rmctvolumme == null){
-        errors=errors+"volume cannot be empty \n"
-    }
-    if (rawmaterialcategory.rmctmoq == null){
-        errors=errors+"MOQ cannot be empty \n"
-    }
-    if (rawmaterialcategory.rmctduration == null){
-        errors=errors+"duration cannot be empty \n"
-    }
-    if (rawmaterialcategory.rmctpacking == null){
-        errors=errors+"packing cannot be empty \n"
-    }
+    // if (rawmaterialcategory.rmctsize == null){
+    //     errors=errors+"category size cannot be empty \n"
+    // }
+    // if (rawmaterialcategory.rmctshape == null){
+    //     errors=errors+"shape cannot be empty \n"
+    // }
+    // if (rawmaterialcategory.rmctdescription == null){
+    //     errors=errors+"description cannot be empty \n"
+    // }
+    // if (rawmaterialcategory.rmctvolumme == null){
+    //     errors=errors+"volume cannot be empty \n"
+    // }
+    // if (rawmaterialcategory.rmctmoq == null){
+    //     errors=errors+"MOQ cannot be empty \n"
+    // }
+    // if (rawmaterialcategory.rmctduration == null){
+    //     errors=errors+"duration cannot be empty \n"
+    // }
+    // if (rawmaterialcategory.rmctpacking == null){
+    //     errors=errors+"packing cannot be empty \n"
+    // }
     if (rawmaterialcategory.rmctstatus == null){
         errors=errors+"status cannot be empty \n"
     }
@@ -131,15 +131,17 @@ const submitRawMaterial = ()=>{
         let userConfirm =confirm(`are you sure to add following raw material 
         Code is ${rawmaterialcategory.rmctcode}
         Name is ${rawmaterialcategory.rmctname}
-        Size is ${rawmaterialcategory.rmctsize}
-        Shape is ${rawmaterialcategory.rmctshape}
-        Description is ${rawmaterialcategory.rmctdescription}
-        Volume is ${rawmaterialcategory.rmctvolumme}
-        MOQ is ${rawmaterialcategory.rmctmoq}
-        Duration is ${rawmaterialcategory.rmctduration}
-        Packing is ${rawmaterialcategory.rmctpacking}
         Status is ${rawmaterialcategory.rmctstatus}`
         );
+        //uda message ekata me tika danata one nathi nisa comment karala message eken ayin kara
+        // Size is ${rawmaterialcategory.rmctsize}
+        // Shape is ${rawmaterialcategory.rmctshape}
+        // Description is ${rawmaterialcategory.rmctdescription}
+        // Volume is ${rawmaterialcategory.rmctvolumme}
+        // MOQ is ${rawmaterialcategory.rmctmoq}
+        // Duration is ${rawmaterialcategory.rmctduration}
+        // Packing is ${rawmaterialcategory.rmctpacking}
+
 
         if (userConfirm){
             const postServerResponse =ajaxPostRequest("/rawmaterialcategory",rawmaterialcategory);
@@ -258,15 +260,19 @@ const deleteRawMaterialCategory = (ob,rowOb)=>{
     const userConfirm = confirm(`are you sure to delete following raw material category
     code is ${ob.rmctcode}
     name is ${ob.rmctname}
-    size is ${ob.rmctsize}
-    shape is ${ob.rmctshape}
-    description is ${ob.rmctdescription}
-    volume is ${ob.rmctdescription}
-    MOQ is ${ob.rmctmoq}
-    Duration is ${ob.rmctduration}
-    Packing is ${ob.rmctpacking}
     Status is ${ob.rmctstatus}`
     );
+
+    //me tikath uda message ekata one na ee nisa comment karala uda message eken ayin kara
+    // size is ${ob.rmctsize}
+    // shape is ${ob.rmctshape}
+    // description is ${ob.rmctdescription}
+    // volume is ${ob.rmctdescription}
+    // MOQ is ${ob.rmctmoq}
+    // Duration is ${ob.rmctduration}
+    // Packing is ${ob.rmctpacking}
+
+
     if (userConfirm){
         let deleteServerResponse = ajaxDeleteRequest("/rawmaterialcategory",ob);
         if (deleteServerResponse=="ok"){

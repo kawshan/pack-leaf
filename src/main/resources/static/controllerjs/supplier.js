@@ -86,9 +86,9 @@ const checkErrors = ()=>{
     if (supplier.supplieraddress == null){
         errors=errors+"Supplier Address Cannot Be Empty \n"
     }
-    if (supplier.suppliertelephone == null){
-        errors=errors+"Supplier Telephone Cannot Be Empty \n"
-    }
+    // if (supplier.suppliertelephone == null){
+    //     errors=errors+"Supplier Telephone Cannot Be Empty \n"
+    // }
     if (supplier.supplierstatus == null){
         errors=errors+"Supplier Status Cannot Be Empty \n"
     }
@@ -103,7 +103,6 @@ const saveSupplier = ()=>{
         const userConfirm = confirm(`Are You Sure To Add Following Supplier
         Supplier Name Is ${supplier.suppliername}
         Supplier Address Is ${supplier.supplieraddress}
-        Supplier Telephone Is ${supplier.suppliertelephone}
         Supplier Status Is ${supplier.supplierstatus}`
         );
         if (userConfirm){
@@ -210,7 +209,6 @@ const deleteSupplier = (ob,rowIndex)=>{
     const userConfirm = confirm(`Are You Sure To Delete Following Supplier
         Supplier Name Is ${ob.suppliername}
         Supplier Address Is ${ob.supplieraddress}
-        Supplier Vat No Is ${ob.suppliervatno}
     `);
     if (userConfirm){
         const deleteServerResponse = ajaxDeleteRequest("/supplier",ob);
@@ -263,7 +261,18 @@ const printSupplierModelButtonMC = ()=>{
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+    <div class="container-fluid">
+    
+    <div class="row text-center">
+    <p style="font-size: 14px; font-weight: bold">Supplier Details</p>
+    </div>
+    
+    
+    <div class="row mt-2">
     ${printSupplierTable.outerHTML}
+    </div>
+    
+</div>
 </body>
 </html>
         `

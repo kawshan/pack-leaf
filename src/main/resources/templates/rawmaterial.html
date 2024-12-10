@@ -66,7 +66,7 @@
 
         <div class="col-md-3"></div>
         <div class="col-md-3">
-            <label for="selectRmCt" class="form-label fw-bold">Raw Material Category</label>
+            <label for="selectRmCt" class="form-label fw-bold">Raw Material Category <i class="text-danger">*</i> </label>
             <select id="selectRmCt" class="form-select text-center" onchange="selectDBValidator(this,'','rawmaterial','rawmaterialcategory_id')"></select>
         </div>
         <div class="col-md-3">
@@ -84,8 +84,8 @@
         <div class="col-md-3"></div>
         <div class="col-md-3">
             <label for="selectRmForm" class="form-label fw-bold">Raw Material Form <i class="text-danger">*</i> </label>
-<!--            <input type="text" id="textRmForm" class="form-control text-start" placeholder="Enter Raw material Form" onkeyup="textValidator(this,'','rawmaterial','rmform')">-->
             <select id="selectRmForm" class="form-select text-start" onchange="selectValidator(this,'','rawmaterial','rmform')">
+                <option value="" selected disabled>Select An Option</option>
                 <option value="sheets">sheets</option>
                 <option value="liters">liters</option>
                 <option value="Kg">kg</option>
@@ -93,7 +93,7 @@
             </select>
         </div>
         <div class="col-md-3">
-            <label for="txtRmPacking" class="form-label fw-bold ">Raw Material Packing <i class="text-danger">*</i> </label>
+            <label for="txtRmPacking" class="form-label fw-bold ">Raw Material Packing </label>
             <input type="text" id="txtRmPacking" class="form-control text-start" placeholder="Enter Raw Material Packing" onkeyup="textValidator(this,'','rawmaterial','rmpacking')">
         </div>
         <div class="col-md-3"></div>
@@ -105,12 +105,12 @@
     <div class="row mt-5">
         <div class="col-md-3"></div>
         <div class="col-md-3">
-            <label for="txtRmQty" class="form-label fw-bold ">Raw Material QTY <i class="text-danger">*</i> </label>
+            <label for="txtRmQty" class="form-label fw-bold ">Raw Material QTY  </label>
             <input type="text" id="txtRmQty" class="form-control text-start" placeholder="Enter Raw Material QTY" onkeyup="textValidator(this,'','rawmaterial','rmqty')">
 
         </div>
         <div class="col-md-3">
-            <label for="txtRmRate" class="form-label fw-bold ">Raw Material Rate <i class="text-danger">*</i> </label>
+            <label for="txtRmRate" class="form-label fw-bold ">Raw Material Rate </label>
             <input type="text" id="txtRmRate" class="form-control text-start" placeholder="Enter Raw Material Rate" onkeyup="textValidator(this,'','rawmaterial','rmrate')">
 
         </div>
@@ -123,14 +123,14 @@
     <div class="row mt-5">
         <div class="col-md-3"></div>
         <div class="col-md-3">
-            <label for="txtRmReOrderLevel" class="form-label fw-bold ">Raw Material Re Order Level <i class="text-danger">*</i> </label>
+            <label for="txtRmReOrderLevel" class="form-label fw-bold ">Raw Material Re Order Level </label>
             <input type="text" id="txtRmReOrderLevel" class="form-control text-start" placeholder="Enter Raw Material Re order level" onkeyup="textValidator(this,'','rawmaterial','rmreorderlevel')">
 
         </div>
         <div class="col-md-3">
             <label for="SelectRmStatus" class="form-label fw-bold ">Raw Material Status <i class="text-danger">*</i> </label>
             <select id="SelectRmStatus" class="form-select text-center"  onchange="selectValidator(this,'','rawmaterial','rmstatus')" >
-                <option selected disabled>Select Status</option>
+                <option selected disabled value="">Select Status</option>
                 <option value="true">Active</option>
                 <option value="false">Inactive</option>
             </select>
@@ -212,7 +212,7 @@
                     <!--table invoice header start-->
                     <div class="card m-4">
                         <table class="table table-bordered"  id="printRawMaterialTable">
-                            <thead>
+                            <thead class="table-header">
                             <th>#</th>
                             <th>Raw Material category</th>
                             <th>Name</th>
@@ -220,7 +220,6 @@
                             <th>Packing</th>
                             <th>QTY</th>
                             <th>Rate</th>
-                            <th>Re order level</th>
                             <th>Raw material Status</th>
                             </thead>
                             <tbody></tbody>

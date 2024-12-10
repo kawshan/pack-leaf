@@ -241,7 +241,7 @@ const printPurchaseOrderHeader = async (ob,rowIndex)=>{
 <body>
     <div class="container-fluid" style="position: relative">
     
-        <div class="row" style="margin-top: 3cm">
+        <div class="row">
             <div class="col-6"></div>
             <div class="col-6 text-end">
             <p style="font-size: 14px">${ob.company_id.companyname}</p>
@@ -300,7 +300,7 @@ const printPurchaseOrderHeader = async (ob,rowIndex)=>{
         </div>
 <!--     customer section and po section end   -->
 
-        <div class="row mt-3" style="padding-right: 10px; padding-left: 8px">
+        <div class="row mt-1" style="padding-right: 10px; padding-left: 8px">
 <!--        main table goes here    -->
             ${tablePrintPurchaseOrderDetails.outerHTML}
         </div>
@@ -311,7 +311,7 @@ const printPurchaseOrderHeader = async (ob,rowIndex)=>{
     </div>
 
 
-    <div class="row" style="position: absolute; bottom: 10%; width: 100%">
+    <div class="row" style="position: absolute; bottom: 2%; width: 100%">
         <div class="col-4 text-center">
             <p>..........................</p>
             <p style="font-size: 12px">prepared by</p>
