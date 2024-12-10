@@ -5,6 +5,7 @@ import com.packleaf.packleaf.dao.OwnBankAccountStatusDao;
 import com.packleaf.packleaf.entity.OwnBankAccount;
 import com.packleaf.packleaf.entity.OwnBankAccountStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,7 +31,7 @@ public class OwnBankAccountController {
 
     @GetMapping(value = "/findall")
     public List<OwnBankAccount> getAllOwnBankAccounts(){
-        return ownBankAccountDao.findAll();
+        return ownBankAccountDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
 

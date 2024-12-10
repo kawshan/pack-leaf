@@ -64,6 +64,7 @@ const refreshOwnBankAccountTable = ()=>{
     ];
 
     fillDataIntoTable(tableOwnBankAccount,ownBankAccountList,displayProperty,true);
+    $("#tableOwnBankAccount").dataTable();
 
 
 }
@@ -72,6 +73,8 @@ const refreshOwnBankAccountTable = ()=>{
 const getBankShortName = (ob)=>{
     return `<p>${ob.bankshortname_id.name}</p>`
 }
+
+
 
 const getOwnBankAccountStatus = (ob)=>{
     return `<p>${ob.ownbankaccountstatus_id.name}</p>`;
@@ -102,6 +105,8 @@ const checkErrors = ()=>{
     }
     return errors;
 }
+
+
 
 const submitOwnBankAccountDetails = ()=>{
     const errors = checkErrors();

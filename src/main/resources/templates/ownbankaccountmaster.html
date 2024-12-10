@@ -15,6 +15,11 @@
     <script src="/commonjs/tablecommonfuntion.js"></script>
     <script src="/controllerjs/ownbankaccountdetailsmaster.js"></script>
 
+    <!--    jquery cdn start-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <!--    jquery cdn end-->
+
 
 </head>
 <body>
@@ -64,11 +69,11 @@
                 <select class="form-select text-start" id="selectBankShortName" onchange="selectDBValidator(this,'','ownBankAccount','bankshortname_id')"></select>
             </div>
             <div class="col-md-3">
-                <label for="textBankAccountName" class="form-label fw-bold">Bank Account Name </label>
+                <label for="textBankAccountName" class="form-label fw-bold">Bank Account Name <i class="text-danger">*</i> </label>
                 <input type="text" class="form-control text-start" id="textBankAccountName" placeholder="Enter Account Name" onkeyup="textValidator(this,'','ownBankAccount','bank_account_name')">
             </div>
             <div class="col-md-3">
-                <label for="textBankName" class="form-label fw-bold">Bank Name </label>
+                <label for="textBankName" class="form-label fw-bold">Bank Name <i class="text-danger">*</i> </label>
                 <input type="text" class="form-control text-start" id="textBankName" placeholder="Enter Bank Name" onkeyup="textValidator(this,'','ownBankAccount','bank_name')">
             </div>
             <div class="col-md-3">
@@ -82,7 +87,7 @@
         <!--    second row start-->
         <div class="row mt-5">
             <div class="col-md-3">
-                <label for="textBranchName" class="form-label fw-bold">Branch Name </label>
+                <label for="textBranchName" class="form-label fw-bold">Branch Name <i class="text-danger">*</i> </label>
                 <input type="text" class="form-control text-start" id="textBranchName" placeholder="Enter Branch Name" onkeyup="textValidator(this,'','ownBankAccount','branch_name')">
             </div>
             <div class="col-md-3">
@@ -90,7 +95,7 @@
                 <input type="text" class="form-control text-start" id="textBranchCode" placeholder="Enter Branch Code" onkeyup="textValidator(this,'','ownBankAccount','branch_code')">
             </div>
             <div class="col-md-3">
-                <label for="textBankAccountNo" class="form-label fw-bold">Bank Account No </label>
+                <label for="textBankAccountNo" class="form-label fw-bold">Bank Account No <i class="text-danger">*</i> </label>
                 <input type="text" class="form-control text-start" id="textBankAccountNo" placeholder="Enter Account Number" onkeyup="textValidator(this,'','ownBankAccount','account_no')">
             </div>
             <div class="col-md-3">
@@ -182,7 +187,6 @@
         <th>Branch Name</th>
         <th>Branch Code</th>
         <th>Status</th>
-        <th>Action</th>
         </thead>
         <tbody></tbody>
     </table>
