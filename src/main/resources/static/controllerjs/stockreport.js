@@ -125,9 +125,11 @@ const fillDataIntoPrintTable = ()=>{
         {dataType:'function',propertyName:getReference},
         {dataType:'function',propertyName:getQuantityForPrint},
         {dataType:'function',propertyName:getIssueNoteForPrint},
+        {dataType:'function',propertyName:calculateRunningTotal},
+
     ];
 
-    fillDataIntoTable(printStockReportTable,getDataListForPrint,displayProperty,false);
+    fillDataIntoTableForStockReportPrint(printStockReportTable,getDataListForPrint,displayProperty,false);
 
 
 }
@@ -184,6 +186,44 @@ const getIssueNoteForPrint = (ob) =>{
         return `<p class="text-end">${Number(ob[0].quantity).toLocaleString('en-US')}</p>`;
     }
 }
+
+
+let runningTotal = null;
+
+const calculateRunningTotal = (ob)=>{
+    if (ob[0].grnheader){
+        runningTotal+=parseFloat(ob[0].quantity);
+        return `<p class="text-end">${Number(runningTotal).toLocaleString('en-US')}</p>`;
+    }else {
+        runningTotal-=parseFloat(ob[0].quantity);
+        return `<p class="text-end">${Number(runningTotal).toLocaleString('en-US')}</p>`;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
