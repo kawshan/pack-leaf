@@ -85,5 +85,17 @@ public class GrnHeaderController {
         return grnHeaderDao.getOurPoDetailsFromPoNumber(ourponumber);
     }
 
+    @GetMapping(value = "/getmaxgrnnumber")
+    public String getMaxGrnNumber(){
+
+        String existingMaxGrnNumber = grnHeaderDao.getMaxGrnNo();
+        if (existingMaxGrnNumber==null || existingMaxGrnNumber.equals("")){
+            return "1000";
+        }else {
+            return grnHeaderDao.getMaxGrnNo();
+        }
+
+    }
+
 
 }

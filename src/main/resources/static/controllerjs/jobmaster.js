@@ -60,7 +60,7 @@ const refreshJobMasterTable = ()=>{
     ];
 
     fillDataIntoTable(tableJobMaster,jobMastersList,displayProperty,true);
-
+    $("#tableJobMaster").dataTable();
 }
 
 const getJobQuantity = (ob)=>{
@@ -268,6 +268,169 @@ const deleteJobMaster = (ob,rowIndex)=>{
 
 
 }
+
+
+//print functions
+
+//to see all jobs
+const printAllJobs = async ()=>{
+    const newWindow = window.open();
+
+    await loadDataIntoJobMasterPrintTable();
+
+    await newWindow.document.write(`
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Master Print</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="container-fluid" style="position: relative">
+
+    <div class="row mb-2 text-center" style="margin-top: 2cm">
+        <p style="font-size: 14px; font-weight: bold">All jobs</p>
+    </div>
+
+    <div class="row">
+        ${tableJobMasterPrint.outerHTML}
+    </div>
+
+
+
+</div>
+
+</body>
+</html>
+    
+    `)
+
+    newWindow.stop();
+    newWindow.print();
+    newWindow.close();
+
+
+}
+
+
+const loadDataIntoJobMasterPrintTable = ()=>{
+    jobMastersList = ajaxGetRequest("/jobmaster/findall");
+
+    displayProperty = [
+        {dataType:'function',propertyName:getCustomerName},
+        {dataType:'function',propertyName:getItemName},
+        {dataType:'text',propertyName:'jobdate'},
+        {dataType:'text',propertyName:'jobnumber'},
+        {dataType:'function',propertyName:getJobQuantity},
+        {dataType:'text',propertyName:'jobdescription'},
+        {dataType:'function',propertyName:getStatus},
+    ];
+
+    fillDataIntoTable(tableJobMasterPrint,jobMastersList,displayProperty,false);
+}
+
+
+const printOneJob = async (ob)=>{
+    const newWindow = window.open();
+    await newWindow.document.write(`
+    
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Master Print One Item</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="container-fluid" style="position: relative">
+
+    <div class="row mb-2 text-center" style="margin-top: 2cm">
+        <p style="font-size: 14px; font-weight: bold">Job Details</p>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered" style="font-size: 12px">
+            <thead style="font-weight: bold" class="text-center">
+            <th style="width: 40%">Properties</th>
+            <th>Details</th>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Job Date</td>
+                    <td>${ob.jobdate}</td>
+                </tr>
+
+
+                <tr>
+                    <td>Job Number</td>
+                    <td>${ob.jobnumber}</td>
+                </tr>
+
+                <tr>
+                    <td>Customer Name</td>
+                    <td>${ob.customer_id.customername}</td>
+                </tr>
+
+                <tr>
+                    <td>Item Name</td>
+                    <td>${ob.item_id.itmname}</td>
+                </tr>
+
+
+                <tr>
+                    <td>Job Quantity</td>
+                    <td>${Number(ob.jobquantity).toLocaleString('en-US')}</td>
+                </tr>
+
+                <tr>
+                    <td>Job Status</td>
+                    <td>${ob.jobmasterstatus_id.name}</td>
+                </tr>
+
+                <tr>
+                    <td>Job Description</td>
+                    <td>${ob.jobdescription==null ?" ":ob.jobdescription}</td>
+                </tr>
+
+            </tbody>
+
+
+
+        </table>
+    </div>
+
+
+
+</div>
+
+
+
+
+
+</body>
+</html>
+    
+    `);
+
+    newWindow.stop();
+    newWindow.print();
+    newWindow.close();
+
+}
+
+
+
+
+
+
+
+
 
 
 

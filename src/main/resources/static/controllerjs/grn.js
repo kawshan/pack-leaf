@@ -9,6 +9,9 @@ window.addEventListener('load', function () {
     //call Grn details form
     refreshGrnDetailsForm();
 
+    //max grn header number eka ganna function eka. grn header eka patan ganne 1000 hen.
+    getMaxGrnHeaderNumber();
+
     //grn details add button disable part
     buttonAddGrnDetails.disabled=true;
     buttonAddGrnDetails.style.cursor="not-allowed";
@@ -304,13 +307,17 @@ const printGrnHeader = async (ob,rowIndex)=>{
 <h2 class="text-center">GRN</h2>
 </div>
 
+<div class="row">
+    <div class="col-6"><p style="font-size: 14px">SUPPLIER</p></div>
+</div>
+
 <!--grn area start-->
 <div class="row">
 <div class="col-4">
         <div class="card" style="border: 1px solid black">
             <p style="font-size: 11px; font-weight: bold; margin-top: 5px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.suppliername}</p>
-            <p style="font-size: 11px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.supplieraddress}</p>
-            <p style="font-size: 11px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.suppliertelephone}</p>
+            <p style="font-size: 11px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.supplieraddress==null?" ":ob.supplier_id.supplieraddress}</p>
+            <p style="font-size: 11px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.suppliertelephone==null?" ":ob.supplier_id.suppliertelephone}</p>
         </div>
 </div>
 <div class="col-2"></div>
@@ -391,8 +398,8 @@ const loadPoDetails =(fieldId)=>{
 
     const displayProperty=[
         {dataType:'function',propertyName:getRawMaterial},
-        {dataType:'text',propertyName:'qty'},
-        {dataType:'text',propertyName:'rate'},
+        {dataType:'function',propertyName:getQuantityPoDetailsTable},
+        {dataType:'function',propertyName:getRatePoDetailsTable},
     ];
 
     // fillDataIntoTable2(ourPoDetailsTableForGrnHeaderSection,poDetails,displayProperty,true);
@@ -400,6 +407,14 @@ const loadPoDetails =(fieldId)=>{
 
     cardOurPoDetailsInGrnHeader.classList.remove('d-none');
 
+}
+
+const getRatePoDetailsTable = (ob)=>{
+    return `<p class="text-end">${Number(ob.rate).toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4})}</p>`;
+}
+
+const getQuantityPoDetailsTable = (ob)=>{
+    return `<p class="text-end">${Number(ob.qty).toLocaleString('en-US')}</p>`
 }
 
 
@@ -432,7 +447,17 @@ const refillOurPoDetailsIntoGrnDetails = (ob,rowIndex) =>{
 
 }
 
+const getMaxGrnHeaderNumber = ()=>{
+    const getServerResponse = ajaxGetRequest("/grn-header/getmaxgrnnumber");
+    const maxGrnNumberInNumber = Number(getServerResponse);
+    console.log(maxGrnNumberInNumber+" is next grn header number");
 
+    textGrnNo.value = maxGrnNumberInNumber;
+    grnHeader.grnno = maxGrnNumberInNumber;
+
+
+
+}
 
 
 
@@ -486,6 +511,7 @@ const refreshGrnDetailsForm = ()=>{
 
 }
 
+//grn details table ekata data fill karana function eka
 const refreshGrnDetailsTable = ()=>{
 
     //table eka diable eka ayin karanawa
@@ -495,11 +521,11 @@ const refreshGrnDetailsTable = ()=>{
 
     displayProperty=[
         {dataType:'function',propertyName:getRawMaterial},
-        {dataType:'text',propertyName:'quantity'},
+        {dataType:'function',propertyName:getQuantity},
         {dataType:'text',propertyName:'itemcode'},
         {dataType:'text',propertyName:'gd_description'},
         {dataType:'text',propertyName:'gd_referencenumber'},
-        {dataType:'text',propertyName:'rate'},
+        {dataType:'function',propertyName:getRate},
     ];
 
 
@@ -509,7 +535,15 @@ const refreshGrnDetailsTable = ()=>{
 
 
 const getRawMaterial = (ob)=>{
-    return ob.rawmaterial_id.rmname
+    return `<p class="text-center">${ob.rawmaterial_id.rmname}</p>`
+}
+
+const getQuantity = (ob)=>{
+    return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US')}</p>`
+}
+
+const getRate = (ob)=>{
+    return `<p class="text-end">${Number(ob.rate).toLocaleString('en-US',{minimumFractionDigits:4, maximumFractionDigits:4})}</p>`
 }
 
 

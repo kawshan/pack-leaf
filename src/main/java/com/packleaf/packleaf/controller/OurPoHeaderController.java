@@ -3,6 +3,7 @@ package com.packleaf.packleaf.controller;
 import com.packleaf.packleaf.dao.OurPoHeaderDao;
 import com.packleaf.packleaf.entity.OurPoHeader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class OurPoHeaderController {
 
     @GetMapping(value = "/findall")
     public List<OurPoHeader> getAllOurPoHeaders(){
-        return ourPoHeaderDao.findAll();
+        return ourPoHeaderDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
     @PostMapping

@@ -28,7 +28,8 @@ public interface GrnHeaderDao extends JpaRepository<GrnHeader,Integer> {
     @Query(value = "select opd from OurPoDetail opd where opd.ourpoheaderkey = (select oph.ourpokey from OurPoHeader oph where oph.ourponumber=?1 )")
     public List<OurPoDetail> getOurPoDetailsFromPoNumber(String ourponumber);
 
-
+    @Query(value = "select max(grnno+1) from grnheader",nativeQuery = true)
+    public String getMaxGrnNo();
 
 
 

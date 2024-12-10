@@ -275,8 +275,8 @@ const refreshOurPurchaseOrderDetailsTable = ()=>{
     ourpurchaseOrderDetails = ajaxGetRequest("/ourpodetail/getourpodetailsfrom-ourpoheaderkey/"+textDisplayOurPurchaseOrderKey.value);
     const displayProperty= [
         {dataType:'function',propertyName:getRawMaterial},
-        {dataType:'text',propertyName:'qty'},
-        {dataType:'text',propertyName:'rate'},
+        {dataType:'function',propertyName:getQuantity},
+        {dataType:'function',propertyName:getRate},
     ];
 
     fillDataIntoTable2(ourPurchaseOrderDetailsTable,ourpurchaseOrderDetails,displayProperty,true,divModifyButton2);
@@ -285,6 +285,16 @@ const refreshOurPurchaseOrderDetailsTable = ()=>{
 const getRawMaterial = (ob)=>{
    return ob.rawmaterial_id.rmname;
 }
+
+const getQuantity = (ob)=>{
+    return `<p class="text-end">${Number(ob.qty).toLocaleString('en-US')}</p>`
+}
+
+const getRate = (ob)=>{
+    return `<p class="text-end">${Number(ob.rate).toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4})}</p>`
+}
+
+
 
 const checkErrorsOurPurchaseOrderDetails = ()=>{
 
@@ -551,6 +561,9 @@ const loadDataIntoOurPurchaseOrderDetailsTableInsidePrint = (ourPoHeaderKey)=>{
 
 
 }
+
+
+
 const getRawMaterialForPrint = (ob)=>{
     return `<p class="text-start" style="font-size: 12px">${ob.rawmaterial_id.rmname}</p>`;
 }

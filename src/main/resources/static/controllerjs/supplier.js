@@ -52,11 +52,11 @@ const refreshSupplierTable = ()=>{
 
     displayProperty = [
         {dataType:'text',propertyName:'suppliername'},
-        {dataType:'text',propertyName:'supplieraddress'},
+        {dataType:'function',propertyName:getSupplierAddress},
         {dataType:'text',propertyName:'suppliervatno'},
         {dataType:'text',propertyName:'suppliertelephone'},
         {dataType:'text',propertyName:'suppliercontactperson'},
-        {dataType:'text',propertyName:'suppliercollectingaddress'},
+        {dataType:'function',propertyName:getSupplierCollectingAddress},
         {dataType:'text',propertyName:'supplierbank'},
         {dataType:'function',propertyName:getSupplierStatus},
     ];
@@ -233,17 +233,58 @@ const loadDataIntoPrintTable = ()=>{
 
     displayProperty = [
         {dataType:'text',propertyName:'suppliername'},
-        {dataType:'text',propertyName:'supplieraddress'},
+        {dataType:'function',propertyName:getSupplierAddress},
         {dataType:'text',propertyName:'suppliervatno'},
         {dataType:'text',propertyName:'suppliertelephone'},
         {dataType:'text',propertyName:'suppliercontactperson'},
-        {dataType:'text',propertyName:'suppliercollectingaddress'},
+        {dataType:'function',propertyName:getSupplierCollectingAddress},
         {dataType:'text',propertyName:'supplierbank'},
-        {dataType:'text',propertyName:'supplierstatus'},
+        {dataType:'function',propertyName:getSupplierStatus},
     ];
 
     fillDataIntoTable(printSupplierTable,suppliers,displayProperty,false);
 }
+
+
+const getSupplierAddress = (ob)=>{
+
+
+    if (ob.supplieraddress==null){
+        return " "
+    }else {
+        var splitedAddress =  ob.supplieraddress.split(',')
+        var finalArray = []
+
+        splitedAddress.forEach((name,index)=>{
+            finalArray.push(`<p>${name}</p>`)
+        })
+
+        return finalArray;
+    }
+
+
+}
+
+const getSupplierCollectingAddress = (ob)=>{
+    if (ob.suppliercollectingaddress==null){
+        return " ";
+    }else {
+        var splittedAddress = ob.suppliercollectingaddress.split(',');
+        var finalArray = [];
+
+        splittedAddress.forEach((name,index)=>{
+            finalArray.push(`<p>${name}</p>`)
+        })
+        return finalArray;
+
+    }
+
+
+
+
+}
+
+
 
 //define function to execute print function when user clicks print button below the print model area
 const printSupplierModelButtonMC = ()=>{

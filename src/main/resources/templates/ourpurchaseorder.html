@@ -199,7 +199,7 @@
 
                 <td>
                     <label for="txtRate" class="form-label fw-bold">Item Rate</label>
-                    <input type="text" id="txtRate" class="form-control" placeholder="enter item Rate" onkeyup="textValidator(this,'^[1-9][0-9]{0,10}$','ourPurchaseOrderDetail','rate')">
+                    <input type="text" id="txtRate" class="form-control" placeholder="enter item Rate" onkeyup="textValidator(this,'','ourPurchaseOrderDetail','rate')">
                 </td>
 
                 <td style="padding-left: 10%">
@@ -253,7 +253,7 @@
 
     <!--purchase order details table area start-->
     <div class="card mt-5 p-5 d-none" id="cardOurPurchaseOrderDetailsTableArea">
-        <table class="table table-hover table-striped" id="ourPurchaseOrderDetailsTable">
+        <table class="table table-bordered" id="ourPurchaseOrderDetailsTable">
 
             <thead class="text-center">
             <th>#</th>
