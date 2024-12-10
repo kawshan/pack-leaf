@@ -59,6 +59,7 @@ const refreshPurchaseOrderHeaderTable = ()=>{
     ];
 
     fillDataIntoTable(purchaseOrderHeaderTable,purchaseOrderHeaderes,displayProperty,true);
+    $("#purchaseOrderHeaderTable").dataTable();
 }
 
 const getCustomerName = (ob)=>{

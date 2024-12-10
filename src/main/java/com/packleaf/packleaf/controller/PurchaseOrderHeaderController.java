@@ -3,6 +3,7 @@ package com.packleaf.packleaf.controller;
 import com.packleaf.packleaf.dao.PurchaseOrderHeaderDao;
 import com.packleaf.packleaf.entity.PurchaseOrderHeader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class PurchaseOrderHeaderController {
 
     @GetMapping(value = "/findall")
     public List<PurchaseOrderHeader> getAllPurchaseOrderHeader() {
-        return purchaseOrderHeaderDao.findAll();
+        return purchaseOrderHeaderDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
     @GetMapping
