@@ -48,8 +48,8 @@
                             onclick="deleteOurPurchaseOrderHeader(window['editOb'],window['editRow'])">
                         <i class="fa-solid fa-trash fa-beat"></i> Delete
                     </button>
-                    <button onclick="printStudent(window['editOb'],window['editRow'])" type="button"
-                            class="btn btn-primary fw-bold d-none"
+                    <button onclick="printOurPurchase(window['editOb'],window['editRow'])" type="button"
+                            class="btn btn-primary fw-bold"
                             style=" width: 25%; color: whitesmoke;border: 1px solid black">
                         <i class="fa-solid fa-eye fa-beat"></i> Print
                     </button>
@@ -303,6 +303,22 @@
     <!--   our Purchase Order Header table area start   this is a modal-->
 
 
+
+    <div class="card d-none">
+        <table class="table table-bordered" id="printOurPurchaseOrderDetailsTable" style="border: 1px solid black">
+
+            <thead class="text-center" style="font-size: 12px">
+            <th>#</th>
+            <th>Raw Material name</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Value</th>
+            </thead>
+
+            <tbody></tbody>
+
+        </table>
+    </div>
 
 
 </div>

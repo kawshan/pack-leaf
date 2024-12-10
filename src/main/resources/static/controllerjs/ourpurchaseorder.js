@@ -429,6 +429,156 @@ const deleteOurPurchaseOrderDetail = (ob,rowIndex)=>{
 
 
 
+//printing functions starts from here.
+const printOurPurchase = async (ob,rowIndex)=>{
+
+    await loadDataIntoOurPurchaseOrderDetailsTableInsidePrint(ob.ourpokey);
+
+    const newWindow = window.open();
+    await newWindow.document.write(`
+    
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>our purchase order print</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container-fluid position-relative">
+    <div class="row text-center">
+        <h3 style="font-size: 14px; font-weight: bold">Purchase Order</h3>
+    </div>
+</div>
+
+<div class="row" style="margin-left: 5px">
+    <div class="col-6"><p style="font-size: 14px">SUPPLIER</p></div>
+</div>
+
+<!--     supplier section and po section start   -->
+<div class="row" style="margin-left: 2px; margin-right: 3px">
+    <div class="col-4">
+
+        <div class="card" style="border: 1px solid black">
+            <p style="font-size: 12px; font-weight: bold; margin-top: 5px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.suppliername}</p>
+            <p style="font-size: 12px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.supplieraddress?ob.supplier_id.supplieraddress:" "}</p>
+            <p style="font-size: 12px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.suppliertelephone?ob.supplier_id.suppliertelephone:" "}</p>
+        </div>
+
+    </div>
+
+    <div class="col-3"></div>
+
+    <div class="col-5">
+        <table class="table table-bordered" style="border: 1px solid black">
+            <tbody>
+
+
+            <tr>
+                <td style="line-height: 0.5; font-size: 12px;">PO No</td>
+                <td style="font-weight: bold; font-size: 12px; line-height: 0.5;" >${ob.ourponumber}</td>
+            </tr>
+
+
+            <tr>
+                <td style="line-height: 0.5; font-size: 12px;">PO Date</td>
+                <td style="font-weight: bold; font-size: 12px; line-height: 0.5;" >${new Date(ob.ourpodate).toLocaleString('en-GB', { day: "2-digit", month: "short", year: "2-digit" })}</td>
+            </tr>
+
+
+            <tr>
+                <td style="line-height: 0.5; font-size: 12px;">Ref No</td>
+                <td style="font-weight: bold; font-size: 12px; line-height: 0.5;" >${ob.ourponumber}</td>
+            </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--     customer section and po section end   -->
+
+
+<!-- our purchase order details table start-->
+<div class="row" style="margin-left: 12px; margin-right: 12px">
+    ${printOurPurchaseOrderDetailsTable.outerHTML}
+</div>
+<!-- our purchase order details table end-->
+
+
+
+<div class="row" style="position: absolute;bottom: 1%; width: 100%">
+    <div class="col-4 text-center">
+        <p>..........................</p>
+        <p style="font-size: 12px">Prepared by</p>
+    </div>
+    <div class="col-4 text-center">
+        <p>..........................</p>
+        <p style="font-size: 12px">Checked by</p>
+    </div>
+    <div class="col-4 text-center">
+        <p>..........................</p>
+        <p style="font-size: 12px">Approved by</p>
+    </div>
+</div>
+</body>
+</html>
+    
+    
+    `);
+
+    newWindow.stop();
+    newWindow.print();
+    newWindow.close();
+
+    divModifyButton.classList.add('d-none');
+
+}
+
+const loadDataIntoOurPurchaseOrderDetailsTableInsidePrint = (ourPoHeaderKey)=>{
+
+    const getPoDetailsFromOurPoHeaderKey = ajaxGetRequest(`/ourpodetail/getourpodetailsfrom-ourpoheaderkey/${ourPoHeaderKey}`);
+
+    const displayProperty= [
+        {dataType:'function',propertyName:getRawMaterialForPrint},
+        {dataType:'function',propertyName:getPoDetailQuantity},
+        {dataType:'function',propertyName:getPoDetailRate},
+        {dataType:'function',propertyName:getValue},
+    ];
+
+    fillDataIntoTable(printOurPurchaseOrderDetailsTable,getPoDetailsFromOurPoHeaderKey,displayProperty,false);
+
+
+}
+const getRawMaterialForPrint = (ob)=>{
+    return `<p class="text-start" style="font-size: 12px">${ob.rawmaterial_id.rmname}</p>`;
+}
+
+
+const getPoDetailQuantity = (ob)=>{
+    return `<p class="text-end" style="font-size: 12px">${Number(ob.qty).toLocaleString('en-US')}</p>`
+}
+
+const getPoDetailRate = (ob)=>{
+    return `<p class="text-end" style="font-size: 12px">${Number(ob.rate).toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2})}</p>`
+}
+
+const getValue = (ob)=>{
+
+    let result = Number(ob.qty) * Number(ob.rate)
+    return `<p class="text-end" style="font-size: 12px">${result.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
