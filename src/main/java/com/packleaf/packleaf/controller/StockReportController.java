@@ -56,6 +56,12 @@ public class StockReportController {
     }
 
 
+    @GetMapping(value = "/get_remaining_quantity_from_grn_and_issue_note/{rawmaterialid}/{fromdate}")
+    public String getRemainingValueFromGrnAndIssueNote(@PathVariable("rawmaterialid") Integer rawmaterialid, @PathVariable String fromdate){
+        return reportsDao.getRemainingQuantityFromGrnAndIssueNote(rawmaterialid,fromdate);
+    }
+
+
 
 
 

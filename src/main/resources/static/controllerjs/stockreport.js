@@ -66,7 +66,10 @@ const getRawMaterial = (ob)=>{
 
 const printStockReportMc =  async ()=>{
 
+    await getRemainingGrnAndIssueNote()
+
     await fillDataIntoPrintTable();
+
 
     let newWindow = window.open();
     await newWindow.document.write(
@@ -199,6 +202,46 @@ const calculateRunningTotal = (ob)=>{
         return `<p class="text-end">${Number(runningTotal).toLocaleString('en-US')}</p>`;
     }
 }
+
+
+
+const getRemainingGrnAndIssueNote =  ()=>{
+    let rawMaterial = selectedItem.id;
+
+    let selectedDate = selectFromDate.value;
+
+
+    // this server response is for get remaining from grn and issue note
+    let serverResponse =  ajaxGetRequest(`/stockreport/get_remaining_quantity_from_grn_and_issue_note/${rawMaterial}/${selectedDate}`);
+    let responseAsANumber = Number(serverResponse);
+    console.log(responseAsANumber);
+    return responseAsANumber;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

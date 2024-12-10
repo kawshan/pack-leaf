@@ -326,6 +326,7 @@ const fillDataIntoTableForStockReportPrint = (tableId, dataList, columnList, but
     zeroCell.style.fontWeight = 'bold'; // Optional: Add styling
     zeroCell.className = 'text-end'; // Add the class 'text-end'
     zeroCell.id = 'zeroColumn'; // Add the id for easier access later
+    zeroCell.innerHTML=getRemainingGrnAndIssueNote();
     emptyRow.appendChild(zeroCell);
 
     tableBody.appendChild(emptyRow); // Append the empty row to the table

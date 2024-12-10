@@ -16,12 +16,16 @@ public interface ReportsDao extends JpaRepository<Company,Integer> {
       public List<GrnDetails> getStockReportFromAndToDateAndRawMaterialId(LocalDate fromdate, LocalDate todate, String rawmaterialid);
 
 //    @Query(value = "select gd, gh from GrnDetails gd inner join GrnHeader gh on gd.grnheader = gh.grnheaderkey and gd.rawmaterial_id=?1 and gh.grndate between ?2 and ?3")
-      @Query(value = "select gd, gh from GrnDetails gd inner join GrnHeader gh on gd.grnheader = gh.grnheaderkey and gd.rawmaterial_id=?1 and gh.grndate between ?2 and ?3")
+      @Query(value = "select gd, gh from GrnDetails gd inner join GrnHeader gh on gd.grnheader = gh.grnheaderkey and gd.rawmaterial_id=?1 and gh.grndate between ?2 and ?3 order by gh.grndate asc ")
       public List<Object[]> joinTablesResultForGrn(RawMaterial rawmaterialid, LocalDate fromdate, LocalDate todate);
 
 
-      @Query(value = "select ind, inh from IssueNoteDetail ind inner join IssueNoteHeader inh on ind.issuenoteheader = inh.headerkey and ind.rawmaterial_id=?1 and inh.issuenotedate between ?2 and  ?3")
+      @Query(value = "select ind, inh from IssueNoteDetail ind inner join IssueNoteHeader inh on ind.issuenoteheader = inh.headerkey and ind.rawmaterial_id=?1 and inh.issuenotedate between ?2 and  ?3 order by inh.issuenotedate asc ")
       public List<Object[]> joinTablesResultForIssueNote(RawMaterial rawmaterialid, LocalDate fromdate, LocalDate todate);
+
+
+      @Query(value = "select (select sum(gd.quantity) from grndetails as gd inner join grnheader as gh on gd.grnheader = gh.grnheaderkey and rawmaterial_id =?1 and gh.grndate < ?2) - (select sum(ind.quantity) from issuenotedetail as ind inner join issuenoteheader as inh on ind.issuenoteheader = inh.headerkey and ind.rawmaterial_id =?1 and inh.issuenotedate < ?2) as total_grn_and_issue_note_quantity;", nativeQuery = true)
+      public String getRemainingQuantityFromGrnAndIssueNote(Integer rawmaterialid, String fromdate);
 
 
 }

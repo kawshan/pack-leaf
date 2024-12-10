@@ -1,13 +1,14 @@
 window.addEventListener('load',function (){
 
 
-    refreshIssueNoteHeader();
+
     refreshIssueNoteHeaderTable();
 
 
 
     refreshIssueNoteDetailForm();
 
+    refreshIssueNoteHeader();
 });
 
 //issue note header section is Started
@@ -33,12 +34,15 @@ const refreshIssueNoteHeader = ()=>{
     divModifyButtonIssueNoteDetail.classList.add('d-none');
 
     //details section eke thiyena button 2 disable karanawa
+    buttonIssueNoteDetailAdd.disabled=true;
+    buttonIssueNoteDetailAdd.style.cursor="not-allowed";
+
+
     buttonIssueNoteDetailUpdate.disabled=true;
     buttonIssueNoteDetailUpdate.style.cursor="not-allowed";
 
 
-    buttonIssueNoteDetailAdd.disabled=true;
-    buttonIssueNoteDetailAdd.style.cursor="not-allowed";
+
 }
 
 const changeColoursInIssueNoteHeader = ()=>{
