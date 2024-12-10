@@ -21,4 +21,9 @@ public interface OurPoHeaderDao extends JpaRepository<OurPoHeader,Integer> {
     @Query(value = "delete from ourpodetail where ourpoheaderkey=?1",nativeQuery = true)
     public void removeOurPoDetailsFromOPOHeaderKey(String opokey);
 
+
+    @Query(value = "select max(ourponumber+1) from ourpoheader;",nativeQuery = true)
+    public String getMaxPoNumber();
+
+
 }

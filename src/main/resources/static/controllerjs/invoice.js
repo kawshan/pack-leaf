@@ -1074,7 +1074,7 @@ const printModelButtonMC = ()=>{
         </div>
 
         <div style="position: absolute; bottom: 250px ">
-        <p style="font-size: 12px;">${labelShowCompanyName.innerText}</p>
+        <p style="font-size: 12px;">${labelShowCompanyName.outerHTML}</p>
         </div>
         
         

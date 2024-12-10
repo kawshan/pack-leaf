@@ -90,7 +90,7 @@ public class GrnHeaderController {
 
         String existingMaxGrnNumber = grnHeaderDao.getMaxGrnNo();
         if (existingMaxGrnNumber==null || existingMaxGrnNumber.equals("")){
-            return "1000";
+            return "1001";
         }else {
             return grnHeaderDao.getMaxGrnNo();
         }

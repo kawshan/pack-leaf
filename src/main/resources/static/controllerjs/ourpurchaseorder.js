@@ -8,6 +8,8 @@ window.addEventListener('load',function () {
     //call our purchase order details form function
     refreshOurPurchaseOrderDetailsForm();
 
+    getMaxPoNumber()
+
     //details section eke add button eka disable kara
     buttonOurPurchaseOrderDetailsAdd.style.cursor="not-allowed";
     buttonOurPurchaseOrderDetailsAdd.disabled=true;
@@ -230,6 +232,17 @@ const showSupplierInformation = (fieldID)=>{
     displaySupplierMobileNumber.innerHTML=selectedSupplier.suppliertelephone
 }
 
+//header ekata one vena function ekek nisa meka header section eke haduwa
+const getMaxPoNumber = ()=>{
+    const getServerResponse = ajaxGetRequest("/ourpoheader/getmaxponumber");
+
+    const numberValue = Number(getServerResponse);
+    console.log(numberValue+ " max our po number");
+
+    textOurPoNumber.value = numberValue;    //setting result into UI
+    ourpoheader.ourponumber = numberValue;  //value binding
+
+}
 
 
 //our purchase order details area start

@@ -42,6 +42,9 @@ const refreshRawMaterialForm = ()=>{
     rawMaterialCategories = ajaxGetRequest("/rawmaterialcategory/findall");
     fillDataIntoSelect(selectRmCt,'select Raw Material Category',rawMaterialCategories,'rmctname');
 
+    rawMaterialForms = ajaxGetRequest("/rawmaterialform/findall");
+    fillDataIntoSelect(selectRmForm,'Select Raw Material Form',rawMaterialForms,'name');
+
 
     rawMaterialButtonSubmit.disabled=false;
     rawMaterialButtonSubmit.style.cursor="default"
@@ -62,7 +65,7 @@ const refreshRawMaterialTable = ()=>{
         {dataType: 'function', propertyName: getRawMaterialCategory},
         {dataType: 'text', propertyName: 'rmkey'},
         {dataType: 'text', propertyName: 'rmname'},
-        {dataType: 'text', propertyName: 'rmform'},
+        {dataType: 'function', propertyName: getRawMaterialForm},
         {dataType: 'text', propertyName: 'rmpacking'},
         {dataType: 'text', propertyName: 'rmqty'},
         {dataType: 'text', propertyName: 'rmrate'},
@@ -77,6 +80,10 @@ const refreshRawMaterialTable = ()=>{
 
 const getRawMaterialCategory = (ob)=>{
     return `<p>${ob.rawmaterialcategory_id.rmctname}</p>`
+}
+
+const getRawMaterialForm = (ob)=>{
+    return `<p>${ob.rawmaterialform_id.name}</p>`
 }
 
 
@@ -104,7 +111,7 @@ const checkError = ()=>{
         errors=errors+"Raw Material Name Cannot Be Empty \n"
     }
 
-    if (rawmaterial.rmform == null){
+    if (rawmaterial.rawmaterialform_id == null){
         errors=errors+"Raw Material Form Cannot Be Empty \n"
     }
 
@@ -141,7 +148,7 @@ const submitRawMaterial = ()=>{
         const userConfirm = confirm(`are you sure to add following raw materials
         Raw Material Category Is ${rawmaterial.rawmaterialcategory_id}
         Raw Material Name Is ${rawmaterial.rmname}
-        Raw Material Form Is ${rawmaterial.rmform}
+        Raw Material Form Is ${rawmaterial.rawmaterialform_id}
         Raw Material Status Is ${rawmaterial.rmstatus}
         `);
         //me tika uda message ekata one nathi nisa comment kara
@@ -172,7 +179,6 @@ const refillRawMaterial = (ob,rowIndex)=>{
     oldrawmaterial = JSON.parse(JSON.stringify(ob));
 
     textRmName.value=ob.rmname
-    selectRmForm.value=ob.rmform
     txtRmPacking.value=ob.rmpacking
     txtRmQty.value=ob.rmqty
     txtRmRate.value=ob.rmrate
@@ -181,6 +187,9 @@ const refillRawMaterial = (ob,rowIndex)=>{
 
 
     fillDataIntoSelect(selectRmCt,'select Raw Material Category',rawMaterialCategories,'rmctname',ob.rawmaterialcategory_id.rmctname);
+
+    fillDataIntoSelect(selectRmForm,'Select Raw Material Form',rawMaterialForms,'name',ob.rawmaterialform_id.name);
+
 
 
     rawMaterialButtonSubmit.disabled=true;
@@ -203,7 +212,7 @@ const checkUpdates = ()=>{
     if (rawmaterial.rmname != oldrawmaterial.rmname){
         updates=updates+"Raw Material Name Is Changed \n"
     }
-    if (rawmaterial.rmform != oldrawmaterial.rmform){
+    if (rawmaterial.rawmaterialform_id.name != oldrawmaterial.rawmaterialform_id.name){
         updates=updates+"Raw Material Form Is Changed \n"
     }
     if (rawmaterial.rmpacking !=  oldrawmaterial.rmpacking){
@@ -257,7 +266,7 @@ const deleteRawMaterial = (ob,rowIndex)=>{
         const userConfirm =confirm(`Are You Sure To Delete Following Raw Material
     Raw Material Category Is ${ob.rawmaterialcategory_id.rmctname}
     Raw Material Name Is ${ob.rmname}
-    Raw Material Form Is ${ob.rmform}
+    Raw Material Form Is ${ob.rawmaterialform_id.name}
     Raw Material Status is ${ob.rmstatus}
     `);
         //me tika uda message ekata one na ee nisa comment kara
@@ -387,7 +396,7 @@ const loadDataToPrintFullRawMaterialsTable = ()=>{
     const displayProperty = [
         {dataType: 'function', propertyName: getRawMaterialCategory},
         {dataType: 'text', propertyName: 'rmname'},
-        {dataType: 'text', propertyName: 'rmform'},
+        {dataType: 'function', propertyName: getRawMaterialForm},
         {dataType: 'text', propertyName: 'rmpacking'},
         {dataType: 'text', propertyName: 'rmqty'},
         {dataType: 'text', propertyName: 'rmrate'},

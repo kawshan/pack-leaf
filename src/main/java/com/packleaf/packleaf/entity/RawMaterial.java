@@ -28,8 +28,8 @@ public class RawMaterial {
     @Column(name = "rmname")
     private String rmname;
 
-    @Column(name = "rmform")
-    private String rmform;
+//    @Column(name = "rmform")
+//    private String rmform;
 
     @Column(name = "rmpacking")
     private String rmpacking;
@@ -49,5 +49,10 @@ public class RawMaterial {
     @ManyToOne
     @JoinColumn(name = "rawmaterialcategory_id", referencedColumnName = "id")
     private RawMaterialCategory rawmaterialcategory_id;
+
+    @ManyToOne
+    @JoinColumn(name = "rawmaterialform_id", referencedColumnName = "id")
+    private RawMaterialForm rawmaterialform_id;
+
 
 }

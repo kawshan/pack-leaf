@@ -73,13 +73,24 @@ public class OurPoHeaderController {
     }
 
 
-
-
-
-
     @GetMapping(value = "/getidfrom-opo-key/{opokey}")
     public String getIdFromOPOKey(@PathVariable("opokey")String opokey){
         return ourPoHeaderDao.getOPOIdFromOpoKey(opokey);
     }
+
+
+    @GetMapping(value = "/getmaxponumber")
+    public String getMaxPoNumber(){
+    String existingPoNumber = ourPoHeaderDao.getMaxPoNumber();
+    if (existingPoNumber==null || existingPoNumber.equals("")){
+        return "1001";
+    }else {
+        return ourPoHeaderDao.getMaxPoNumber();
+    }
+
+
+    }
+
+
 
 }

@@ -84,16 +84,8 @@
         <div class="col-md-3"></div>
         <div class="col-md-3">
             <label for="selectRmForm" class="form-label fw-bold">Raw Material Form <i class="text-danger">*</i> </label>
-            <select id="selectRmForm" class="form-select text-start" onchange="selectValidator(this,'','rawmaterial','rmform')">
-                <option value="" selected disabled>Select An Option</option>
-                <option value="sheets">sheets</option>
-                <option value="liters">liters</option>
-                <option value="Kg">kg</option>
-                <option value="roll">roll</option>
-                <option value="mille liter">mille liter</option>
-                <option value="40 ml bottle">40 ml bottle</option>
-                <option value="5 liter tin">5 liter tin</option>
-                <option value="30 liter can">30 liter can</option>
+            <select id="selectRmForm" class="form-select text-start" onchange="selectDBValidator(this,'','rawmaterial','rawmaterialform_id')">
+
             </select>
         </div>
         <div class="col-md-3">
