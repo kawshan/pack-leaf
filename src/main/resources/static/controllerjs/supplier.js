@@ -83,9 +83,9 @@ const checkErrors = ()=>{
     if (supplier.suppliername == null){
         errors=errors+"Supplier Name Cannot Be Empty \n"
     }
-    if (supplier.supplieraddress == null){
-        errors=errors+"Supplier Address Cannot Be Empty \n"
-    }
+    // if (supplier.supplieraddress == null){
+    //     errors=errors+"Supplier Address Cannot Be Empty \n"
+    // }
     // if (supplier.suppliertelephone == null){
     //     errors=errors+"Supplier Telephone Cannot Be Empty \n"
     // }
@@ -102,7 +102,6 @@ const saveSupplier = ()=>{
     if (errors==""){
         const userConfirm = confirm(`Are You Sure To Add Following Supplier
         Supplier Name Is ${supplier.suppliername}
-        Supplier Address Is ${supplier.supplieraddress}
         Supplier Status Is ${supplier.supplierstatus}`
         );
         if (userConfirm){
@@ -208,7 +207,6 @@ const updateSupplier = ()=>{
 const deleteSupplier = (ob,rowIndex)=>{
     const userConfirm = confirm(`Are You Sure To Delete Following Supplier
         Supplier Name Is ${ob.suppliername}
-        Supplier Address Is ${ob.supplieraddress}
     `);
     if (userConfirm){
         const deleteServerResponse = ajaxDeleteRequest("/supplier",ob);

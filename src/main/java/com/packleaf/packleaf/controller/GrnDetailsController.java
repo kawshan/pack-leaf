@@ -2,6 +2,7 @@ package com.packleaf.packleaf.controller;
 
 import com.packleaf.packleaf.dao.GrnDetailsDao;
 import com.packleaf.packleaf.entity.GrnDetails;
+import com.packleaf.packleaf.entity.OurPoDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,6 +64,12 @@ public class GrnDetailsController {
     @GetMapping(value = "/getremaininggrnquantity/{id}")
     public String getRemainingGrnDetailQuantity(@PathVariable("id") String id){
         return grnDetailsDao.getRemainingGrnDetailQuantity(id);
+    }
+
+
+    @GetMapping(value = "/validateexisting-grndetails-fromourpoid/{ourpoid}")
+    public String validateGrnExistingUsingOurPoId(@PathVariable("ourpoid") Integer ourpoid ){
+        return grnDetailsDao.getGrnDetailsByOurPoId(ourpoid);
     }
 
 

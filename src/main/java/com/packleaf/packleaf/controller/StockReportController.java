@@ -4,6 +4,7 @@ import com.packleaf.packleaf.dao.ReportsDao;
 import com.packleaf.packleaf.entity.GrnDetails;
 import com.packleaf.packleaf.entity.RawMaterial;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,6 +60,12 @@ public class StockReportController {
     @GetMapping(value = "/get_remaining_quantity_from_grn_and_issue_note/{rawmaterialid}/{fromdate}")
     public String getRemainingValueFromGrnAndIssueNote(@PathVariable("rawmaterialid") Integer rawmaterialid, @PathVariable String fromdate){
         return reportsDao.getRemainingQuantityFromGrnAndIssueNote(rawmaterialid,fromdate);
+    }
+
+
+    @GetMapping(value = "/final-join-table-result/{rawmaterialid}/{fromdate}/{todate}")
+    public List<Object[]> finalJoinTableResult(@PathVariable("rawmaterialid") Integer rawmaterialid, @PathVariable("fromdate")LocalDate fromdate, @PathVariable("todate")LocalDate todate){
+    return reportsDao.finalJoinTableResult(rawmaterialid,fromdate,todate);
     }
 
 

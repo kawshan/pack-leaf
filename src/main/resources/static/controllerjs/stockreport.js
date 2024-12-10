@@ -119,7 +119,7 @@ const printStockReportMc =  async ()=>{
 
 const fillDataIntoPrintTable = ()=>{
 
-    const getDataListForPrint = ajaxGetRequest(`/stockreport/merge_result_grn_and_issuenote/${selectedItem.id}/${selectFromDate.value}/${selectToDate.value}`);
+    const getDataListForPrint = ajaxGetRequest(`/stockreport/final-join-table-result/${selectedItem.id}/${selectFromDate.value}/${selectToDate.value}`);
 
 
 
@@ -146,39 +146,24 @@ const getRawMaterialNameForPrint = (ob)=>{
 }
 
 const getReference = (ob)=>{
-    // return `<p class="text-center">${ob[0].grnheader}</p>`;
-    // return `<p class="text-center">${ob[1]?.grnheader ? "GRN" : "Issue Note"}</p>`;
-
-    if (ob[0].grnheader){
-        return `<p class="text-center">GRN</p>`
-    }else {
-        return `<p class="text-center">Issue Note</p>`
-    }
-
-
+        if (ob[2]=="GRN"){
+            return "GRN"
+        }else {
+            return "Issue Note"
+        }
 }
 
 const getGrnDateForPrint = (ob)=>{
-    // return `<p class="text-center">${ob[1].grndate}</p>`;
-    if (ob[1].grndate!=undefined){
-        return `<p class="text-center">${ob[1].grndate}</p>`;
-    }else {
-        return `<p class="text-center">${ob[1].issuenotedate}</p>`
-    }
+    return ob[0];
 }
 
 const getSupplierNameForPrint = (ob)=>{
-    // return `<p class="text-center">${ob[1].supplier_id.suppliername}</p>`;
-    return `<p class="text-center">${
-        ob[1]?.supplier_id?.suppliername || " "
-    }</p>`;
-
-
+    return ob[1];
 }
 
 const getQuantityForPrint = (ob)=>{
-    if (ob[0].grnheader){
-        return `<p class="text-end">${Number(ob[0].quantity).toLocaleString('en-US')}</p>`
+    if (ob[2]=="GRN"){
+        return `<p class="text-end">${Number(ob[3]).toLocaleString('en-US')}</p>`
     }else {
         return " ";
     }
@@ -186,10 +171,10 @@ const getQuantityForPrint = (ob)=>{
 
 
 const getIssueNoteForPrint = (ob) =>{
-    if (ob[0].grnheader){
+    if (ob[2]=="GRN"){
         return ' ';
     }else {
-        return `<p class="text-end">${Number(ob[0].quantity).toLocaleString('en-US')}</p>`;
+        return `<p class="text-end">${Number(ob[3]).toLocaleString('en-US')}</p>`;
     }
 }
 
@@ -197,11 +182,11 @@ const getIssueNoteForPrint = (ob) =>{
 runningTotal = null;
 
 const calculateRunningTotal = (ob)=>{
-    if (ob[0].grnheader){
-        runningTotal+=parseFloat(ob[0].quantity);
+    if (ob[2]=="GRN"){
+        runningTotal+=parseFloat(ob[3]);
         return `<p class="text-end">${Number(runningTotal).toLocaleString('en-US')}</p>`;
     }else {
-        runningTotal-=parseFloat(ob[0].quantity);
+        runningTotal-=parseFloat(ob[3]);
         return `<p class="text-end">${Number(runningTotal).toLocaleString('en-US')}</p>`;
     }
 }

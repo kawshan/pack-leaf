@@ -523,17 +523,17 @@ const grnDetailsCheckErrors = ()=>{
         errors=errors+"Quantity Cannot Be Empty \n"
     }
 
-    if (grnDetail.itemcode == null){
-        errors=errors+"Item Code Cannot Be Empty \n"
-    }
-
-    if (grnDetail.gd_description == null){
-        errors=errors+"Description Cannot Be Empty \n"
-    }
-
-    if (grnDetail.gd_referencenumber == null){
-        errors=errors+"Reference Number Cannot Be Empty \n"
-    }
+    // if (grnDetail.itemcode == null){
+    //     errors=errors+"Item Code Cannot Be Empty \n"
+    // }
+    //
+    // if (grnDetail.gd_description == null){
+    //     errors=errors+"Description Cannot Be Empty \n"
+    // }
+    //
+    // if (grnDetail.gd_referencenumber == null){
+    //     errors=errors+"Reference Number Cannot Be Empty \n"
+    // }
 
     if (grnDetail.rate == null){
         errors=errors+"Rate Cannot Be Empty \n"
@@ -558,9 +558,6 @@ const saveGrnDetails = ()=>{
         const userConfirm = confirm(`Are You Sure To Add Following Grn Details \n
         Raw Material Name Is ${grnDetail.rawmaterial_id.rmname}
         Quantity Is ${grnDetail.quantity}
-        Item Code Is ${grnDetail.itemcode}
-        Description Number Is ${grnDetail.gd_description}
-        Reference Number Is ${grnDetail.gd_referencenumber}
         Rate Is ${grnDetail.rate}
         Grn Header Is ${grnDetail.grnheader}
         `);
@@ -571,6 +568,7 @@ const saveGrnDetails = ()=>{
                 alert("Save Successful");
                 refreshGrnDetailsForm();
                 refreshGrnDetailsTable();
+                displayRemainingQuantity.innerText="";
             }else {
                 alert("Save Unsuccessful \n"+postServerResponse);
             }
@@ -667,9 +665,6 @@ const deleteGrnDetails =(ob,rowIndex)=>{
     const userConfirm = confirm(`Are You sure Delete following Grn Details
         Raw Material Name Is ${ob.rawmaterial_id.rmname}
         Quantity Is ${ob.quantity}
-        Item Code Is ${ob.itemcode}
-        Description Is ${ob.gd_description}
-        Reference Number Is ${ob.gd_referencenumber}
         Rate Is ${ob.rate}
         Grn Header Is ${ob.grnheader}
     `);
@@ -687,16 +682,29 @@ const deleteGrnDetails =(ob,rowIndex)=>{
 
 
 const getRemainingGrnDetailsQuantityFromOurPoDetail = (ourpoid)=>{
-    console.log(`id is  ${ourpoid} from getRemainingGrnDetailsQuantityFromOurPoDetail function`);
 
-    const getServerResponse = ajaxGetRequest("/grn-details/getremaininggrnquantity/"+ourpoid)
-    console.log(` ${Number(getServerResponse)}  remaining quantity from sever`);
+    const validateExistingGrnDetailsByOurPoId = ajaxGetRequest("/grn-details/validateexisting-grndetails-fromourpoid/"+ourpoid)
 
-    const remainingQuantity = Number(getServerResponse);
+    if (validateExistingGrnDetailsByOurPoId=="1"){  //1 ka kiyanne thiyenawa 0 kiyanne na kiyana eka
+        //ee kiyanne grndetails table eke kalin thiyenawa kiyana eka
 
-    displayRemainingQuantity.innerText=`${remainingQuantity} Is Your Remaining Quantity `
+        console.log(`id is  ${ourpoid} from getRemainingGrnDetailsQuantityFromOurPoDetail function`);
 
-    return remainingQuantity;
+        const getServerResponse = ajaxGetRequest("/grn-details/getremaininggrnquantity/"+ourpoid)
+        console.log(` ${Number(getServerResponse)}  remaining quantity from sever`);
+
+        const remainingQuantity = Number(getServerResponse);
+
+        displayRemainingQuantity.innerText=`${remainingQuantity} Is Your Remaining Quantity `
+
+        return remainingQuantity;
+
+    }else {
+        displayRemainingQuantity.innerText="";
+    }
+
+
+
 
 }
 

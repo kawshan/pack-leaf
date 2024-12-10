@@ -74,9 +74,9 @@ const checkErrorsOurPoHeader = ()=>{
         errors= errors+"Supplier Cannot Be Empty \n "
     }
 
-    if (ourpoheader.refquotation == null){
-        errors= errors+"Reference quotation Cannot Be Empty \n "
-    }
+    // if (ourpoheader.refquotation == null){
+    //     errors= errors+"Reference quotation Cannot Be Empty \n "
+    // }
 
 
     if (ourpoheader.ourponumber == null){
@@ -101,7 +101,6 @@ const submitOurPoHeader = async ()=>{
 
             const userConfirm = confirm(`Are You Sure To Add Following Our Po Header \n
             Supplier Name Is ${ourpoheader.supplier_id.suppliername}
-            Reference Quotation Is ${ourpoheader.refquotation}
             Po Number Is ${ourpoheader.ourponumber}
             Date Is ${ourpoheader.ourpodate}
             `);
@@ -145,7 +144,6 @@ const submitOurPoHeader = async ()=>{
         //now update part
         const userConfirm = confirm(`Are you Sure to Update following Our Po Header \n
             Supplier Name Is ${ourpoheader.supplier_id.suppliername}
-            Reference Quotation Is ${ourpoheader.refquotation}
             Po Number Is ${ourpoheader.ourponumber}
             Date Is ${ourpoheader.ourpodate}
             key is ${ourpoheader.ourpokey}
@@ -205,7 +203,6 @@ const refillOurPurchaseOrderHeader = (ob,rawIndex)=>{
 const deleteOurPurchaseOrderHeader = (ob, rowIndex)=>{
     const userConfirm = confirm(`Are You Sure To Delete Following Our Purchase Order header \n
     Supplier Name Is ${ob.supplier_id.suppliername}
-    Reference Quotation Is ${ob.refquotation}
     Po Number Is ${ob.ourponumber}
     Date Is ${ob.ourpodate}
     `);
