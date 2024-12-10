@@ -50,6 +50,11 @@ const grnHeaderFormRefresh = () => {
     //our po details table eka load vena eka hide kara -> meka load venne user po numbber eka type karahama.
     cardOurPoDetailsInGrnHeader.classList.add('d-none');
 
+
+    //proceed without po kiyana section ekath clear karanawa
+    checkBoxWithOutPoNumber.checked=false;
+    textOurPoNumber.disabled = false;
+
 }
 
 
@@ -209,7 +214,18 @@ const refillGrnHeader = (ob,rowIndex)=>{
 
     textGrnNo.value=ob.grnno
     textGrnDate.value=ob.grndate
-    textOurPoNumber.value=ob.ourponumber
+
+
+    //po number eke logic eka -> po number ekak thiyenawanam ekata adala table eka load venna one po number ekak naththam proceed without po click venna one
+    if (ob.ourponumber==null){
+        checkBoxWithOutPoNumber.checked=true;
+        textOurPoNumber.disabled = true;
+    }else {
+        textOurPoNumber.value=ob.ourponumber
+        loadPoDetails(textOurPoNumber);
+    }
+
+
     displayGrnKey.value=ob.grnheaderkey
 
 
@@ -223,6 +239,8 @@ const refillGrnHeader = (ob,rowIndex)=>{
     buttonAddGrnDetails.style.cursor="default";
 
     warningTextInGrnDetailsSection.classList.add('d-none');
+
+
 
 }
 

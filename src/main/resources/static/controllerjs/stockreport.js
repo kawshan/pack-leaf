@@ -121,6 +121,9 @@ const fillDataIntoPrintTable = ()=>{
 
     const getDataListForPrint = ajaxGetRequest(`/stockreport/merge_result_grn_and_issuenote/${selectedItem.id}/${selectFromDate.value}/${selectToDate.value}`);
 
+
+
+
     const displayProperty =[
         // {dataType:'function',propertyName:getRawMaterialNameForPrint},
         {dataType:'function',propertyName:getGrnDateForPrint},
@@ -191,7 +194,7 @@ const getIssueNoteForPrint = (ob) =>{
 }
 
 
-let runningTotal = null;
+runningTotal = null;
 
 const calculateRunningTotal = (ob)=>{
     if (ob[0].grnheader){
@@ -215,6 +218,7 @@ const getRemainingGrnAndIssueNote =  ()=>{
     let serverResponse =  ajaxGetRequest(`/stockreport/get_remaining_quantity_from_grn_and_issue_note/${rawMaterial}/${selectedDate}`);
     let responseAsANumber = Number(serverResponse);
     console.log(responseAsANumber);
+    runningTotal=responseAsANumber
     return responseAsANumber;
 
 }

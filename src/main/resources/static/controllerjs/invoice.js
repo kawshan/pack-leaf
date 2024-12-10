@@ -532,6 +532,21 @@ const refillInvoiceHeaderForm = (ob,rowIndex)=>{
     btnUpdateInvoiceHeader.disabled=false;
     btnUpdateInvoiceHeader.style.cursor = "default";
 
+    //details section eke button tika
+
+    //disable update button
+    buttonUpdateInvoiceDetail.disabled=true;
+    buttonUpdateInvoiceDetail.style.cursor="not-allowed";
+
+    //anable add button
+    buttonAddInvoiceDetail.disabled=false;
+    buttonAddInvoiceDetail.style.cursor="default";
+
+    //emptying invoice detail warning paragraph because we need to add invoice details before that
+    paragraphWaringInInvoiceDetails.innerHTML="";
+
+
+
     invoiceHeader=JSON.parse(JSON.stringify(ob));
     oldInvoiceHeader=JSON.parse(JSON.stringify(ob));
 

@@ -69,9 +69,9 @@ const refreshSupplierTable = ()=>{
 
 const getSupplierStatus = (ob)=>{
     if (ob.supplierstatus == true){
-        return `<p style="color: lawngreen">Active</p>`
+        return `<p style="color: limegreen; font-weight: bold">Active</p>`
     }else {
-        return `<p style="color: orangered">Inactive</p>`
+        return `<p style="color: orangered; font-weight: bold">Inactive</p>`
     }
 }
 
