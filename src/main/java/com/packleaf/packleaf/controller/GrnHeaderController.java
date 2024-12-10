@@ -4,6 +4,7 @@ import com.packleaf.packleaf.dao.GrnHeaderDao;
 import com.packleaf.packleaf.entity.GrnHeader;
 import com.packleaf.packleaf.entity.OurPoDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class GrnHeaderController {
 
     @GetMapping(value = "/findall")
     public List<GrnHeader> getAllGrnHeader(){
-        return grnHeaderDao.findAll();
+        return grnHeaderDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
     @PostMapping

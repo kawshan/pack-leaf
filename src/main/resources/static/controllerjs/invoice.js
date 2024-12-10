@@ -1012,9 +1012,9 @@ const printModelButtonMC = ()=>{
     <div class="row">
         <div class="col-5">
             <div class="card" style="border: 1px solid black">
-                <p style="font-size: 14px; font-weight: bold">${PrintInvCusName.innerText}</p>
-                <p style="font-size: 14px;">${PrintInvCusAddress.innerText}</p>
-                <p style="font-size: 14px;">${PrintInvCusPhone.innerText}</p>
+                <p style="font-size: 14px; margin-left: 10px; margin-top: 5px; margin-bottom: 2px;  font-weight: bold">${PrintInvCusName.innerText}</p>
+                <p style="font-size: 14px; margin-left: 10px; ">${PrintInvCusAddress.innerText}</p>
+                <p style="font-size: 14px; margin-left: 10px; ">${PrintInvCusPhone.innerText}</p>
             </div>
         </div>
 

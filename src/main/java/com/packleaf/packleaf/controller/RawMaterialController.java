@@ -27,6 +27,7 @@ public class RawMaterialController {
     @GetMapping(value = "/findall")
     public List<RawMaterial> findallRawMaterial(){
         return rawMaterialDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
+//        return rawMaterialDao.getAllByRmStatusTrue();
     }
 
     @PostMapping

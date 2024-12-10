@@ -60,6 +60,7 @@ const refreshRawMaterialTable = ()=>{
 
     const displayProperty = [
         {dataType: 'function', propertyName: getRawMaterialCategory},
+        {dataType: 'text', propertyName: 'rmkey'},
         {dataType: 'text', propertyName: 'rmname'},
         {dataType: 'text', propertyName: 'rmform'},
         {dataType: 'text', propertyName: 'rmpacking'},

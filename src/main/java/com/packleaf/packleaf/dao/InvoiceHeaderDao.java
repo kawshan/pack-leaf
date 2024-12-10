@@ -13,7 +13,7 @@ public interface InvoiceHeaderDao extends JpaRepository<InvoiceHeader,Integer> {
     public String getInvoiceHeaderMaxInvoiceKey();
 
 
-    @Query(value = "select ih from InvoiceHeader ih where ih.invno like concat(?1,'%') ")
+    @Query(value = "select ih from InvoiceHeader ih where ih.invno=?1 ")
     public InvoiceHeader getInvoiceHeaderByInvNo(String invno);
 
 

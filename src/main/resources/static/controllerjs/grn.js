@@ -406,7 +406,8 @@ const loadPoDetails =(fieldId)=>{
 //our po details table eken data aran grn details ekata add karana function eka
 const refillOurPoDetailsIntoGrnDetails = (ob,rowIndex) =>{
     txtQty.value=ob.qty;
-    txtRate.value = ob.rate
+    txtRate.value = ob.rate;
+    txtItemCode.value = ob.rawmaterial_id.rmkey;
 
 
     //raw material eka set karanawa
@@ -418,6 +419,8 @@ const refillOurPoDetailsIntoGrnDetails = (ob,rowIndex) =>{
 
     grnDetail.quantity = ob.qty;
     grnDetail.rate = ob.rate;
+    grnDetail.itemcode = ob.rawmaterial_id.rmkey;
+
 
 
     //our po detail eke id eka set karanawa  // relationship save karana kota mulu object ekama bind karanna one id eka vitharak ba.
