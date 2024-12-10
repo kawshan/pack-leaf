@@ -71,6 +71,9 @@ public class Item {
     @Column(name = "status")
     private Boolean status;
 
+    @Column(name = "customer_item_name")
+    private String customer_item_name;
+
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")

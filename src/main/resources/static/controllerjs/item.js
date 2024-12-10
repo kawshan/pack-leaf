@@ -32,6 +32,7 @@ const refreshItemForm = () =>{
     txtPlateNumber.style.border="2px solid #ced4da";
     selectItemSpotUV.style.border="2px solid #ced4da";
     selectItemStatus.style.border="2px solid #ced4da";
+    textCustomerItemName.style.border="2px solid #ced4da";
 
 
 
@@ -44,6 +45,7 @@ const refreshItemForm = () =>{
     txtPlateNumber.value="";
     selectItemSpotUV.value="";
     selectItemStatus.value="";
+    textCustomerItemName.value="";
 
 
     // selectItemCategory
@@ -72,8 +74,7 @@ const refreshItemTable = ()=>{
         {dataType: 'text', propertyName: 'price'},
         {dataType: 'text', propertyName: 'code'},
         {dataType: 'text', propertyName: 'itmname'},
-        {dataType: 'text', propertyName: 'description'},
-        {dataType: 'text', propertyName: 'nocolours'},
+        {dataType: 'text', propertyName: 'customer_item_name'},
         {dataType: 'function', propertyName: getItemLaminate},
         {dataType: 'function', propertyName: getItemFoil},
         {dataType: 'function', propertyName: getItemSpotUV},
@@ -222,6 +223,7 @@ const refillItem = (ob,rowIndex)=>{
     txtPlateNumber.value=ob.plate;
     selectItemSpotUV.value=ob.spotuv;
     selectItemStatus.value=ob.status;
+    textCustomerItemName.value=ob.customer_item_name;
 
     // fill data into dynamic select boxes
     fillDataIntoSelect(selectItemCategory,'Select Item Category',itemCategories,'ctcode',ob.category_id.ctcode);
@@ -275,6 +277,10 @@ const checkUpdate = ()=>{
 
     if (item.status != oldItem.status){
         updates=updates+"Status is updated \n"
+    }
+
+    if (item.customer_item_name != oldItem.customer_item_name){
+        updates=updates+"Customer Item Name is updated \n"
     }
 
     return updates;
@@ -353,6 +359,7 @@ const refreshTableInsidePrint = ()=>{
         {dataType: 'function', propertyName: getItemCategoryForNewRequirement},  // Display category
         {dataType: 'text', propertyName: 'code'},
         {dataType: 'text', propertyName: 'itmname'},
+        {dataType: 'text', propertyName: 'customer_item_name'},
     ];
 
     fillDataIntoTableForItemPrint(tablePrintItem,getAllItems,displayColumns,false);

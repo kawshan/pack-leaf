@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Item Master</title>
 
 <!--    bootstrap links-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
@@ -147,7 +147,7 @@
             <div class="col-md-3">
                 <label for="selectItemFoil" class="form-label fw-bold">Foil </label>
                 <select id="selectItemFoil" class="form-select text-start" onchange="selectValidator(this,'','item','foil')">
-                    <option selected disabled>select an option</option>
+                    <option selected disabled value="">select an option</option>
                     <option value="true">yes</option>
                     <option value="false">no</option>
                 </select>
@@ -186,7 +186,7 @@
 
                 <label for="selectItemSpotUV" class="form-label fw-bold">Spot UV </label>
                 <select id="selectItemSpotUV" class="form-select text-start" onchange="selectValidator(this,'','item','spotuv')">
-                    <option selected disabled>select an option</option>
+                    <option selected disabled value="">select an option</option>
                     <option value="true">yes</option>
                     <option value="false">no</option>
                 </select>
@@ -195,7 +195,7 @@
             <div class="col-md-3">
                 <label for="selectItemStatus" class="form-label fw-bold">Item status </label>
                 <select id="selectItemStatus" class="form-select text-start" onchange="selectValidator(this,'','item','status')">
-                    <option selected disabled>select an option</option>
+                    <option selected disabled value="">select an option</option>
                     <option value="true">active</option>
                     <option value="false">not-active</option>
                 </select>
@@ -204,6 +204,20 @@
 
         </div>
         <!--    sixth row end-->
+
+
+<!--        seventh raw start-->
+        <div class="row mt-5">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <label for="textCustomerItemName" class="form-label fw-bold">Customer Item Name</label>
+                <input type="text" class="form-control text-start" id="textCustomerItemName" placeholder="Enter Customer Item Name" onkeyup="textValidator(this,'','item','customer_item_name')">
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+<!--        seventh raw end-->
+
+
 
 
         <!--button row start-->
@@ -239,8 +253,7 @@
         <th>Item Price</th>
         <th>Item Code</th>
         <th>Item Name</th>
-        <th>Item Description</th>
-        <th>Item Colours</th>
+        <th>Customer Item Name</th>
         <th>Item laminate</th>
         <th>Item Foil</th>
         <th>Item Spot UV</th>
@@ -275,6 +288,7 @@
                             <th>Item Category</th>
                             <th>Item Code</th>
                             <th>Item Name</th>
+                            <th>Customer Item Name</th>
                             </thead>
                             <tbody></tbody>
                         </table>

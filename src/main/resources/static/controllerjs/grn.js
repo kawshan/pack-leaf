@@ -335,7 +335,7 @@ const printGrnHeader = async (ob,rowIndex)=>{
                 </tr>
                 <tr>
                     <td style="line-height: 0.5; font-size: 12px;">Our Po No</td>
-                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.ourponumber}</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.ourponumber==null?" ":ob.ourponumbe}</td>
                 </tr>
             </tbody>
         </table>

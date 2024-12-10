@@ -88,7 +88,16 @@ const refreshInvoiceDetailsTable = ()=>{
 
 
 const getItemName = (ob)=>{
-    return '<p class="text-start">'+ ob.item_id.itmname  +'</p>';
+    // return '<p class="text-start">'+ ob.item_id.itmname  +'</p>';
+    //customer item name ekak thiyenawada balanawa ---
+    if (ob.customer_item_name=="null"){
+        return '<p class="text-start">'+ ob.item_id.itmname  +'</p>';
+    }else {
+        return `<p class="text-start">${ob.item_id.itmname}</p> <p class="text-start">(${ob.item_id.customer_item_name})</p>`
+    }
+
+
+
 }
 
 
