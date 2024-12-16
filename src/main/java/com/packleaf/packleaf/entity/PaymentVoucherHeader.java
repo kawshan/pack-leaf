@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -38,6 +39,9 @@ public class PaymentVoucherHeader {
 
     @Column(name = "cheque_number")
     private String cheque_number;
+
+    @Column(name = "cheque_amount")
+    private BigDecimal cheque_amount;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")

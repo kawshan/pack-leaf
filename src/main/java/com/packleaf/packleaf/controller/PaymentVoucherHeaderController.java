@@ -84,6 +84,25 @@ public class PaymentVoucherHeaderController {
     }
 
 
+    @GetMapping(value = "/getmaxvouchernumber")
+    public String getMaxVoucherNumber(){
+        String getMaxVoucher = paymentVoucherHeaderDao.getMaxVoucherNumber();
+        if (getMaxVoucher==null || getMaxVoucher.equals("")){
+            return "1001";
+        }else {
+            return getMaxVoucher;
+        }
+
+    }
+
+
+    @GetMapping(value = "/getamountfromchequenumber/{chequeNumber}")
+    public String getAmountFromChequeNumber(@PathVariable("chequeNumber") String chequeNumber){
+        return paymentVoucherHeaderDao.getAmountFromChequeNumber(chequeNumber);
+    }
+
+
+
 
 
 

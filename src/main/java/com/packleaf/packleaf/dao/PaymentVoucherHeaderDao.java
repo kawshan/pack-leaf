@@ -22,5 +22,11 @@ public interface PaymentVoucherHeaderDao extends JpaRepository<PaymentVoucherHea
     @Query(value = "delete from paymentvoucherdetails where pv_header_key=?1;",nativeQuery = true)
     public void deletePaymentVoucherDetailsByHeaderKey(String headerkey);
 
+    @Query(value = "select max(payment_voucher_number+1) from paymentvoucherheader;",nativeQuery = true)
+    public String getMaxVoucherNumber();
+
+    @Query(value = "select cheque_amount from issuecheque where cheque_number=?1",nativeQuery = true)
+    public String getAmountFromChequeNumber(String chequeNumber);
+
 
 }

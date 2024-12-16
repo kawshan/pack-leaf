@@ -47,7 +47,7 @@
                             onclick="deletePaymentVoucherHeader(window['editOb'],window['editRow'])">
                         <i class="fa-solid fa-trash fa-beat"></i> Delete
                     </button>
-                    <button onclick="printGrnHeader(window['editOb'],window['editRow'])" type="button"
+                    <button onclick="printPaymentVoucherHeader(window['editOb'],window['editRow'])" type="button"
                             class="btn btn-primary fw-bold"
                             style=" width: 25%; color: whitesmoke;border: 1px solid black">
                         <i class="fa-solid fa-eye fa-beat"></i> Print
@@ -82,7 +82,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
-                    <button type="button" class="btn btn-danger">reset</button>
+                    <button type="button" class="btn btn-danger" onclick="handleResetButtonClick()">reset</button>
                     <button type="button" class="btn btn-success" onclick="savePaymentVoucherHeader()">Submit</button>
                 </div>
                 <div class="col-md-3"></div>
@@ -99,18 +99,7 @@
                     </select>
                 </div>
 
-
-
-                <div class="col-md-3">
-                    <label for="selectPaymentMode" class="form-label fw-bold"> Payment Mode <i class="text-danger">*</i>
-                    </label>
-                    <select id="selectPaymentMode" class="form-select text-start" required onchange="selectValidator(this,'','paymentVoucherHeader','payment_mode'); handleShortNameAndAccountNumber(this)">
-                        <option value="" selected disabled>Select an Option</option>
-                        <option value="cash">Cash</option>
-                        <option value="cheque">Cheque</option>
-                    </select>
-
-                </div>
+                <div class="col-md-3"></div>
 
 
 
@@ -122,7 +111,7 @@
 
                 <div class="col-md-3" style="margin-top: 25px">
 
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered">
                         <tbody>
 
                         <!--                first row-->
@@ -132,7 +121,7 @@
                             </td>
                             <td>
                                 <input type="text" id="textPaymentVoucherNo" class="form-control text-start"
-                                       placeholder="Enter Payment Voucher NO" onkeyup="textValidator(this,'','paymentVoucherHeader','payment_voucher_number')">
+                                       placeholder="Enter Payment Voucher NO" disabled onkeyup="textValidator(this,'','paymentVoucherHeader','payment_voucher_number')">
                             </td>
                         </tr>
                         <!--                first row-->
@@ -156,35 +145,10 @@
                                 <label for="textGrnNo" class="form-label fw-bold">GRN NO <i class="text-danger">*</i> </label>
                             </td>
                             <td>
-                                <input type="text" id="textGrnNo" class="form-control text-start" placeholder="Enter Grn Number" onchange="textValidator(this,'','paymentVoucherHeader','payment_grn_numbers')">
+                                <input type="text" id="textGrnNo" class="form-control text-start" placeholder="Enter Grn Number" onkeyup="textValidator(this,'','paymentVoucherHeader','payment_grn_numbers')">
                             </td>
                         </tr>
                         <!--                third row-->
-
-
-                        <!--                forth row-->
-                        <tr id="trBankShortName">
-                            <td>
-                                <label for="selectBankShortName" class="form-label fw-bold">Bank Short Name<i class="text-danger">*</i> </label>
-                            </td>
-                            <td>
-                                <select id="selectBankShortName" class="form-select text-start" onchange="selectDBValidator(this,'','paymentVoucherHeader','ownbankaccount_id')"></select>
-                            </td>
-                        </tr>
-                        <!--                forth row-->
-
-
-
-                        <!--                fifth row-->
-                        <tr id="trChequeNumber">
-                            <td>
-                                <label for="textChequeNumber" class="form-label fw-bold">Cheque No <i class="text-danger">*</i> </label>
-                            </td>
-                            <td>
-                                <input type="text" id="textChequeNumber" class="form-control text-start" placeholder="Enter Cheque Number" onchange="textValidator(this,'','paymentVoucherHeader','cheque_number')">
-                            </td>
-                        </tr>
-                        <!--                fifth row-->
 
 
                         </tbody>
@@ -199,7 +163,6 @@
     <!--header form area end-->
 
 
-
     <!--detail form area start-->
     <form onsubmit="return false">
         <table class="table table-responsive-lg">
@@ -207,34 +170,34 @@
             <tr>
                 <td>
                     <label for="textCode" class="form-label fw-bold">Code</label>
-                    <input type="text" id="textCode" class="form-control" placeholder="Enter Code">
+                    <input type="text" id="textCode" class="form-control" placeholder="Enter Code" onkeyup="textValidator(this,'','paymentVoucherDetail','code')">
                 </td>
 
 
                 <td>
                     <label for="txtDescription" class="form-label fw-bold">Description</label>
-                    <input type="text" id="txtDescription" class="form-control" placeholder="Enter Description">
+                    <input type="text" id="txtDescription" class="form-control" placeholder="Enter Description" onkeyup="textValidator(this,'','paymentVoucherDetail','description')">
                 </td>
 
 
                 <td>
                     <label for="txtQty" class="form-label fw-bold">Qty</label>
-                    <input type="text" id="txtQty" class="form-control" placeholder="Enter Quantity">
+                    <input type="text" id="txtQty" class="form-control" placeholder="Enter Quantity" onkeyup="textValidator(this,'','paymentVoucherDetail','quantity')">
                 </td>
 
                 <td>
                     <label for="txtRate" class="form-label fw-bold">Rate</label>
-                    <input type="text" id="txtRate" class="form-control" placeholder="Enter Rate">
+                    <input type="text" id="txtRate" class="form-control" placeholder="Enter Rate" onkeyup="textValidator(this,'','paymentVoucherDetail','rate'); calculateAmount(this);">
                 </td>
 
                 <td>
                     <label for="txtAmount" class="form-label fw-bold">Amount</label>
-                    <input type="text" id="txtAmount" class="form-control" placeholder="Enter Amount">
+                    <input type="text" id="txtAmount" class="form-control" placeholder="Enter Amount" onkeyup="textValidator(this,'','paymentVoucherDetail','amount')">
                 </td>
 
                 <td>
-                    <button type="button" id="buttonPaymentDetailsUpdate" class="btn btn-warning" style="width: 100px; height: 70px">Update</button>
-                    <button type="button" id="buttonPaymentDetailsAdd" class="btn btn-success" style="width: 100px; height: 70px">Add</button>
+                    <button type="button" id="buttonPaymentDetailsUpdate" class="btn btn-warning" style="width: 100px; height: 70px; pointer-events: all" onclick="updatePaymentVoucherDetails()">Update</button>
+                    <button type="button" id="buttonPaymentDetailsAdd" class="btn btn-success" style="width: 100px; height: 70px; pointer-events: all" onclick="submitPaymentVoucherDetail()">Add</button>
                 </td>
 
 
@@ -248,8 +211,129 @@
 
 
 
-    <!--   payment Voucher Print model area start -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+    <!--    div modify button area 2 start-->
+    <div class="row mt-1 mb-1">
+
+
+        <div class="col-md-3">
+            <div id="divModifyButton2" class="d-none">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-warning fw-bold"
+                            style="width: 25%; color: whitesmoke; border: 1px solid black;"
+                            onclick="refillPaymentVoucherDetails(window['editOb'],window['editRow'])">
+                        <i class="fa-solid fa-recycle fa-beat"></i> Refill
+                    </button>
+                    <button type="button" class="btn btn-danger fw-bold"
+                            style=" width: 25%; color: whitesmoke; border: 1px solid black; pointer-events: all"
+                            onclick="deletePurchaseOrderDetails(window['editOb'],window['editRow'])">
+                        <i class="fa-solid fa-trash fa-beat"></i> Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+
+
+    </div>
+    <!--    div modify button area 2 end-->
+
+
+
+
+<!--   detail table area start     -->
+<div class="d-none" id="divPaymentVoucherDetailsTableArea">
+    <table class="table table-bordered" id="tablePaymentVoucherDetails">
+        <thead class="text-center">
+            <th>#</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Amount</th>
+            <th>Action</th>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<!--   detail table area end     -->
+
+
+
+<!--     total amount showing area start         -->
+<!--    meka details table eke ee payment voucher ekata adala mulu amount eka pennana area eka-->
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <p style="margin-left: 5%" id="paragraphTotalAmount"></p>
+    </div>
+</div>
+<!--     total amount showing area end         -->
+
+
+
+<!--    payment mode section start -> meka ai methana damme sir kivva meka print eke thiyena format ekatama enna one kiyala-->
+    <div class="row mt-5">
+
+        <div class="col-md-3">
+                <label for="selectPaymentMode" class="form-label fw-bold"> Payment Mode <i class="text-danger">*</i>
+                </label>
+                <select id="selectPaymentMode" class="form-select text-start" required onchange="selectValidator(this,'','paymentVoucherHeader','payment_mode'); handleShortNameAndAccountNumber(this)">
+                    <option value="" selected disabled>Select an Option</option>
+                    <option value="cash">Cash</option>
+                    <option value="cheque">Cheque</option>
+                </select>
+            </div>
+
+        <div class="col-md-3">
+            <table class="table table-bordered">
+                <tbody>
+                <!--                Bank short name row start-->
+                <tr id="trBankShortName">
+                    <td>
+                        <label for="selectBankShortName" class="form-label fw-bold">Bank Short Name<i class="text-danger">*</i> </label>
+                    </td>
+                    <td>
+                        <select id="selectBankShortName" class="form-select text-start" onchange="selectDBValidator(this,'','paymentVoucherHeader','ownbankaccount_id')"></select>
+                    </td>
+                </tr>
+                <!--                Bank short name row start -->
+
+
+
+                <!--                Cheque No row Start -->
+                <tr id="trChequeNumber">
+                    <td>
+                        <label for="textChequeNumber" class="form-label fw-bold">Cheque No <i class="text-danger">*</i> </label>
+                    </td>
+                    <td>
+                        <input type="text" id="textChequeNumber" class="form-control text-start" placeholder="Enter Cheque Number" onkeyup="textValidator(this,'^[0-9]{6}$','paymentVoucherHeader','cheque_number'); getChequeAmount(this)">
+                    </td>
+                </tr>
+                <!--                Cheque No row Start     -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-3" id="colChequeAmount">
+            <label for="textChequeAmount" class="form-label fw-bold">Cheque Amount</label>
+            <input type="text" class="form-control text-end" style="width: 30%" id="textChequeAmount">
+        </div>
+        
+
+    </div>
+<!--    payment mode section end-->
+
+
+
+<!--   payment Voucher Print model area start -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -278,7 +362,35 @@
             </div>
         </div>
     </div>
-    <!--   payment Voucher Print model area start -->
+<!--   payment Voucher Print model area start -->
+
+
+<!--  print payment voucher helping table  -->
+    <div class="d-none">
+        <table class="table table-bordered" style="font-size: 11px; border: 1px solid black" id="tablePaymentVoucherPrint">
+            <thead class="text-center">
+            <th>#</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Amount</th>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+            <tr>
+                <td colspan="5">
+                    <div class="text-end" style="margin-right: 6%">Total</div>
+                </td>
+                <td id="tdGetTotalAmountForPrint" class="text-end"></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+<!--  print payment voucher helping table  -->
+
+
+
 
 
 </div>
