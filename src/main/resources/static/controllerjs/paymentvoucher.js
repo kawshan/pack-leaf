@@ -368,12 +368,12 @@ const printPaymentVoucherHeader = async (ob)=>{
         <div class="col-4">
             <table class="table table-bordered" style="border: 1px solid black">
                 <tr>
-                    <td style="font-size: 12px; width: 50%" class="text-end">P.Voucher NO :</td>
+                    <td style="font-size: 12px; width: 50%" class="text-start">Voucher NO :</td>
                     <td style="font-size: 12px; width: 50%" class="text-end">${ob.payment_voucher_number}</td>
                 </tr>
 
                 <tr>
-                    <td style="font-size: 12px; width: 50%" class="text-end">Date :</td>
+                    <td style="font-size: 12px; width: 50%" class="text-start">Date :</td>
                     <td style="font-size: 12px; width: 50%" class="text-end">${new Date(ob.payment_voucher_date).toLocaleString('en-GB', { day: "2-digit", month: "short", year: "2-digit" })}</td>
                 </tr>
 
