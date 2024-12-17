@@ -112,10 +112,6 @@ const checkErrorsPaymentVoucherHeader = ()=>{
     if (paymentVoucherHeader.payment_voucher_date == null){
         errors=errors+"Payment Voucher Date Cannot Be Empty \n"
     }
-
-    if (paymentVoucherHeader.payment_grn_numbers == null){
-        errors=errors+"Grn Numbers Cannot Be Empty \n"
-    }
     if (selectPaymentMode.value=="cheque"){     //payment mode eka cheque nam bank account eke short name eka empty venna bari nisa
         if (paymentVoucherHeader.ownbankaccount_id==null){
             errors=errors+"Bank Short Name Cannot Be Empty \n"
@@ -141,7 +137,6 @@ const savePaymentVoucherHeader = async ()=>{
             Payment Mode Is ${paymentVoucherHeader.payment_mode}
             Payment Voucher Number ${paymentVoucherHeader.payment_voucher_number}
             Payment Voucher Date ${paymentVoucherHeader.payment_voucher_date}
-            Grn Number Is ${paymentVoucherHeader.payment_grn_numbers}
             `);
             if (userConfirm){
                 const postServerResponse = ajaxPostRequest("/paymentvoucherheader",paymentVoucherHeader);
@@ -240,7 +235,6 @@ const deletePaymentVoucherHeader = (ob)=>{
             Payment Mode Is ${ob.payment_mode}
             Payment Voucher Number ${ob.payment_voucher_number}
             Payment Voucher Date ${ob.payment_voucher_date}
-            Grn Number Is ${ob.payment_grn_numbers}
     `);
     if (userConfirm){
         const deleteServerResponse = ajaxDeleteRequest("/paymentvoucherheader",ob);
@@ -396,7 +390,7 @@ const printPaymentVoucherHeader = async (ob)=>{
     <div class="row">
         <div class="col-4">
             <label style="font-size: 12px;">GRN No (S) </label>
-            <u style="font-size: 12px;">${ob.payment_grn_numbers}</u>
+            <u style="font-size: 12px;">${ob.payment_grn_numbers==null?" ":ob.payment_grn_numbers}</u>
         </div>
     </div>
 

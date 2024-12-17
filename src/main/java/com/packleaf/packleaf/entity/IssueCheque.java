@@ -24,6 +24,9 @@ public class IssueCheque {
     @Column(name = "issue_cheque_date")
     private LocalDate issue_cheque_date;
 
+    @Column(name = "cheque_date")
+    private LocalDate cheque_date;
+
     @Column(name = "cheque_number")
     private String cheque_number;
 

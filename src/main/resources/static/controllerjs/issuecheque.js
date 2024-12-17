@@ -13,6 +13,7 @@ const refreshIssueChequeForm = ()=>{
     issueCheque = new Object();
 
     textDate.style.border="2px solid #ced4da";
+    textChequeDate.style.border="2px solid #ced4da";
     selectFromAcc.style.border="2px solid #ced4da";
     textChequeNo.style.border="2px solid #ced4da";
     textDescription.style.border="2px solid #ced4da";
@@ -21,6 +22,7 @@ const refreshIssueChequeForm = ()=>{
 
 
     textDate.value = "";
+    textChequeDate.value = "";
     textChequeNo.value = "";
     textDescription.value = "";
     textAmount.value = "";
@@ -37,7 +39,7 @@ const refreshIssueChequeForm = ()=>{
     buttonIssueChequeAdd.style.cursor="default";
 
     buttonIssueChequeUpdate.disabled=true;
-    buttonIssueChequeUpdate.style.cursor="not-allowed"
+    buttonIssueChequeUpdate.style.cursor="not-allowed";
 
 }
 
@@ -50,6 +52,7 @@ const refreshIssueChequeTable = ()=>{
 
     displayProperty=[
         {dataType:'text',propertyName:"issue_cheque_date"},
+        {dataType:'text',propertyName:"cheque_date"},
         {dataType:'function',propertyName:getFromAccountShortName},
         {dataType:'text',propertyName:'cheque_number'},
         {dataType:'function',propertyName:getChequeAmount},
@@ -80,7 +83,10 @@ const checkErrors = ()=>{
     let errors = '';
 
     if (issueCheque.issue_cheque_date == null){
-        errors=errors+"Date Cannot Be Empty \n"
+        errors=errors+"Issue Date Cannot Be Empty \n"
+    }
+    if (issueCheque.cheque_date == null){
+        errors=errors+"Cheque Date Cannot Be Empty \n"
     }
     if (issueCheque.ownbankaccount_id == null){
         errors=errors+"Bank Short Name Cannot Be Empty \n"
@@ -104,7 +110,8 @@ const saveIssueCheque = ()=>{
 
     if (errors==''){
         const userConfirm = confirm(`Are You Sure To Add Following Details \n
-        Date Is ${issueCheque.issue_cheque_date}
+        Issue Date Is ${issueCheque.issue_cheque_date}
+        Cheque Date Is ${issueCheque.cheque_date}
         Short Name Is ${issueCheque.ownbankaccount_id.bank_short_name}
         Cheque Number Is ${issueCheque.cheque_number}
         Cheque Amount Is ${issueCheque.cheque_amount}
@@ -137,6 +144,7 @@ const refillIssueCheque = (ob)=>{
 
 
     textDate.value = ob.issue_cheque_date;
+    textChequeDate.value = ob.cheque_date;
     textChequeNo.value = ob.cheque_number;
     textDescription.value = ob.description;
     textAmount.value = ob.cheque_amount;
@@ -159,6 +167,9 @@ const checkUpdates = ()=>{
     let updates='';
 
     if (issueCheque.issue_cheque_date != oldIssueCheque.issue_cheque_date){
+        updates=updates+"Cheque Date Is Updated \n";
+    }
+    if (issueCheque.cheque_date != oldIssueCheque.cheque_date){
         updates=updates+"Cheque Date Is Updated \n";
     }
     if (issueCheque.ownbankaccount_id.bank_short_name != oldIssueCheque.ownbankaccount_id.bank_short_name){
@@ -213,7 +224,8 @@ const updateIssueCheque = ()=>{
 
 const deleteIssueCheque = (ob)=>{
     const userConfirm = confirm(`Are You Sure To Delete Following Issue Note \n
-        Date Is ${ob.issue_cheque_date}
+        Issue Date Is ${ob.issue_cheque_date}
+        Cheque Date Is ${ob.cheque_date}
         Short Name Is ${ob.ownbankaccount_id.bank_short_name}
         Cheque Number Is ${ob.cheque_number}
         Amount Is ${ob.cheque_amount}
@@ -282,6 +294,7 @@ const loadDateIntoTablePrint = ()=>{
 
     displayProperty=[
         {dataType:'text',propertyName:"issue_cheque_date"},
+        {dataType:'text',propertyName:"cheque_date"},
         {dataType:'function',propertyName:getFromAccountShortName},
         {dataType:'text',propertyName:'cheque_number'},
         {dataType:'function',propertyName:getChequeAmount},
@@ -329,8 +342,13 @@ const printOneIssueCheque = async (ob)=>{
                 </tr>
 
                 <tr>
-                    <td>Date</td>
+                    <td>Issue Date</td>
                     <td>${ob.issue_cheque_date}</td>
+                </tr>
+                
+                <tr>
+                    <td>Cheque Date</td>
+                    <td>${ob.cheque_date}</td>
                 </tr>
 
                 <tr>

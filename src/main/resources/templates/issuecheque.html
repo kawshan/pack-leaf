@@ -68,24 +68,24 @@
 
             <div class="row mt-5">
                 <div class="col-md-3">
-                    <label for="textDate" class="form-label fw-bold">Date <i class="text-danger">*</i> </label>
+                    <label for="textDate" class="form-label fw-bold">Issue Date <i class="text-danger">*</i> </label>
                     <input type="date" id="textDate" class="form-control text-start" onchange="textValidator(this,'','issueCheque','issue_cheque_date')">
                 </div>
+
+                <div class="col-md-3">
+                    <label for="textChequeDate" class="form-label fw-bold">Cheque Date <i class="text-danger">*</i> </label>
+                    <input type="date" id="textChequeDate" class="form-control text-start" onchange="textValidator(this,'','issueCheque','cheque_date')">
+                </div>
+
 
                 <div class="col-md-3">
                     <label for="selectFromAcc" class="form-label fw-bold">From Acc <i class="text-danger">*</i> </label>
                     <select class="form-select text-center" id="selectFromAcc" onchange="selectDBValidator(this,'','issueCheque','ownbankaccount_id');"></select>
                 </div>
 
-
                 <div class="col-md-3">
                     <label for="textChequeNo" class="form-label fw-bold">Cheque No <i class="text-danger">*</i> </label>
                     <input type="text" id="textChequeNo" class="form-control text-start" placeholder="Enter Cheque No" onkeyup="textValidator(this,'^[0-9]{6}$','issueCheque','cheque_number')">
-                </div>
-
-                <div class="col-md-3">
-                    <label for="textAmount" class="form-label fw-bold">Amount <i class="text-danger">*</i> </label>
-                    <input type="text" id="textAmount" class="form-control text-start" placeholder="Enter Amount" onkeyup="textValidator(this,'','issueCheque','cheque_amount')">
                 </div>
 
 
@@ -94,6 +94,11 @@
 
             <div class="row mt-5">
                 <div class="col-md-3">
+
+                    <label for="textAmount" class="form-label fw-bold">Amount <i class="text-danger">*</i> </label>
+                    <input type="text" id="textAmount" class="form-control text-start" placeholder="Enter Amount" onkeyup="textValidator(this,'','issueCheque','cheque_amount')">
+                </div>
+                <div class="col-md-3">
                     <label for="textDescription" class="form-label fw-bold">Description</label>
                     <input type="text" id="textDescription" class="form-control text-start" placeholder="Enter Description" onkeyup="textValidator(this,'','issueCheque','description')">
                 </div>
@@ -101,7 +106,6 @@
                     <label for="selectIssueChequeStatus" class="form-label fw-bold">Status <i class="text-danger">*</i> </label>
                     <select id="selectIssueChequeStatus" class="form-select text-center" onchange="selectDBValidator(this,'','issueCheque','issuechequestatus_id')"></select>
                 </div>
-                <div class="col-md-3"></div>
                 <div class="col-md-3"></div>
             </div>
 
@@ -137,7 +141,8 @@
         <table class="table table-bordered" style="font-size: 12px" id="issueChequeTable">
             <thead class="text-center">
                 <th>#</th>
-                <th>Date</th>
+                <th>Issue Date</th>
+                <th>Cheque Date</th>
                 <th>From Acc</th>
                 <th>Cheque No</th>
                 <th>Amount</th>
@@ -159,7 +164,8 @@
         <table class="table table-bordered" style="font-size: 12px" id="issueChequeTablePrint">
             <thead class="text-center">
             <th>#</th>
-            <th>Date</th>
+            <th>Issue Date</th>
+            <th>Cheque Date</th>
             <th>From Acc</th>
             <th>Cheque No</th>
             <th>Amount</th>

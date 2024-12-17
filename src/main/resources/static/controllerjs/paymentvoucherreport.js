@@ -41,6 +41,9 @@ const refreshPaymentVoucherReportTable = ()=>{
 
     buttonPrint.disabled=false;
     buttonPrint.style.cursor="default";
+
+
+    getTotalAmount();
 }
 
 const getDate = (ob)=>{
@@ -56,7 +59,14 @@ const getSupplier = (ob)=>{
 }
 
 const getAmount = (ob)=>{
+
+    totalAmount=totalAmount+Number(ob[3]);
+
+    console.log(`total amount is ${totalAmount}`)
+
     return `<p class="text-end">${Number(ob[3]).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`;
+
+
 }
 
 // payment voucher report print function
@@ -67,7 +77,7 @@ const printPaymentVoucherReport = async ()=>{
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Payment Voucher Summery</title>
+    <title>Payment Voucher Summary </title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -75,7 +85,7 @@ const printPaymentVoucherReport = async ()=>{
 <div class="container-fluid">
 
     <div class="row mt-5 text-center">
-        <p style="font-size: 14px; font-weight: bolder">Payment Voucher Summery</p>
+        <p style="font-size: 14px; font-weight: bolder">Payment Voucher Summary</p>
     </div>
 
     <div class="row" style="margin: 3px">
@@ -95,6 +105,13 @@ const printPaymentVoucherReport = async ()=>{
 
 }
 
+var totalAmount = 0;
+
+
+const getTotalAmount =()=>{
+    console.log(totalAmount);
+    tdTotalAmount.innerText=`${Number(totalAmount).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}`
+}
 
 
 
