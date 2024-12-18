@@ -187,7 +187,7 @@
 
                 <td>
                     <label for="txtRate" class="form-label fw-bold">Rate</label>
-                    <input type="text" id="txtRate" class="form-control" placeholder="Enter Rate" onkeyup="textValidator(this,'','paymentVoucherDetail','rate'); calculateAmount(this);">
+                    <input type="text" id="txtRate" class="form-control" placeholder="Enter Rate" onkeyup="textValidator(this,'','paymentVoucherDetail','rate'); calculateAmount(this)">
                 </td>
 
                 <td>
@@ -334,7 +334,7 @@
 
 <!--   payment Voucher Print model area start -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Payment Voucher Search</h1>
@@ -347,7 +347,7 @@
                         <table class="table table-hover table-striped"  id="paymentVoucherHeaderTable">
                             <thead>
                             <th>#</th>
-                            <th>Supplier Name</th>
+                            <th style="width: 150px">Supplier Name</th>
                             <th>Payment Code</th>
                             <th>Voucher No</th>
                             <th>Voucher Date</th>

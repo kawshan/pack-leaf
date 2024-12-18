@@ -350,13 +350,13 @@ const printPaymentVoucherHeader = async (ob)=>{
 <div class="container-fluid" style="position: relative">
 
     <div class="row">
-        <div class="col-4">
+        <div class="col-8">
             <p style="font-weight: bold; font-size: 14px">Payment Voucher</p>
             <label style="font-size: 14px; font-weight: bold">Supplier :</label>
             <u style="font-size: 12px;">${ob.supplier_id.suppliername}</u>
         </div>
 
-        <div class="col-4"></div>
+        
 
 
         <div class="col-4">
@@ -498,13 +498,25 @@ const refreshPaymentVoucherDetailsTable = ()=>{
 
 
 const getQuantity = (ob)=>{
-    return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US')}</p>`;
+
+    if (ob.quantity==null){
+        return  " "
+    }else {
+        return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US')}</p>`;
+    }
 }
 
 
 const getRate = (ob)=>{
-    return `<p class="text-end">${Number(ob.rate).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`;
+
+    if (ob.rate==null){
+        return " ";
+    }else {
+        return `<p class="text-end">${Number(ob.rate).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`;
+    }
 }
+
+
 
 const getAmount = (ob)=>{
     return `<p class="text-end">${Number(ob.amount).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`;
@@ -515,13 +527,6 @@ const getAmount = (ob)=>{
 
 const checkErrorsPaymentVoucherDetails = ()=>{
     let errors = "";
-
-    if (paymentVoucherDetail.quantity == null){
-        errors=errors+"Quantity Cannot Be Empty \n"
-    }
-    if (paymentVoucherDetail.rate == null){
-        errors=errors+"Rate Cannot Be Empty \n"
-    }
     if (paymentVoucherDetail.amount == null){
         errors=errors+"Amount Cannot Be Empty \n"
     }
@@ -535,9 +540,6 @@ const submitPaymentVoucherDetail = ()=>{
 
     if (errors==''){
         const userConfirm =confirm(`Are You Sure To Add Following Payment Voucher Details
-        Header Is ${paymentVoucherDetail.pv_header_key}
-        Quantity Is ${paymentVoucherDetail.quantity}
-        Rate Is ${paymentVoucherDetail.rate}
         Amount Is ${paymentVoucherDetail.amount}
         `);
         if (userConfirm){
@@ -631,8 +633,6 @@ const updatePaymentVoucherDetails = ()=>{
 const deletePurchaseOrderDetails = (ob)=>{
     const userConfirm = confirm(`Are You Sure To Delete Following Payment Voucher Details \n 
         Header Is ${ob.pv_header_key}
-        Quantity Is ${ob.quantity}
-        Rate Is ${ob.rate}
         Amount Is ${ob.amount}
     `);
     if (userConfirm){
