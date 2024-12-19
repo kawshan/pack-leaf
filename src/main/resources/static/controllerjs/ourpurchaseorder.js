@@ -583,7 +583,7 @@ const getRawMaterialForPrint = (ob)=>{
 
 
 const getPoDetailQuantity = (ob)=>{
-    return `<p class="text-end" style="font-size: 12px">${Number(ob.qty).toLocaleString('en-US')}</p>`
+    return `<p class="text-end" style="font-size: 12px">${Number(ob.qty).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3})}</p>`
 }
 
 const getPoDetailRate = (ob)=>{

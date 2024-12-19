@@ -274,7 +274,7 @@ const issueNoteHeaderPrint = async (ob,rowIndex)=>{
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" style="margin: 2px">
     ${tableIssueNoteDetailForPrint.outerHTML}
     </div>
 
@@ -366,7 +366,7 @@ const getRawMaterial = (ob)=>{
 }
 
 const getItemQuantity = (ob)=>{
-    return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US')}</p>`
+    return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3})}</p>`
 }
 
 

@@ -22,7 +22,7 @@ public class GrnDetails {
     private Integer id;
 
     @Column(name = "quantity")
-    private String quantity;
+    private BigDecimal quantity;
 
     @Column(name = "rate")
     private BigDecimal rate;

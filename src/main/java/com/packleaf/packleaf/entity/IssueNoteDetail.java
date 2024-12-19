@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Entity
 @Data
 @Table(name = "issuenotedetail")
@@ -18,7 +20,7 @@ public class IssueNoteDetail {
     private Integer id;
 
     @Column(name = "quantity")
-    private String quantity;
+    private BigDecimal quantity;
 
     @Column(name = "issuenoteheader")
     private String issuenoteheader;

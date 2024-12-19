@@ -99,7 +99,7 @@ const printStockReportMc =  async ()=>{
 
 
     <!--    table area start-->
-    <div class="row mt-3">
+    <div class="row mt-3" style="margin: 2px">
     ${printStockReportTable.outerHTML}
     </div>
     <!--    table area end-->

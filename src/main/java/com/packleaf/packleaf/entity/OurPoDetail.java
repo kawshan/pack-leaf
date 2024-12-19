@@ -21,7 +21,7 @@ public class OurPoDetail {
     private Integer id;
 
     @Column(name = "qty")
-    private String qty;
+    private BigDecimal qty;
 
     @Column(name = "rate")
     private BigDecimal rate;

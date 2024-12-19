@@ -539,7 +539,7 @@ const getRawMaterial = (ob)=>{
 }
 
 const getQuantity = (ob)=>{
-    return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US')}</p>`
+    return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3})}</p>`
 }
 
 const getRate = (ob)=>{
@@ -809,7 +809,7 @@ const loadDataIntoGrnDetailsTableForGrnHeaderPrint = (headerKey)=>{
 }
 
 const getQuantityGrnDetails = (ob)=>{
-    return `<p class="text-end">${ob.quantity}</p>`
+    return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3})}</p>`
 }
 
 
