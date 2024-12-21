@@ -211,7 +211,7 @@ const fillDataIntoTableWithEditButton = (tableID, dataList, columnsList, editFun
         const buttonEdit = document.createElement('button');
         buttonEdit.className = 'btn btn-warning fw-bold';
         buttonEdit.style.height='50%';
-        buttonEdit.style.width='12%';
+        buttonEdit.style.width='40px';
         buttonEdit.innerHTML = '<span class="material-symbols-outlined">edit</span>'
         tdButton.appendChild(buttonEdit);
         buttonEdit.onclick = function () {

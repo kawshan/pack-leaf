@@ -705,8 +705,125 @@ const getTotalAmountForTableRow = (headerKey)=>{
 
 
 
+//grn table eka model ekata load karana function eka
+const loadGrnHeaderTable = ()=>{
+
+    const grnHeadersList = ajaxGetRequest("/grn-header/findall");
 
 
+    const displayProperty=[
+        {dataType:'function',propertyName:getSupplierName},
+        {dataType:'function',propertyName:getCompanyName},
+        {dataType:'function',propertyName:getGrnNumber},
+        {dataType:'text',propertyName:'grnheaderkey'},
+    ];
+
+
+    fillDataIntoTableWithEditButton(grnHeaderTable,grnHeadersList,displayProperty,loadGrnDetailsTable)
+    $("#grnHeaderTable").dataTable();
+
+
+
+}
+
+const getCompanyName = (ob)=>{
+    return ob.company_id.companyname;
+}
+
+const getGrnNumber = (ob)=>{
+    return `<p class="text-end">${ob.grnno}</p>`;
+}
+
+
+
+const loadGrnDetailsTable = (ob)=>{
+
+
+    cardGrnDetails.classList.remove('d-none');
+    console.log(ob.valueOf())
+    $("#modalLoadGrn").modal('hide');
+
+    const getGrnDetailsList = ajaxGetRequest("/grn-details/getgrndetailswithremainingvaluesfor-payment-voucher/"+ob.grnheaderkey);
+
+
+        const displayProperty = [
+            {dataType:'function',propertyName:getGrnCode},
+            {dataType:'function',propertyName:getGrnNumberInGrnDetailsTable},
+            {dataType:'function',propertyName:getGrnQuantity},
+            {dataType:'function',propertyName:getRemainingQuantity},
+            {dataType:'function',propertyName:getGrnRate},
+        ]
+
+        fillDataIntoTableWithEditButton(grnDetailsTable,getGrnDetailsList,displayProperty,refillGrnDetailsIntoPaymentVoucherDetails)
+
+
+
+
+}
+
+let emptyOrNotState = ''
+
+
+const getGrnCode = (ob)=>{
+    return ob[3];
+}
+
+const getGrnNumberInGrnDetailsTable = (ob)=>{
+    return ob[7]
+}
+
+const getGrnQuantity = (ob)=>{
+    return ob[1]
+}
+
+const getRemainingQuantity = (ob)=>{
+    return ob[4]
+}
+
+const getGrnRate = (ob)=>{
+return ob[2]
+}
+
+
+
+
+
+
+const refillGrnDetailsIntoPaymentVoucherDetails = (ob)=>{
+    console.log(ob.valueOf());
+
+    //html eke input ekata value set karanawa
+
+    textCode.value=ob[5];
+    txtDescription.value=ob[6]
+    txtQty.value=ob[4]
+    txtRate.value=ob[2]
+    txtAmount.value=ob[4]*ob[2]
+
+
+    //value object ekata bind karanawa
+
+
+
+    const getGrnDetailsObjectFromServer = ajaxGetRequest("/grn-details/getgrndetailsbyId/"+ob[0]);
+
+
+    paymentVoucherDetail.grndetails_id=getGrnDetailsObjectFromServer;               //id eka bind karanna one specially
+    //methana deserialized error ekak ena nisa apita mulu object ekama ganna venawa id eka aran ee object bind kranna venawa
+
+    paymentVoucherDetail.code = ob[5];
+    paymentVoucherDetail.description = ob[6];
+    paymentVoucherDetail.quantity = ob[4];
+    paymentVoucherDetail.rate = ob[2];
+
+    paymentVoucherDetail.amount = txtAmount.value
+
+
+
+
+
+
+}
 
 
 

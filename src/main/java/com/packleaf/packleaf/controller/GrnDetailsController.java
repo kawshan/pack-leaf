@@ -73,6 +73,16 @@ public class GrnDetailsController {
     }
 
 
+    @GetMapping(value = "/getgrndetailswithremainingvaluesfor-payment-voucher/{headerKey}")
+    public List<Object> getGrnDetailsWithRemainingValuesForPaymentVoucher(@PathVariable("headerKey")String headerKey){
+        return grnDetailsDao.getGrnDetailsForPaymentVoucher(headerKey);
+    }
+
+
+    @GetMapping(value = "/getgrndetailsbyId/{id}")
+    public GrnDetails getGrnDetailsById(@PathVariable("id")Integer id){
+       return grnDetailsDao.getGrnDetailsFromId(id);
+    }
 
 
 

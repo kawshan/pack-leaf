@@ -38,6 +38,10 @@ public class PaymentVoucherDetails {
     @Column(name = "amount")
     private BigDecimal amount;
 
+    @ManyToOne
+    @JoinColumn(name = "grndetails_id", referencedColumnName = "id")
+    private GrnDetails grndetails_id;
+
 
 
 
