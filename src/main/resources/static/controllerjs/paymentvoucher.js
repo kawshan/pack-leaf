@@ -502,7 +502,7 @@ const getQuantity = (ob)=>{
     if (ob.quantity==null){
         return  " "
     }else {
-        return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US')}</p>`;
+        return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3})}</p>`;
     }
 }
 
@@ -761,7 +761,7 @@ const loadGrnDetailsTable = (ob)=>{
 
 }
 
-let emptyOrNotState = ''
+
 
 
 const getGrnCode = (ob)=>{
@@ -773,20 +773,18 @@ const getGrnNumberInGrnDetailsTable = (ob)=>{
 }
 
 const getGrnQuantity = (ob)=>{
-    return ob[1]
+    return `<p class="text-end">${Number(ob[1]).toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4})}</p>`;
 }
 
 const getRemainingQuantity = (ob)=>{
-    return ob[4]
+    return `<p class="text-end">${Number(ob[4]).toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4})}</p>`;
+
 }
 
 const getGrnRate = (ob)=>{
-return ob[2]
+    return `<p class="text-end">${Number(ob[2]).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`;
+
 }
-
-
-
-
 
 
 const refillGrnDetailsIntoPaymentVoucherDetails = (ob)=>{
@@ -808,18 +806,16 @@ const refillGrnDetailsIntoPaymentVoucherDetails = (ob)=>{
     const getGrnDetailsObjectFromServer = ajaxGetRequest("/grn-details/getgrndetailsbyId/"+ob[0]);
 
 
-    paymentVoucherDetail.grndetails_id=getGrnDetailsObjectFromServer;               //id eka bind karanna one specially
-    //methana deserialized error ekak ena nisa apita mulu object ekama ganna venawa id eka aran ee object bind kranna venawa
+    paymentVoucherDetail.grndetails_id=getGrnDetailsObjectFromServer;               //id eka bind karanna one specially.. meka mehema kare just id eka vitharak bind karanne nathuwa. deserialize error ekek enawa.
+
 
     paymentVoucherDetail.code = ob[5];
     paymentVoucherDetail.description = ob[6];
     paymentVoucherDetail.quantity = ob[4];
     paymentVoucherDetail.rate = ob[2];
+    paymentVoucherDetail.grn_key = ob[3];
 
     paymentVoucherDetail.amount = txtAmount.value
-
-
-
 
 
 
@@ -827,10 +823,63 @@ const refillGrnDetailsIntoPaymentVoucherDetails = (ob)=>{
 
 
 
+const refreshPendingGrnTable = ()=>{
+
+    const getPendingGrnList = ajaxGetRequest("/paymentvoucherdetails/getpending-grn");
+
+    const displayProperty = [
+        {dataType:'function',propertyName:getSupplierName},
+        {dataType:'function',propertyName:getCompanyName},
+        {dataType:'function',propertyName:getGrnNumber},
+        {dataType:'text',propertyName:'grndate'},
+    ];
+
+    fillDataIntoTable(pendingGrnHeaderTable,getPendingGrnList,displayProperty,false)
 
 
 
+}
 
+const printPendingGrn = async ()=>{
+
+    const newWindow = window.open();
+    await newWindow.document.write(`
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pending Grn Print</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+
+    <div class="row mt-5 text-center">
+        <p style="font-size: 14px; font-weight: bolder">Pending GRN</p>
+    </div>
+
+    <div class="row" style="margin: 3px">
+    ${pendingGrnHeaderTable.outerHTML}
+    </div>
+
+
+
+</div>
+</body>
+</html>
+    
+    
+    `);
+
+
+    newWindow.stop();
+    newWindow.print();
+    newWindow.close();
+
+
+
+}
 
 
 

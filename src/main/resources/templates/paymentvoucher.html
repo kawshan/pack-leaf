@@ -12,6 +12,7 @@
     <script src="/commonjs/validation.js"></script>
     <script src="/commonjs/ajaxcommonfunction.js"></script>
     <script src="/commonjs/tablecommonfuntion.js"></script>
+    <script src="/commonjs/commonEventHandlers.js"></script>
     <script src="/controllerjs/paymentvoucher.js"></script>
 
     <!--    jquery cdn start-->
@@ -62,7 +63,7 @@
 
 
 
-        <div class="col-md-3"></div>
+
         <div class="col-md-3">
             <button type="button" style="width: 30%; height: 40px" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLoadGrn" onclick="loadGrnHeaderTable()">Load GRN</button>
         </div>
@@ -70,6 +71,11 @@
 
         <div class="col-md-3">
             <button type="button" style="width: 20%; height: 40px" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Search</button>
+        </div>
+
+
+        <div class="col-md-3">
+            <button type="button" style="width: 30%; height: 40px" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPendingGRN" onclick="refreshPendingGrnTable()">Pending GRN</button>
         </div>
 
 
@@ -239,8 +245,8 @@
 
 
 
-    <!--    div modify button area 2 start-->
-    <div class="row mt-1 mb-1">
+<!--    div modify button area 2 start-->
+<div class="row mt-1 mb-1">
 
 
         <div class="col-md-3">
@@ -267,7 +273,7 @@
 
 
     </div>
-    <!--    div modify button area 2 end-->
+<!--    div modify button area 2 end-->
 
 
 
@@ -360,7 +366,7 @@
 
 <!--   payment Voucher Print model area start -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Payment Voucher Search</h1>
@@ -373,7 +379,7 @@
                         <table class="table table-hover table-striped"  id="paymentVoucherHeaderTable">
                             <thead>
                             <th>#</th>
-                            <th style="width: 150px">Supplier Name</th>
+                            <th style="width: 50px" onwheel="changeRowWidth(this)">Supplier Name</th>
                             <th>Payment Code</th>
                             <th>Voucher No</th>
                             <th>Voucher Date</th>
@@ -391,8 +397,8 @@
 <!--   payment Voucher Print model area start -->
 
 
-    <!--   GRN header model area start -->
-    <div class="modal fade" id="modalLoadGrn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--   GRN header model area start -->
+<div class="modal fade" id="modalLoadGrn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -406,7 +412,7 @@
                         <table class="table table-bordered"  id="grnHeaderTable">
                             <thead>
                             <th>#</th>
-                            <th style="width: 150px">Supplier Name</th>
+                            <th style="width: 50px" onwheel="changeRowWidth(this)">Supplier Name</th>
                             <th>Company Name</th>
                             <th>Grn No</th>
                             <th>Grn Code</th>
@@ -420,7 +426,49 @@
             </div>
         </div>
     </div>
-    <!--   GRN header model area start -->
+<!--   GRN header model area start -->
+
+
+    <!--   pending GRN model area start -->
+    <div class="modal fade" id="modalPendingGRN" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Pending GRN</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!--Table pending GRN Header Start-->
+                    <div class="card m-4">
+                        <table class="table table-bordered table-responsive-sm"  id="pendingGrnHeaderTable" style="font-size: 11px; border: 1px solid black">
+                            <thead>
+                            <th>#</th>
+                            <th style="width: 150px" onwheel="changeRowWidth(this)">Supplier Name</th>
+                            <th>Company Name</th>
+                            <th>Grn No</th>
+                            <th>Grn Date</th>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <!--Table pending GRN Header Start-->
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="printPendingGrn()">Print</button>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!--   pending GRN model area start -->
+
 
 
 

@@ -1,6 +1,7 @@
 package com.packleaf.packleaf.controller;
 
 import com.packleaf.packleaf.dao.PaymentVoucherDetailsDao;
+import com.packleaf.packleaf.entity.GrnHeader;
 import com.packleaf.packleaf.entity.PaymentVoucherDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -62,6 +63,12 @@ public class PaymentVoucherDetailsController {
     @GetMapping(value = "/gettotalvaluefromheaderkey/{headerkey}")
     public String getTotalValueFromHeaderKey(@PathVariable("headerkey") String headerkey){
         return paymentVoucherDetailsDao.getAmountByHeaderKey(headerkey);
+    }
+
+
+    @GetMapping(value = "/getpending-grn")
+    public List<GrnHeader> getPendingGrnHeaders(){
+        return paymentVoucherDetailsDao.getPendingGrnHeaders();
     }
 
 
