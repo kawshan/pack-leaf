@@ -34,21 +34,31 @@ public interface GrnDetailsDao extends JpaRepository<GrnDetails,Integer> {
 
 //uda query eke thibbe na grn number eka item code eka description eka wage dewal ee tika add kara
 
-    @Query(value = "select distinct\n" +
+//    @Query(value = "select distinct\n" +
+//            "grndetails.id as grn_details_id, grndetails.quantity, grndetails.rate, grndetails.grnheader as grn_code,\n" +
+//            "(select sum(grndetails.quantity) from grndetails where grndetails.id=grn_details_id) - (select sum(paymentvoucherdetails.quantity) from paymentvoucherdetails where paymentvoucherdetails.grndetails_id=grn_details_id)\n" +
+//            "as remaining_quantity,\n" +
+//            "grndetails.itemcode, grndetails.gd_description,\n" +
+//            "(select grnheader.grnno from grnheader where grnheaderkey=grn_code) as grn_number\n" +
+//            "from grndetails where id  in (select grndetails_id from paymentvoucherdetails) and grnheader=?1 \n" +
+//            "union all\n" +
+//            "select distinct\n" +
+//            "grndetails.id as grn_details_id, grndetails.quantity, grndetails.rate, grndetails.grnheader as grn_code,\n" +
+//            "(select sum(grndetails.quantity) from grndetails where grndetails.id=grn_details_id)\n" +
+//            "as remaining_quantity,\n" +
+//            "grndetails.itemcode, grndetails.gd_description,\n" +
+//            "(select grnheader.grnno from grnheader where grnheaderkey=grn_code) as grn_number\n" +
+//            "from grndetails where id not in (select grndetails_id from paymentvoucherdetails) and grnheader=?1",nativeQuery = true)
+
+
+//    query එක මාරු කරා මොකද company එකේ තියෙන db එකේදී මේ query එක වැඩ කරේ නෑ මේක testing
+    @Query(value = "select\n" +
             "grndetails.id as grn_details_id, grndetails.quantity, grndetails.rate, grndetails.grnheader as grn_code,\n" +
             "(select sum(grndetails.quantity) from grndetails where grndetails.id=grn_details_id) - (select sum(paymentvoucherdetails.quantity) from paymentvoucherdetails where paymentvoucherdetails.grndetails_id=grn_details_id)\n" +
             "as remaining_quantity,\n" +
             "grndetails.itemcode, grndetails.gd_description,\n" +
             "(select grnheader.grnno from grnheader where grnheaderkey=grn_code) as grn_number\n" +
-            "from grndetails where id  in (select grndetails_id from paymentvoucherdetails) and grnheader=?1 \n" +
-            "union all\n" +
-            "select distinct\n" +
-            "grndetails.id as grn_details_id, grndetails.quantity, grndetails.rate, grndetails.grnheader as grn_code,\n" +
-            "(select sum(grndetails.quantity) from grndetails where grndetails.id=grn_details_id)\n" +
-            "as remaining_quantity,\n" +
-            "grndetails.itemcode, grndetails.gd_description,\n" +
-            "(select grnheader.grnno from grnheader where grnheaderkey=grn_code) as grn_number\n" +
-            "from grndetails where id not in (select grndetails_id from paymentvoucherdetails) and grnheader=?1",nativeQuery = true)
+            "from grndetails where grnheader=?1",nativeQuery = true)
     public List<Object> getGrnDetailsForPaymentVoucher(String headerKey);
 
 

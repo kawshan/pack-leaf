@@ -429,8 +429,8 @@
 <!--   GRN header model area start -->
 
 
-    <!--   pending GRN model area start -->
-    <div class="modal fade" id="modalPendingGRN" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--   pending GRN model area start -->
+<div class="modal fade" id="modalPendingGRN" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -438,6 +438,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12 text-end">
+                            <button type="button" class="btn btn-primary" onclick="printPendingGrn()">Print</button>
+                        </div>
+                    </div>
 
                     <!--Table pending GRN Header Start-->
                     <div class="card m-4">
@@ -458,7 +464,6 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="printPendingGrn()">Print</button>
                 </div>
 
 
@@ -467,7 +472,7 @@
             </div>
         </div>
     </div>
-    <!--   pending GRN model area start -->
+<!--   pending GRN model area start -->
 
 
 

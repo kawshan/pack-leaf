@@ -293,6 +293,8 @@ const handleResetButtonClick = ()=>{
     //details table eke full amount eka pennana paragraph text eka empty kara
     paragraphTotalAmount.innerText ="";
 
+    cardGrnDetails.classList.add('d-none');
+
 }
 
 
@@ -777,7 +779,13 @@ const getGrnQuantity = (ob)=>{
 }
 
 const getRemainingQuantity = (ob)=>{
-    return `<p class="text-end">${Number(ob[4]).toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4})}</p>`;
+    if (ob[4]==null){
+        // null nam thiyena quantity ekama denawa
+        return `<p class="text-end">${Number(ob[1]).toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4})}</p>`;
+    }else {
+        // null natham eka remaining quatity eka return karanawa....
+        return `<p class="text-end">${Number(ob[4]).toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4})}</p>`;
+    }
 
 }
 
@@ -794,7 +802,7 @@ const refillGrnDetailsIntoPaymentVoucherDetails = (ob)=>{
 
     textCode.value=ob[5];
     txtDescription.value=ob[6]
-    txtQty.value=ob[4]
+    txtQty.value=ob[4]==null?ob[1]:ob[4];  //remaining quantity eka null nam original quantity eka pass karanawa.. null naththam remaining quantity eka pass karanawa.
     txtRate.value=ob[2]
     txtAmount.value=ob[4]*ob[2]
 
