@@ -77,5 +77,16 @@ public class JobMasterController {
     }
 
 
+    @GetMapping(value = "/getmaxjobnumber")
+    public String getMaxJobNumber(){
+        String maxJobNumber =  jobDao.getMaxJobNumber();
+        if (maxJobNumber==null || maxJobNumber.equals("")){
+            return "1001";
+        }else {
+            return maxJobNumber;
+        }
+    }
+
+
 
 }

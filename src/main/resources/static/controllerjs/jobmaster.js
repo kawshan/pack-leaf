@@ -5,6 +5,8 @@ window.addEventListener('load',function (){
 
     refreshJobMasterTable();
 
+
+
 });
 
 
@@ -42,6 +44,9 @@ const refreshJobMasterForm = ()=>{
     jobStautues = ajaxGetRequest("/jobmasterstatus/findall");
     fillDataIntoSelect(selectJobStatus,"Select Status",jobStautues,'name');
 
+
+    //max number eka ganna function eka call karanawa
+    getMaxJobNumber();
 }
 
 
@@ -425,7 +430,18 @@ const printOneJob = async (ob)=>{
 }
 
 
+//getMaxJob
+const getMaxJobNumber = ()=>{
+    const getMaxJobNumberFromServer = ajaxGetRequest("/jobmaster/getmaxjobnumber");
+    console.log(Number(getMaxJobNumberFromServer));
 
+    const maxJobNumber = Number(getMaxJobNumberFromServer);
+
+    txtJobNumber.value = maxJobNumber;
+    jobmaster.jobnumber = maxJobNumber;
+
+
+}
 
 
 
