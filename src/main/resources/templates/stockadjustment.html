@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Adjustment</title>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/commonjs/selectcommonfunction.js"></script>
+    <script src="/commonjs/jquery.js"></script>
+    <script src="/commonjs/validation.js"></script>
+    <script src="/commonjs/ajaxcommonfunction.js"></script>
+    <script src="/commonjs/tablecommonfuntion.js"></script>
+    <script src="/controllerjs/stockAdjustment.js"></script>
+
+
+
+    <!--    jquery cdn start-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <!--    jquery cdn end-->
+
+</head>
+<body>
+<div class="container-fluid">
+
+    <!--header area start-->
+    <div class="row p-4" style="background-color: #54C392">
+        <h1 class="text-center">Stock Adjustment</h1>
+    </div>
+    <!--header area start-->
+
+
+    <!--button row start-->
+    <div class="row mt-1 mb-1">
+
+
+        <div class="col-md-3">
+            <div id="divModifyButton" class="d-none">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-warning fw-bold"
+                            style="width: 25%; color: whitesmoke; border: 1px solid black;"
+                            onclick="refillStockAdjustmentHeader(window['editOb'],window['editRow'])">
+                        <i class="fa-solid fa-recycle fa-beat"></i> Refill
+                    </button>
+                    <button type="button" class="btn btn-danger fw-bold"
+                            style=" width: 25%; color: whitesmoke; border: 1px solid black; pointer-events: all"
+                            onclick="deleteStockAdjustmentHeader(window['editOb'],window['editRow'])">
+                        <i class="fa-solid fa-trash fa-beat"></i> Delete
+                    </button>
+                    <button onclick="printGrnHeader(window['editOb'],window['editRow'])" type="button"
+                            class="btn btn-primary fw-bold"
+                            style=" width: 25%; color: whitesmoke;border: 1px solid black">
+                        <i class="fa-solid fa-eye fa-beat"></i> Print
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+
+
+        <div class="col-md-3">
+            <button type="button" style="width: 20%; height: 40px" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Search</button>
+        </div>
+
+
+    </div>
+    <!--button row end-->
+
+
+
+
+
+    <!--header area start-->
+    <div class="card">
+        <form onsubmit="return false">
+
+
+            <!--button row start-->
+            <div class="row mt-1">
+                <div class="col-md-3"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-danger">reset</button>
+                    <button type="button" class="btn btn-success" onclick="submitStockAdjustmentHeader()">Submit</button>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <!--button row start-->
+
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="selectCompanyName" class="form-label fw-bold"> Company Name <i class="text-danger">*</i></label>
+                    <select id="selectCompanyName" class="form-select text-start" onchange="selectDBValidator(this,'','stockAdjustmentHeader','company_id')">
+                    </select>
+                </div>
+
+
+
+                <div class="col-md-3"></div>
+
+
+
+                <div class="col-md-3">
+                    <label for="displayAdjustmentKey" class="form-label fw-bold">Stock Adjustment code</label>
+                    <input type="text" id="displayAdjustmentKey" class="form-control text-center" disabled>
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <table class="table table-bordered table-striped">
+                        <tbody>
+
+                        <!--                first row-->
+                        <tr>
+                            <td>
+                                <label for="textAdjustmentNo" class="form-label fw-bold"> Adjustment Number <i
+                                        class="text-danger">*</i> </label>
+                            </td>
+                            <td>
+                                <input type="text" id="textAdjustmentNo" class="form-control text-start"
+                                       placeholder="Enter Adjustment Number" onkeyup="textValidator(this,'','stockAdjustmentHeader','adjustment_no')">
+                            </td>
+                        </tr>
+                        <!--                first row-->
+
+
+                        <!--                second row-->
+                        <tr>
+                            <td>
+                                <label for="textAdjustmentDate" class="form-label fw-bold">Adjustment Date <i class="text-danger">*</i> </label>
+                            </td>
+                            <td>
+                                <input type="date" id="textAdjustmentDate" class="form-control" onchange="textValidator(this,'','stockAdjustmentHeader','adjustment_date')">
+                            </td>
+                        </tr>
+                        <!--                second row-->
+
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+        </form>
+    </div>
+    <!--header  area end-->
+
+
+    <!--details area start-->
+    <form onsubmit="return false">
+        <table class="table">
+            <tbody>
+            <tr>
+                <td>
+                    <label for="selectRawMaterial" class="form-label fw-bold">Select Raw Material</label>
+                    <select id="selectRawMaterial" class="form-select"></select>
+                </td>
+
+
+                <td>
+                    <label for="txtQty" class="form-label fw-bold">Item Qty</label>
+                    <input type="text" id="txtQty" class="form-control" placeholder="enter item quantity">
+                </td>
+
+                <td>
+                    <label for="txtCode" class="form-label fw-bold">Item Code</label>
+                    <input type="text" id="txtCode" class="form-control" placeholder="enter item code">
+                </td>
+
+
+                <td>
+                    <label for="txtRate" class="form-label fw-bold">Item Rate</label>
+                    <input type="text" id="txtRate" class="form-control" placeholder="enter item rate">
+                </td>
+
+                <td style="padding-left: 5%">
+                    <button type="button" class="btn btn-warning" style="width: 100px; height: 70px">Update</button>
+                    <button type="button" class="btn btn-success" style="width: 100px; height: 70px">Add</button>
+                </td>
+
+
+
+
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <!--details area start-->
+
+
+
+    <!--table area start-->
+    <div class="card mt-5 p-5 d-none">
+        <table class="table table-hover table-striped">
+
+            <thead>
+            <th>#</th>
+            <th>item name</th>
+            <th>Qty</th>
+            <th>rate</th>
+            </thead>
+
+            <tbody></tbody>
+
+        </table>
+    </div>
+    <!--table area end-->
+
+
+
+<!--  header model area start  -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Stock Adjustments</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!--Table Our Purchase Order Header Start-->
+                    <div class="card m-4">
+                        <table class="table table-bordered"  id="StockAdjustmentHeaderTable">
+                            <thead>
+                            <th>#</th>
+                            <th>Company Name</th>
+                            <th>Adjustment No</th>
+                            <th>Adjustment Key</th>
+                            <th>Adjustment Date</th>
+                            <th>Action</th>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <!--Table Our Purchase Order Header Start-->
+                </div>
+            </div>
+        </div>
+    </div>
+<!--  header model area end  -->
+
+
+
+</div>
+</body>
+</html>
