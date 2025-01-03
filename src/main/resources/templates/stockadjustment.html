@@ -73,10 +73,6 @@
     </div>
     <!--button row end-->
 
-
-
-
-
     <!--header area start-->
     <div class="card">
         <form onsubmit="return false">
@@ -98,7 +94,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <label for="selectCompanyName" class="form-label fw-bold"> Company Name <i class="text-danger">*</i></label>
-                    <select id="selectCompanyName" class="form-select text-start" onchange="selectDBValidator(this,'','stockAdjustmentHeader','company_id')">
+                    <select id="selectCompanyName" class="form-select text-start" required onchange="selectDBValidator(this,'','stockAdjustmentHeader','company_id')">
                     </select>
                 </div>
 
@@ -167,29 +163,29 @@
             <tr>
                 <td>
                     <label for="selectRawMaterial" class="form-label fw-bold">Select Raw Material</label>
-                    <select id="selectRawMaterial" class="form-select"></select>
+                    <select id="selectRawMaterial" class="form-select" onchange="selectDBValidator(this,'','stockAdjustmentDetails','rawmaterial_id')"></select>
                 </td>
 
 
                 <td>
                     <label for="txtQty" class="form-label fw-bold">Item Qty</label>
-                    <input type="text" id="txtQty" class="form-control" placeholder="enter item quantity">
+                    <input type="text" id="txtQty" class="form-control" placeholder="enter item quantity" onkeyup="textValidator(this,'','stockAdjustmentDetails','quantity')">
                 </td>
 
                 <td>
                     <label for="txtCode" class="form-label fw-bold">Item Code</label>
-                    <input type="text" id="txtCode" class="form-control" placeholder="enter item code">
+                    <input type="text" id="txtCode" class="form-control" placeholder="enter item code" onkeyup="textValidator(this,'','stockAdjustmentDetails','code')">
                 </td>
 
 
                 <td>
                     <label for="txtRate" class="form-label fw-bold">Item Rate</label>
-                    <input type="text" id="txtRate" class="form-control" placeholder="enter item rate">
+                    <input type="text" id="txtRate" class="form-control" placeholder="enter item rate" onkeyup="textValidator(this,'','stockAdjustmentDetails','rate')">
                 </td>
 
                 <td style="padding-left: 5%">
-                    <button type="button" class="btn btn-warning" style="width: 100px; height: 70px">Update</button>
-                    <button type="button" class="btn btn-success" style="width: 100px; height: 70px">Add</button>
+                    <button type="button" id="buttonStockAdjustmentDetailsUpdate" class="btn btn-warning" style="width: 100px; height: 70px; pointer-events: all" onclick="updateStockAdjustmentDetails()">Update</button>
+                    <button type="button" id="buttonStockAdjustmentDetailsAdd" class="btn btn-success" style="width: 100px; height: 70px; pointer-events: all" onclick="submitStockAdjustmentDetails()">Add</button>
                 </td>
 
 
@@ -201,15 +197,48 @@
     </form>
     <!--details area start-->
 
+    <!-- divModifyButton2 button row start-->
+    <div class="row mt-1 mb-1">
 
 
-    <!--table area start-->
-    <div class="card mt-5 p-5 d-none">
-        <table class="table table-hover table-striped">
+        <div class="col-md-3">
+            <div id="divModifyButton2" class="d-none">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-warning fw-bold"
+                            style="width: 25%; color: whitesmoke; border: 1px solid black;"
+                            onclick="refillStockAdjustmentDetails(window['editOb'],window['editRow'])">
+                        <i class="fa-solid fa-recycle fa-beat"></i> Refill
+                    </button>
+                    <button type="button" class="btn btn-danger fw-bold"
+                            style=" width: 25%; color: whitesmoke; border: 1px solid black; pointer-events: all"
+                            onclick="deleteStockAdjustmentDetails(window['editOb'],window['editRow'])">
+                        <i class="fa-solid fa-trash fa-beat"></i> Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+
+
+        <div class="col-md-3"></div>
+
+
+    </div>
+    <!-- divModifyButton2 button row end-->
+
+
+    <!-- details table area start-->
+    <div class="card mt-5 d-none" id="cardStockAdjustmentDetails">
+        <table class="table table-bordered" id="stockAdjustmentDetailsTable">
 
             <thead>
             <th>#</th>
-            <th>item name</th>
+            <th>Raw Material</th>
+            <th>Code</th>
             <th>Qty</th>
             <th>rate</th>
             </thead>
@@ -218,11 +247,11 @@
 
         </table>
     </div>
-    <!--table area end-->
+    <!-- details table area end-->
 
 
 
-<!--  header model area start  -->
+<!--  header model area start -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
