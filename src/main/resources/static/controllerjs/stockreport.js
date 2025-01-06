@@ -131,6 +131,7 @@ const fillDataIntoPrintTable = ()=>{
         {dataType:'function',propertyName:getReference},
         {dataType:'function',propertyName:getQuantityForPrint},
         {dataType:'function',propertyName:getIssueNoteForPrint},
+        {dataType:'function',propertyName:getStockAdjustmentForPrint},
         {dataType:'function',propertyName:calculateRunningTotal},
 
     ];
@@ -148,8 +149,10 @@ const getRawMaterialNameForPrint = (ob)=>{
 const getReference = (ob)=>{
         if (ob[2]=="GRN"){
             return "GRN"
-        }else {
+        }else if (ob[2]=="IN"){
             return "Issue Note"
+        }else {
+            return "Stock Adjustment"
         }
 }
 
@@ -163,7 +166,7 @@ const getSupplierNameForPrint = (ob)=>{
 
 const getQuantityForPrint = (ob)=>{
     if (ob[2]=="GRN"){
-        return `<p class="text-end">${Number(ob[3]).toLocaleString('en-US')}</p>`
+        return `<p class="text-end">${Number(ob[3]).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3})}</p>`
     }else {
         return " ";
     }
@@ -173,21 +176,56 @@ const getQuantityForPrint = (ob)=>{
 const getIssueNoteForPrint = (ob) =>{
     if (ob[2]=="GRN"){
         return ' ';
+    }else if (ob[2]=="IN") {
+        return `<p class="text-end">${Number(ob[3]).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3})}</p>`;
+    }else {
+        return ' ';
+    }
+}
+
+
+const getStockAdjustmentForPrint = (ob) =>{
+    if (ob[2]=="GRN"){
+        return ' ';
+    }else if (ob[2]=="IN") {
+       return ' ';
     }else {
         return `<p class="text-end">${Number(ob[3]).toLocaleString('en-US')}</p>`;
     }
 }
 
 
-runningTotal = null;
+let runningTotal = 0;
 
 const calculateRunningTotal = (ob)=>{
-    if (ob[2]=="GRN"){
+    if (ob[2]=="GRN"){  //grn nam running number ekata ekathu karanawa...
         runningTotal+=parseFloat(ob[3]);
         return `<p class="text-end">${Number(runningTotal).toLocaleString('en-US')}</p>`;
-    }else {
+    }else if (ob[2]=="IN") {    //issue note nam running number ekan adu karanwa
         runningTotal-=parseFloat(ob[3]);
         return `<p class="text-end">${Number(runningTotal).toLocaleString('en-US')}</p>`;
+
+
+    }else if (ob[2]=="ADJ") { //else ekedi venne stock adjustment eke
+        //stock adjustment nam ee number eka + da - da kiyala check karanna one
+        let numberVal = parseFloat(ob[3]);
+
+        if (numberVal < 0) {
+            // negative number
+            runningTotal = runningTotal-Math.abs(ob[3]);
+            return `<p class="text-end">${Number(runningTotal).toLocaleString('en-US')}</p>`;
+        }
+        else if (numberVal > 0) {
+            // positive number
+            runningTotal+=parseFloat(ob[3]);
+            return `<p class="text-end">${Number(runningTotal).toLocaleString('en-US')}</p>`;
+        } else {
+            // number is zero
+            runningTotal+=parseFloat(ob[3]);
+            return `<p class="text-end">${Number(runningTotal).toLocaleString('en-US')}</p>`;
+        }
+
+
     }
 }
 
@@ -203,7 +241,7 @@ const getRemainingGrnAndIssueNote =  ()=>{
     let serverResponse =  ajaxGetRequest(`/stockreport/get_remaining_quantity_from_grn_and_issue_note/${rawMaterial}/${selectedDate}`);
     let responseAsANumber = Number(serverResponse);
     console.log(responseAsANumber);
-    runningTotal=responseAsANumber
+    runningTotal=responseAsANumber;
     return responseAsANumber;
 
 }
