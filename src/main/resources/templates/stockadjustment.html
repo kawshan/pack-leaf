@@ -50,7 +50,7 @@
                             onclick="deleteStockAdjustmentHeader(window['editOb'],window['editRow'])">
                         <i class="fa-solid fa-trash fa-beat"></i> Delete
                     </button>
-                    <button onclick="printGrnHeader(window['editOb'],window['editRow'])" type="button"
+                    <button onclick="printStockAdjustmentHeader(window['editOb'],window['editRow'])" type="button"
                             class="btn btn-primary fw-bold"
                             style=" width: 25%; color: whitesmoke;border: 1px solid black">
                         <i class="fa-solid fa-eye fa-beat"></i> Print
@@ -83,7 +83,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
-                    <button type="button" class="btn btn-danger">reset</button>
+                    <button type="button" class="btn btn-danger" onclick="handelResetButton()">reset</button>
                     <button type="button" class="btn btn-success" onclick="submitStockAdjustmentHeader()">Submit</button>
                 </div>
                 <div class="col-md-3"></div>
@@ -248,6 +248,25 @@
         </table>
     </div>
     <!-- details table area end-->
+
+
+    <!-- stock adjustment details table area for Print start-->
+    <div class="card d-none" id="cardStockAdjustmentDetailsForPrint">
+        <table class="table table-bordered" id="stockAdjustmentDetailsTableForPrint" style="border: 1px solid black; font-size: 11px;">
+
+            <thead>
+            <th>#</th>
+            <th>Raw Material</th>
+            <th>Code</th>
+            <th>Qty</th>
+            <th>rate</th>
+            </thead>
+
+            <tbody></tbody>
+
+        </table>
+    </div>
+    <!-- stock adjustment details table area for Print end-->
 
 
 
