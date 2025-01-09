@@ -345,7 +345,10 @@
                         <label for="textChequeNumber" class="form-label fw-bold">Cheque No <i class="text-danger">*</i> </label>
                     </td>
                     <td>
-                        <input type="text" id="textChequeNumber" class="form-control text-start" placeholder="Enter Cheque Number" onkeyup="textValidator(this,'^[0-9]{6}$','paymentVoucherHeader','cheque_number'); getChequeAmount(this)">
+                        <div class="input-group">
+                        <input type="text" id="textChequeNumber" class="form-control text-start" placeholder="Enter Cheque Number" onkeyup="textValidator(this,'','paymentVoucherHeader','cheque_number'); ">
+                        <button type="button" style="background-color: green" onclick="getChequeAmount(textChequeNumber)">Genrate</button>
+                        </div>
                     </td>
                 </tr>
                 <!--                Cheque No row Start     -->

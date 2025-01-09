@@ -309,28 +309,49 @@ const getMaxVoucherNumber = ()=>{
 }
 
 
-const getChequeAmount = async (fieldId)=>{
+let result = 0;
+
+const getChequeAmount = (fieldId) => {
+
+    // patan ganna kotama thiyena input eke value ekayi object eke value ekayi ayin karanawa...
+    // mokada iita kalin user add karala eka waradila thiyenna puluwan user eka makala aluthen mokak hari daanakota methana awlak enna puluwan..
+    // mokakda ee awla ee ta kain 1000 thibboth user makala aye cheque number eka maru karala aluth check eka 2000 thibboth iita kain ekath ekathu vena eka nawaththanna one nisa.
+    textChequeAmount.value = " ";
+    paymentVoucherHeader.cheque_amount = null;
+    result = 0;
+
+
     const regExpression = new RegExp('^[0-9]{6}$');
-    if (regExpression.test(fieldId.value)){
-        console.log("good value");
-        const getServerResponse = await ajaxGetRequest("/paymentvoucherheader/getamountfromchequenumber/"+fieldId.value);
-        if (Number(getServerResponse)!=0){
-            var result =  Number(getServerResponse).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-            textChequeAmount.value=result;
-            textChequeAmount.style.border='2px solid green';
-            paymentVoucherHeader.cheque_amount = Number(getServerResponse);
-        }else {
-            textChequeAmount.value="";
-            textChequeAmount.placeholder="cheque is not exists !"
-            textChequeAmount.style.border="2px solid red";
-            paymentVoucherHeader.cheque_amount = null;
+    const chequeNumbers = fieldId.value.split(',');
+
+    chequeNumbers.forEach((cheque) => {
+        if (regExpression.test(cheque)) {
+            console.log("good value");
+
+            // Synchronous server request (assuming `ajaxGetRequest` works synchronously)
+            const getServerResponse = ajaxGetRequest(`/paymentvoucherheader/getamountfromchequenumber/${cheque}`);
+
+            if (Number(getServerResponse) != 0) {
+                result += Number(getServerResponse);
+                textChequeAmount.value = result.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                textChequeAmount.style.border = '2px solid green';
+                paymentVoucherHeader.cheque_amount = result;
+            } else {
+                textChequeAmount.value = "";
+                textChequeAmount.placeholder = `${cheque} cheque does not exist!`;
+                textChequeAmount.style.border = "2px solid red";
+                paymentVoucherHeader.cheque_amount = null;
+            }
+        } else {
+            console.log("bad value");
         }
+    });
+};
 
 
-    }else {
-        console.log("bad value")
-    }
-}
+
+
+
 
 const printPaymentVoucherHeader = async (ob)=>{
     const newWindow = window.open();
@@ -397,7 +418,7 @@ const printPaymentVoucherHeader = async (ob)=>{
     </div>
 
     <div class="row mb-4">
-        <div class="col-4">
+        <div class="col-12">
             <label style="font-size: 12px;">Payment Mode :</label>
             <span style="font-size: 12px;">${ob.payment_mode=="cash"?"Cash":ob.ownbankaccount_id.bank_short_name}</span> &nbsp; &nbsp;
             <span style="font-size: 12px;">${ob.payment_mode=="cash"?" " : ob.cheque_number}</span>
