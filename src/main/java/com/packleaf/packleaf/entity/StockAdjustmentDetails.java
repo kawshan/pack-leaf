@@ -24,8 +24,8 @@ public class StockAdjustmentDetails {
     @Column(name = "quantity")
     private BigDecimal quantity;
 
-    @Column(name = "code")
-    private String code;
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "rate")
     private BigDecimal rate;

@@ -325,12 +325,12 @@ const refreshStockAdjustmentDetailsForm = ()=>{
 
     selectRawMaterial.style.border="2px solid #ced4da";
     txtQty.style.border="2px solid #ced4da";
-    txtCode.style.border="2px solid #ced4da";
+    txtDescription.style.border="2px solid #ced4da";
     txtRate.style.border="2px solid #ced4da";
 
 
     txtQty.value="";
-    txtCode.value="";
+    txtDescription.value="";
     txtRate.value="";
 
     rawmaterialList = ajaxGetRequest("/rawmaterial/findall");
@@ -354,7 +354,7 @@ const refreshStockAdjustmentDetailsTable = () =>{
 
     const displayProperty = [
         {dataType:'function',propertyName:getRawMaterial},
-        {dataType:'text',propertyName:'code'},
+        {dataType:'text',propertyName:'description'},
         {dataType:'function',propertyName:getQuantity},
         {dataType:'function',propertyName:getRate},
     ]
@@ -448,7 +448,7 @@ const refillStockAdjustmentDetails = (ob)=>{
 
 
     txtQty.value=ob.quantity;
-    txtCode.value=ob.code;
+    txtDescription.value=ob.description;
     txtRate.value=ob.rate;
 
 
@@ -467,8 +467,8 @@ const checkUpdatesStockAdjustmentHeader = ()=>{
     if (oldStockAdjustmentDetails.quantity != stockAdjustmentDetails.quantity){
         updates=updates+"Quantity is updated \n"
     }
-    if (oldStockAdjustmentDetails.code != stockAdjustmentDetails.code){
-        updates=updates+"Code is updated \n"
+    if (oldStockAdjustmentDetails.description != stockAdjustmentDetails.description){
+        updates=updates+"Description is updated \n"
     }
     if (oldStockAdjustmentDetails.rate != stockAdjustmentDetails.rate){
         updates=updates+"Rate is updated \n"
@@ -533,7 +533,7 @@ const loadDataIntoPrintStockAdjustmentDetailsTable = (headerKey) =>{
 
     const displayProperty = [
         {dataType:'function',propertyName:getRawMaterial},
-        {dataType:'text',propertyName:'code'},
+        {dataType:'text',propertyName:'description'},
         {dataType:'function',propertyName:getQuantity},
         {dataType:'function',propertyName:getRate},
     ]
