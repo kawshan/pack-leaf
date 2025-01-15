@@ -26,7 +26,13 @@ public interface ReportsDao extends JpaRepository<Company,Integer> {
 
 //      me query eka wada karanne na 0 values walata ee nisa query eka update kara
 //      @Query(value = "select (select sum(gd.quantity) from grndetails as gd inner join grnheader as gh on gd.grnheader = gh.grnheaderkey and rawmaterial_id =?1 and gh.grndate < ?2) - (select sum(ind.quantity) from issuenotedetail as ind inner join issuenoteheader as inh on ind.issuenoteheader = inh.headerkey and ind.rawmaterial_id =?1 and inh.issuenotedate < ?2) as total_grn_and_issue_note_quantity;", nativeQuery = true)
-    @Query(value = "SELECT (SELECT COALESCE(SUM(gd.quantity), 0) FROM grndetails AS gd INNER JOIN grnheader AS gh ON gd.grnheader = gh.grnheaderkey WHERE gd.rawmaterial_id = ?1 AND gh.grndate < ?2) - (SELECT COALESCE(SUM(ind.quantity), 0) FROM issuenotedetail AS ind INNER JOIN issuenoteheader AS inh ON inh.headerkey = ind.issuenoteheader WHERE ind.rawmaterial_id = ?1 AND inh.issuenotedate < ?2 ) AS previous_quantity;",nativeQuery = true)
+//    @Query(value = "SELECT (SELECT COALESCE(SUM(gd.quantity), 0) FROM grndetails AS gd INNER JOIN grnheader AS gh ON gd.grnheader = gh.grnheaderkey WHERE gd.rawmaterial_id = ?1 AND gh.grndate < ?2) - (SELECT COALESCE(SUM(ind.quantity), 0) FROM issuenotedetail AS ind INNER JOIN issuenoteheader AS inh ON inh.headerkey = ind.issuenoteheader WHERE ind.rawmaterial_id = ?1 AND inh.issuenotedate < ?2 ) AS previous_quantity;",nativeQuery = true)
+    @Query(value = "SELECT (SELECT COALESCE(SUM(gd.quantity), 0) FROM grndetails AS gd INNER JOIN grnheader AS gh ON gd.grnheader = gh.grnheaderkey WHERE gd.rawmaterial_id = ?1 AND gh.grndate < ?2)\n" +
+            "-\n" +
+            "(SELECT COALESCE(SUM(ind.quantity), 0) FROM issuenotedetail AS ind INNER JOIN issuenoteheader AS inh ON inh.headerkey = ind.issuenoteheader WHERE ind.rawmaterial_id = ?1 AND inh.issuenotedate < ?2)\n" +
+            "+\n" +
+            "(select coalesce(sum(sad.quantity),0) from stock_adjustment_details as sad inner join stock_adjustment_header as sah on sad.header_key = sah.adjustment_key and sad.rawmaterial_id = ?1 and sah.adjustment_date < ?2)\n" +
+            "AS previous_quantity;", nativeQuery = true)
       public String getRemainingQuantityFromGrnAndIssueNote(Integer rawmaterialid, String fromdate);
 
 
