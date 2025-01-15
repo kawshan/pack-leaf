@@ -148,7 +148,7 @@ const submitRawMaterial = ()=>{
         const userConfirm = confirm(`are you sure to add following raw materials
         Raw Material Category Is ${rawmaterial.rawmaterialcategory_id}
         Raw Material Name Is ${rawmaterial.rmname}
-        Raw Material Form Is ${rawmaterial.rawmaterialform_id}
+        Raw Material Form Is ${rawmaterial.rawmaterialform_id.name}
         Raw Material Status Is ${rawmaterial.rmstatus}
         `);
         //me tika uda message ekata one nathi nisa comment kara

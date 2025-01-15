@@ -34,6 +34,13 @@ public class RawMaterialController {
     public String saveRawMaterial(@RequestBody RawMaterial rawMaterial){
         try {
 
+            RawMaterial existingRawMaterial = rawMaterialDao.getRawMaterialByRmname(rawMaterial.getRmname());
+            if (existingRawMaterial!=null){
+                return "cannot perform raw material save. "+rawMaterial.getRmname()+"is already exist";
+            }
+
+
+
             String getMaxRawMaterialKey = rawMaterialDao.getMaxRawMaterialKey();
             if (getMaxRawMaterialKey==null || getMaxRawMaterialKey.equals("")){
                 rawMaterial.setRmkey("RM0001");

@@ -18,4 +18,8 @@ public interface RawMaterialDao extends JpaRepository<RawMaterial,Integer> {
     public List<RawMaterial> getAllByRmStatusTrue();
 
 
+    @Query(value = "select rm from RawMaterial rm where rm.rmname=?1")
+    public RawMaterial getRawMaterialByRmname(String rmname);
+
+
 }

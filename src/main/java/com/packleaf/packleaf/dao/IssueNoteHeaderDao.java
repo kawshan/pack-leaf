@@ -20,4 +20,7 @@ public interface IssueNoteHeaderDao extends JpaRepository<IssueNoteHeader,Intege
     @Query(value = "delete from issuenotedetail where issuenoteheader=?1",nativeQuery = true)
     public void deleteIssueNoteDetailByHeaderKey(String headerKey);
 
+    @Query(value = "select max(issuenotenumber+1) from issuenoteheader as next_issue_note_number;",nativeQuery = true)
+    public String getMaxIssueNoteNumber();
+
 }

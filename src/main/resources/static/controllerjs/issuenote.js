@@ -41,7 +41,7 @@ const refreshIssueNoteHeader = ()=>{
     buttonIssueNoteDetailUpdate.disabled=true;
     buttonIssueNoteDetailUpdate.style.cursor="not-allowed";
 
-
+    getMaxIssueNoteNumber();
 
 }
 
@@ -313,6 +313,28 @@ const issueNoteHeaderPrint = async (ob,rowIndex)=>{
 
 
 }
+
+const getMaxIssueNoteNumber = ()=>{
+    const getMaxIssueNoteFromServer = ajaxGetRequest("/issuenoteheader/getmaxissuenotenumber");
+
+    textIssueNoteNo.value = Number(getMaxIssueNoteFromServer);
+    issueNoteHeader.issuenotenumber = textIssueNoteNo.value;
+    textIssueNoteNo.style.border="2px solid green";
+
+
+}
+
+const handelResetButton = ()=>{
+    refreshIssueNoteHeader(); //header form eka refresh kara
+    refreshIssueNoteHeaderTable(); //header table eka refresh kara
+
+    getMaxIssueNoteNumber(); //max number eka ganna function eka call kara
+
+    refreshIssueNoteDetailForm()    //detail form eka refresh kara
+    cardIssueNoteDetailForTable.classList.add('d-none'); //details table eka hide kara
+}
+
+
 
 //issue note header section is finished
 

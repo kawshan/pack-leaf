@@ -81,6 +81,17 @@ public class IssueNoteHeaderController {
         return issueNoteHeaderDao.getIdFromHeaderKey(headerkey);
     }
 
+    @GetMapping(value = "/getmaxissuenotenumber")
+    public String getMaxIssueNoteNumber(){
+        String maxIssueNoteNumber = issueNoteHeaderDao.getMaxIssueNoteNumber();
 
+        if (maxIssueNoteNumber==null || maxIssueNoteNumber.equals("")){
+            return "1001";
+        }else {
+            return maxIssueNoteNumber;
+        }
+
+
+    }
 
 }
