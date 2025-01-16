@@ -11,6 +11,10 @@ public interface IssueChequeDao extends JpaRepository<IssueCheque,Integer> {
     public String getMaxChequeCode();
 
 
+    @Query(value = "select ic from IssueCheque ic where ic.cheque_number=?1")
+    public IssueCheque getIssueChequeByChequeNumber(String chequeNumber);
+
+
 
 
 

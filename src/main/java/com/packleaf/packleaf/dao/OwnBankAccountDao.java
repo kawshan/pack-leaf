@@ -11,4 +11,8 @@ public interface OwnBankAccountDao extends JpaRepository<OwnBankAccount,Integer>
     public String getMaxOwnBankAccountKey();
 
 
+    @Query(value = "select oba from OwnBankAccount oba where oba.bank_short_name=?1")
+    public OwnBankAccount getBYBankShortName(String bankShortName);
+
+
 }

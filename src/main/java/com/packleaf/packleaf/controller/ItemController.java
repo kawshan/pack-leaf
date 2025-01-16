@@ -32,6 +32,13 @@ public class ItemController {
     @PostMapping
     public String addItem(@RequestBody Item item){
         try {
+
+            Item existingItem = itemDao.getItemByItemName(item.getItmname());
+            if (existingItem!=null){
+                return "Cannot Perform Add Item "+item.getItmname()+" Already Exists";
+            }
+
+
             //set item number
             String nextItemKey = itemDao.getMaxItemKey();
             if (nextItemKey==null || nextItemKey.equals("")){

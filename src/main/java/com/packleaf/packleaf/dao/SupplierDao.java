@@ -10,4 +10,8 @@ public interface SupplierDao extends JpaRepository<Supplier,Integer> {
     public String getSupplierMaxKey();
 
 
+    @Query(value = "select s from Supplier s where s.suppliername=?1")
+    public Supplier getSupplierBySupplierName(String supplierName);
+
+
 }

@@ -128,6 +128,8 @@ const submitCustomer = ()=>{
                 refreshCustomerForm();
             }else {
                 alert("save unsuccessful"+postServerResponse);
+                refreshCustomerTable();
+                refreshCustomerForm();
             }
         }
     }else {

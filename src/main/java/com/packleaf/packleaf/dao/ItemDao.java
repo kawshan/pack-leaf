@@ -13,4 +13,5 @@ public interface ItemDao extends JpaRepository<Item,Integer> {
     public Item getItemByItemName(String itemName);
 
 
+
 }

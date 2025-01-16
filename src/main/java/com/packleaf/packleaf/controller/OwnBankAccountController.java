@@ -38,6 +38,13 @@ public class OwnBankAccountController {
     @PostMapping
     public String saveOwnBankAccount(@RequestBody OwnBankAccount ownBankAccount){
         try {
+
+            OwnBankAccount existingBankAccount = ownBankAccountDao.getBYBankShortName(ownBankAccount.getBank_short_name());
+            if (existingBankAccount!=null){
+                return "cannot perform bank account save "+ownBankAccount.getBank_short_name()+" is already exist";
+            }
+
+
             String getNextMaxOwnAccountKey = ownBankAccountDao.getMaxOwnBankAccountKey();
             if (getNextMaxOwnAccountKey==null || getNextMaxOwnAccountKey.equals("")){
                 ownBankAccount.setBank_key("ACC0001");

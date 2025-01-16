@@ -9,5 +9,8 @@ public interface RawMaterialCategoryDao extends JpaRepository<RawMaterialCategor
     @Query(value = "select concat('RMC',LPAD(MAX(SUBSTRING(rmc.rmctkey,4))+1,4,'0')) as rowmaterialcategorykey from rawmaterialcategory as rmc;",nativeQuery = true)
     public String getMaxRawMaterialCategory();
 
+    @Query(value = "select rmc from RawMaterialCategory rmc where rmc.rmctname=?1")
+    public RawMaterialCategory getRawMaterialCategoryByRmctname(String rmctname);
+
 
 }

@@ -3,6 +3,7 @@ package com.packleaf.packleaf.controller;
 import com.packleaf.packleaf.dao.RawMaterialCategoryDao;
 import com.packleaf.packleaf.entity.RawMaterialCategory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,7 +19,7 @@ public class RawMaterialCategoryController {
 
     @GetMapping(value = "/findall")
     public List<RawMaterialCategory> getAllRawMaterialCategory(){
-        return rawMaterialCategoryDao.findAll();
+        return rawMaterialCategoryDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
     @GetMapping
@@ -31,6 +32,13 @@ public class RawMaterialCategoryController {
     @PostMapping
     public String saveRawMaterialCategory(@RequestBody RawMaterialCategory rawMaterialCategory){
         try {
+
+            RawMaterialCategory existingRawMaterialCategory = rawMaterialCategoryDao.getRawMaterialCategoryByRmctname(rawMaterialCategory.getRmctname());
+            if (existingRawMaterialCategory!=null){
+                return "cannot perform save rawmaterial category "+rawMaterialCategory.getRmctname()+" already exist";
+            }
+
+
             String getMaxRaeMaterialCategoryKey = rawMaterialCategoryDao.getMaxRawMaterialCategory();
             if (getMaxRaeMaterialCategoryKey==null || getMaxRaeMaterialCategoryKey.equals("")){
                 rawMaterialCategory.setRmctkey("RMC0001");

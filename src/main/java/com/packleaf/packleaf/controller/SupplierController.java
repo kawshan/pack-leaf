@@ -31,6 +31,13 @@ public class SupplierController {
     @PostMapping
     public String saveSupplier(@RequestBody Supplier supplier){
         try {
+
+            Supplier existingSupplier = supplierDao.getSupplierBySupplierName(supplier.getSuppliername());
+            if (existingSupplier!=null){
+                return "cannot perform supplier save"+supplier.getSuppliername()+" already exist";
+            }
+
+
             String getSupplierMaxKey = supplierDao.getSupplierMaxKey();
             if (getSupplierMaxKey==null || getSupplierMaxKey.equals("")){
                 supplier.setSupplierkey("SUP0001");

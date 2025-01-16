@@ -39,6 +39,13 @@ public class ItemCategoryController {
     @PostMapping()
     public String saveItemCategory(@RequestBody ItemCategory itemCategory){
         try {
+
+            ItemCategory existingItemCategory = itemCategoryDao.findByCtname(itemCategory.getCtname());
+            if (existingItemCategory!=null){
+                return "Cannot Perform Item Category Save "+itemCategory.getCtname()+" is already exists";
+            }
+
+
             itemCategoryDao.save(itemCategory);
             return "ok";
         }catch (Exception e){

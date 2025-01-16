@@ -38,6 +38,13 @@ public class IssueChequeController {
     @PostMapping
     public String saveIssueCheque(@RequestBody IssueCheque issueCheque){
         try {
+
+            IssueCheque existingIssueCheque = issueChequeDao.getIssueChequeByChequeNumber(issueCheque.getCheque_number());
+            if (existingIssueCheque!=null){
+                return "cannot perform issue cheque "+issueCheque.getCheque_number()+" already exists";
+            }
+
+
             String getMaxIssueCheque = issueChequeDao.getMaxChequeCode();
             if (getMaxIssueCheque==null || getMaxIssueCheque.equals("")){
                 issueCheque.setIssue_cheque_code("IC0001");

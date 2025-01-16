@@ -31,6 +31,13 @@ public class CustomerController {
     @PostMapping
     public String addCustomer(@RequestBody Customer customer){
         try {
+
+            Customer existingCustomer = customerDao.getCustomerByCustomername(customer.getCustomername());
+            if (existingCustomer!=null){
+                return "Cannot Perform Customer Save"+customer.getCustomername()+" Already Exists";
+            }
+
+
             String customerNextKey = customerDao.getCustomerNextKey();
             if (customerNextKey == null || customerNextKey.equals("")) {
                 customer.setCustomerkey("CM0001");
