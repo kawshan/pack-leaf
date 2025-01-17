@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "jobmaster")
@@ -36,15 +37,18 @@ public class JobMaster {
     private String jobmasterkey;
 
     @ManyToOne
-    @JoinColumn(name = "item_id", referencedColumnName = "id")
-    private Item item_id;
-
-    @ManyToOne
     @JoinColumn(name = "customer_id",referencedColumnName = "id")
     private Customer customer_id;
 
     @ManyToOne
     @JoinColumn(name = "jobmasterstatus_id",referencedColumnName = "id")
     private JobMasterStatus jobmasterstatus_id;
+
+    @ManyToMany
+    @JoinTable(name = "jobmaster_has_item", joinColumns = @JoinColumn(name = "jobmaster_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
+    private List<Item> jhi;
+
+
+
 
 }

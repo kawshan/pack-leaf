@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface ItemCategoryDao extends JpaRepository<ItemCategory,Integer> {
 
     @Query(value = "select ic from ItemCategory ic where ic.ctname=?1")
-    public ItemCategory findByCtname(String ctname);
+public ItemCategory findByCtname(String ctname);
 
 
 }

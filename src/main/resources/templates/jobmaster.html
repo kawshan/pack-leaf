@@ -95,12 +95,37 @@
             <select id="selectJobCustomer" class="form-select text-start" onchange="selectDBValidator(this,'','jobmaster','customer_id')"></select>
         </div>
         <div class="col-md-3">
-            <label for="selectJobItem" class="form-label fw-bold"> Item Name  <i class="text-danger">*</i>  </label>
-            <select id="selectJobItem" class="form-select text-start" onchange="selectDBValidator(this,'','jobmaster','item_id')"></select>
+<!--            <label for="selectJobItem" class="form-label fw-bold"> Item Name  <i class="text-danger">*</i>  </label>-->
+<!--            <select id="selectJobItem" class="form-select text-start" onchange="selectDBValidator(this,'','jobmaster','item_id')"></select>-->
         </div>
         <div class="col-md-3"></div>
     </div>
     <!--    second row end-->
+
+
+
+<!--    some row start-->
+    <div class="row mt-5">
+        <div class="col-md-3"></div>
+        <div class="col-md-2">
+            <label for="selectJobItem" class="form-label fw-bold"> Item(s)  <i class="text-danger">*</i>  </label>
+            <select id="selectJobItem" class="form-select text-start" multiple></select>
+        </div>
+        <div class="col-md-2">
+            <br>
+            <button type="button" class="btn btn-success" style="width: 17%; font-size: 11px" onclick="addOneItem()">Add One</button>
+            <button type="button" class="btn btn-success" style="width: 17%; font-size: 11px" onclick="addAllItem()">Add All</button>
+            <button type="button" class="btn btn-success" style="width: 17%; font-size: 11px" onclick="removeOneItem()">Remove One</button>
+            <button type="button" class="btn btn-success" style="width: 17%; font-size: 11px" onclick="removeAllItem()">Remove All</button>
+        </div>
+        <div class="col-md-2">
+            <label for="selectedJobItem" class="form-label fw-bold"> Selected Item(s) <i class="text-danger">*</i>  </label>
+            <select id="selectedJobItem" class="form-select text-start" multiple></select>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+<!--    some row end-->
+
 
 
     <!--    third row start-->

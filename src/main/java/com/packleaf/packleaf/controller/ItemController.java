@@ -75,12 +75,15 @@ public class ItemController {
         }
     }
 
-
-
     @GetMapping(value = "/getitembyitemname/{itemName}")
     public Item getItemByItemName(@PathVariable("itemName") String itemName){
         return itemDao.getItemByItemName(itemName);
     }
 
+    //meka apita one venne job master eke many to many relation eka nisa -> refill ekedi daapu nathi item tika ganna one nisa
+    @GetMapping(value = "/jobwithoutitems/{jobmasterId}")
+    public List<Item> getJobWithoutItems(@PathVariable Integer jobmasterId){
+        return itemDao.getJobWithoutItems(jobmasterId);
+    }
 
 }
