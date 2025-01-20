@@ -90,8 +90,9 @@ const getItemName = (ob)=>{
     // return "";
     let items = '';
     ob.jhi.forEach(element=>{
-        items=items+element.itmname+','
+        items=items+'<p>'+element.itmname+'</p>'
     })
+    // return '<ul>'+items+'</ul>';
     return items;
 }
 
@@ -131,6 +132,9 @@ const checkErrors = ()=>{
 
     if (jobmaster.jobmasterstatus_id == null){
         errors=errors+"Job Master Status Cannot Be Empty \n";
+    }
+    if (jobmaster.jhi.length==0){
+        errors=errors+"Items Cannot be empty \n"
     }
 
 
@@ -233,7 +237,7 @@ const checkUpdates = ()=>{
             let extJHI = oldJobMaster.jhi.map(item => item.id).indexOf(element.id);
 
             if (extJHI != 1){
-                update=update+"Items Are Changed \n"
+                updates=updates+"Items Are Changed \n"
             }
 
         }
@@ -272,7 +276,6 @@ const updateJobMaster = ()=>{
 const deleteJobMaster = (ob,rowIndex)=>{
     const userConfirm = confirm(`Are You Sure To Delete Following Job Master \n
         Customer Is ${ob.customer_id.customername}
-        Item Is ${ob.item_id.itmname}
         Job Date Is ${ob.jobdate}
         Job Number Is ${ob.jobnumber}
         Job Quantity Is ${ob.jobquantity}
@@ -324,7 +327,7 @@ const printAllJobs = async ()=>{
         <p style="font-size: 14px; font-weight: bold">All jobs</p>
     </div>
 
-    <div class="row">
+    <div class="row" style="margin: 3px">
         ${tableJobMasterPrint.outerHTML}
     </div>
 
@@ -379,12 +382,12 @@ const printOneJob = async (ob)=>{
 <div class="container-fluid" style="position: relative">
 
     <div class="row mb-2 text-center" style="margin-top: 2cm">
-        <p style="font-size: 14px; font-weight: bold">Job Details</p>
+        <p style="font-size: 14px; font-weight: bold; font-family: 'Times New Roman'; ">Job Details</p>
     </div>
 
-    <div class="row">
-        <table class="table table-bordered" style="font-size: 12px">
-            <thead style="font-weight: bold" class="text-center">
+    <div class="row" style="margin: 2px">
+        <table class="table table-bordered" style="font-size: 11px; font-family: 'Times New Roman'; border: 1px solid black">
+            <thead style="font-weight: bold; font-family: 'Times New Roman'; " class="text-center">
             <th style="width: 40%">Properties</th>
             <th>Details</th>
             </thead>
@@ -408,7 +411,11 @@ const printOneJob = async (ob)=>{
 
                 <tr>
                     <td>Item Name</td>
-                    <td>${ob.item_id.itmname}</td>
+                        <td>
+                        ${
+                        ob.jhi.map(element => `<p>${element.itmname}</p>`).join('')
+                        }
+                        </td>
                 </tr>
 
 
