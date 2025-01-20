@@ -29,6 +29,9 @@ public class OurPoDetail {
     @Column(name = "ourpoheaderkey")
     private String ourpoheaderkey;
 
+    @Column(name = "our_po_detail_description")
+    private String our_po_detail_description;
+
     @ManyToOne
     @JoinColumn(name = "rawmaterial_id",referencedColumnName = "id")
     private RawMaterial rawmaterial_id;

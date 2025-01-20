@@ -190,10 +190,14 @@
                     <select id="selectRawMaterial" class="form-select" onchange="selectDBValidator(this,'','ourPurchaseOrderDetail','rawmaterial_id')"></select>
                 </td>
 
+                <td>
+                    <label for="txtDescription" class="form-label fw-bold">Description</label>
+                    <input type="text" id="txtDescription" class="form-control" placeholder="Enter Description" onkeyup="textValidator(this,'','ourPurchaseOrderDetail','our_po_detail_description')">
+                </td>
 
                 <td>
                     <label for="txtQty" class="form-label fw-bold">Item Qty</label>
-                    <input type="text" id="txtQty" class="form-control" placeholder="enter item Quantity" onkeyup="textValidator(this,'','ourPurchaseOrderDetail','qty')">
+                    <input type="text" id="txtQty" class="form-control" placeholder="Enter Item Quantity" onkeyup="textValidator(this,'','ourPurchaseOrderDetail','qty')">
                 </td>
 
 
@@ -258,6 +262,7 @@
             <thead class="text-center">
             <th>#</th>
             <th>Raw Material name</th>
+            <th>Description</th>
             <th>Qty</th>
             <th>rate</th>
             <th>action</th>
@@ -310,6 +315,7 @@
             <thead class="text-center" style="font-size: 12px">
             <th>#</th>
             <th>Raw Material name</th>
+            <th>Description</th>
             <th>Qty</th>
             <th>Rate</th>
             <th>Value</th>

@@ -267,6 +267,8 @@ const refreshOurPurchaseOrderDetailsForm = ()=>{
 
     txtQty.value="";
     txtRate.value="";
+    txtDescription.value="";
+
 
     rawMaterials=ajaxGetRequest("/rawmaterial/findall");
     fillDataIntoSelect(selectRawMaterial,'Select Raw Material Name',rawMaterials,'rmname');
@@ -276,6 +278,7 @@ const refreshOurPurchaseOrderDetailsForm = ()=>{
     txtQty.style.border="2px solid #ced4da";
     txtRate.style.border="2px solid #ced4da";
     selectRawMaterial.style.border="2px solid #ced4da";
+    txtDescription.style.border="2px solid #ced4da";
 
 
 }
@@ -288,6 +291,7 @@ const refreshOurPurchaseOrderDetailsTable = ()=>{
     ourpurchaseOrderDetails = ajaxGetRequest("/ourpodetail/getourpodetailsfrom-ourpoheaderkey/"+textDisplayOurPurchaseOrderKey.value);
     const displayProperty= [
         {dataType:'function',propertyName:getRawMaterial},
+        {dataType:'text',propertyName:'our_po_detail_description'},
         {dataType:'function',propertyName:getQuantity},
         {dataType:'function',propertyName:getRate},
     ];
@@ -373,6 +377,7 @@ const refillOurPurchaseOrderDetails = (ob,rowIndex)=>{
 
     txtQty.value=ob.qty;
     txtRate.value=ob.rate;
+    txtDescription.value = ob.our_po_detail_description;
 
     fillDataIntoSelect(selectRawMaterial,'Select Raw Material Name',rawMaterials,'rmname',ob.rawmaterial_id.rmname);
 
@@ -392,6 +397,10 @@ const checkUpdatesOurPurchaseOrderDetails = ()=>{
     }
     if (ourPurchaseOrderDetail.rate != oldOurPurchaseOrderDetail.rate){
         updates=updates+"Rate Is Updated \n"
+    }
+
+    if (ourPurchaseOrderDetail.our_po_detail_description != oldOurPurchaseOrderDetail.our_po_detail_description){
+        updates=updates+"Description Is Updated \n"
     }
 
     return updates;
@@ -524,7 +533,7 @@ const printOurPurchase = async (ob,rowIndex)=>{
 
 
 <!-- our purchase order details table start-->
-<div class="row" style="margin-left: 12px; margin-right: 12px">
+<div class="row" style="margin-left: 12px; margin-right: 12px;">
     ${printOurPurchaseOrderDetailsTable.outerHTML}
 </div>
 <!-- our purchase order details table end-->
@@ -565,6 +574,7 @@ const loadDataIntoOurPurchaseOrderDetailsTableInsidePrint = (ourPoHeaderKey)=>{
 
     const displayProperty= [
         {dataType:'function',propertyName:getRawMaterialForPrint},
+        {dataType:'function',propertyName:getPoDetailsDescription},
         {dataType:'function',propertyName:getPoDetailQuantity},
         {dataType:'function',propertyName:getPoDetailRate},
         {dataType:'function',propertyName:getValue},
@@ -579,6 +589,10 @@ const loadDataIntoOurPurchaseOrderDetailsTableInsidePrint = (ourPoHeaderKey)=>{
 
 const getRawMaterialForPrint = (ob)=>{
     return `<p class="text-start" style="font-size: 12px">${ob.rawmaterial_id.rmname}</p>`;
+}
+
+const getPoDetailsDescription = (ob)=>{
+    return `<p class="text-start" style="font-size: 12px">${ob.our_po_detail_description}</p>`;
 }
 
 
