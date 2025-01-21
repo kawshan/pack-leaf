@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -40,6 +41,7 @@ public class GrnHeaderController {
             }else {
                 grnHeader.setGrnheaderkey(grnHeaderMax);
             }
+            grnHeader.setAdded_date_time(LocalDateTime.now());
             GrnHeader savedGrnHeader = grnHeaderDao.save(grnHeader);
             return ResponseEntity.ok(savedGrnHeader);
         }catch (Exception e){

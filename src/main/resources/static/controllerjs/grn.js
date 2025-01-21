@@ -288,6 +288,8 @@ const printGrnHeader = async (ob,rowIndex)=>{
     //first we need to load data into grn Details table. we can achieve that by using loadDataIntoGrnDetailsTableForGrnHeaderPrint function then we need to parse header key to that function
     loadDataIntoGrnDetailsTableForGrnHeaderPrint(ob.grnheaderkey);
 
+    let currentDate = new Date();
+
 
     const newWindow = window.open();
     await newWindow.document.write(`
@@ -353,7 +355,7 @@ const printGrnHeader = async (ob,rowIndex)=>{
 </div>
 
 
-<div style="position: absolute; bottom: 3%; width: 100%" >
+<div style="position: absolute; bottom: 1%; width: 100%" >
 <!--  prepared by, checked by, recieved by area start   -->
     <div class="row">
     <div class="col-4 text-start">
@@ -369,6 +371,13 @@ const printGrnHeader = async (ob,rowIndex)=>{
     <p style="font-size: 11px; margin-right: 3px">Checked By</p>
     </div>
 </div>
+
+<div class="row">
+<div class="col-4" style="font-size: 11px">Created At &nbsp; ${new Date(ob.added_date_time).toLocaleString('en-GB', { day: "2-digit", month:"short", year:"2-digit",hour:"2-digit", minute:"2-digit", hour12:true })} </div>
+<div class="col-4" style="font-size: 11px"></div>
+<div class="col-4 text-end" style="font-size: 11px">Printed At &nbsp; ${currentDate.toLocaleString('en-GB',{day: "2-digit", month:"short", year:"2-digit",hour:"2-digit", minute:"2-digit", hour12:true})}</div>
+</div>
+
 <!--  prepared by, checked by, recieved by area end   -->
 </div>
 

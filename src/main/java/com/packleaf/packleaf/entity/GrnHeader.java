@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -30,6 +31,9 @@ public class GrnHeader {
 
     @Column(name = "grnheaderkey")
     private String grnheaderkey;
+
+    @Column(name = "added_date_time")
+    private LocalDateTime added_date_time;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")
