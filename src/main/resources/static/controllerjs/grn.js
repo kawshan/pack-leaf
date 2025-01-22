@@ -13,8 +13,8 @@ window.addEventListener('load', function () {
     getMaxGrnHeaderNumber();
 
     //grn details add button disable part
-    buttonAddGrnDetails.disabled=true;
-    buttonAddGrnDetails.style.cursor="not-allowed";
+    buttonAddGrnDetails.disabled = true;
+    buttonAddGrnDetails.style.cursor = "not-allowed";
 
 });
 
@@ -44,24 +44,23 @@ const grnHeaderFormRefresh = () => {
     textOurPoNumber.style.border = "2px solid #ced4da";
 
 
-
     //emptying values when user changed supplier displaying text -> purpose of this when user click reset button we need to make form area as it is
-    displaySupplierName.innerHTML="";
-    displaySupplierAddress.innerHTML="";
-    displaySupplierPhoneNumber.innerHTML="";
+    displaySupplierName.innerHTML = "";
+    displaySupplierAddress.innerHTML = "";
+    displaySupplierPhoneNumber.innerHTML = "";
 
     //our po details table eka load vena eka hide kara -> meka load venne user po numbber eka type karahama.
     cardOurPoDetailsInGrnHeader.classList.add('d-none');
 
 
     //proceed without po kiyana section ekath clear karanawa
-    checkBoxWithOutPoNumber.checked=false;
+    checkBoxWithOutPoNumber.checked = false;
     textOurPoNumber.disabled = false;
 
 }
 
 
-const grnHeaderColoursDefault = ()=>{
+const grnHeaderColoursDefault = () => {
     //set default colours
     selectSupplier.style.border = "2px solid #ced4da";
     selectCompanyName.style.border = "2px solid #ced4da";
@@ -118,17 +117,14 @@ const checkErrorsGrnHeader = () => {
         errors = errors + "Grn Date Cannot Be Empty \n"
     }
 
-    if (checkBoxWithOutPoNumber.checked){
+    if (checkBoxWithOutPoNumber.checked) {
         //check nam ee kiyanne proceed without po kiyana option eka tik karala thiyenne
-    }else {
+    } else {
         //else ekedi venne
         if (grnHeader.ourponumber == null) {
             errors = errors + "Our Po Number Cannot Be Empty \n"
         }
     }
-
-
-
 
 
     return errors;
@@ -151,28 +147,28 @@ const submitGrnHeader = async () => {
         `);
             if (userConfirm) {
                 const postServerResponse = ajaxPostRequest("/grn-header", grnHeader);
-                if (postServerResponse&&postServerResponse.grnheaderkey) {
+                if (postServerResponse && postServerResponse.grnheaderkey) {
                     alert("Save Successful");
-                    displayGrnKey.value=postServerResponse.grnheaderkey;
+                    displayGrnKey.value = postServerResponse.grnheaderkey;
                     grnHeaderColoursDefault();
                     grnHeaderTableRefresh();
 
 
                     warningTextInGrnDetailsSection.classList.add('d-none');
-                    buttonAddGrnDetails.disabled=false;
-                    buttonAddGrnDetails.style.cursor="default";
+                    buttonAddGrnDetails.disabled = false;
+                    buttonAddGrnDetails.style.cursor = "default";
                 } else {
-                    alert("Error Happened \n"+postServerResponse);
+                    alert("Error Happened \n" + postServerResponse);
                 }
             }
         } else {
-            alert(`You Have Following Errors \n`+errors);
+            alert(`You Have Following Errors \n` + errors);
         }
     } else {
         console.log("update part");
 
         //getting id from server
-        const getIdFromGrnHeaderKey =await ajaxGetRequest("/grn-header/getidfromgrmheaderkey/"+displayGrnKey.value);
+        const getIdFromGrnHeaderKey = await ajaxGetRequest("/grn-header/getidfromgrmheaderkey/" + displayGrnKey.value);
         //binding to the js object
         grnHeader.id = getIdFromGrnHeaderKey;
 
@@ -189,15 +185,15 @@ const submitGrnHeader = async () => {
             GRN Key Is ${grnHeader.grnheaderkey}
             ID IS ${grnHeader.id}
         `);
-        if (userConfirm){
-            const putServerResponse = ajaxPutRequest("/grn-header",grnHeader);
-            if (putServerResponse=="ok"){
+        if (userConfirm) {
+            const putServerResponse = ajaxPutRequest("/grn-header", grnHeader);
+            if (putServerResponse == "ok") {
                 alert("Update Successful")
                 grnHeaderTableRefresh();
                 grnHeaderColoursDefault();
                 divModifyButton.classList.add('d-none');
-            }else {
-                alert("Update Error Happened \n" +putServerResponse);
+            } else {
+                alert("Update Error Happened \n" + putServerResponse);
             }
         }
 
@@ -208,46 +204,44 @@ const submitGrnHeader = async () => {
 }
 
 
-
-const refillGrnHeader = (ob,rowIndex)=>{
+const refillGrnHeader = (ob, rowIndex) => {
 
     grnHeader = JSON.parse(JSON.stringify(ob));
     oldGrnHeader = JSON.parse(JSON.stringify(ob));
 
 
-    textGrnNo.value=ob.grnno
-    textGrnDate.value=ob.grndate
+    textGrnNo.value = ob.grnno
+    textGrnDate.value = ob.grndate
 
 
     //po number eke logic eka -> po number ekak thiyenawanam ekata adala table eka load venna one po number ekak naththam proceed without po click venna one
-    if (ob.ourponumber==null){
-        checkBoxWithOutPoNumber.checked=true;
+    if (ob.ourponumber == null) {
+        checkBoxWithOutPoNumber.checked = true;
         textOurPoNumber.disabled = true;
-    }else {
-        textOurPoNumber.value=ob.ourponumber
+    } else {
+        textOurPoNumber.value = ob.ourponumber
         loadPoDetails(textOurPoNumber);
     }
 
 
-    displayGrnKey.value=ob.grnheaderkey
+    displayGrnKey.value = ob.grnheaderkey
 
 
-    fillDataIntoSelect(selectSupplier, 'Select Supplier', suppliers, 'suppliername',ob.supplier_id.suppliername);
-    fillDataIntoSelect(selectCompanyName, 'Select Company', companies, 'companyname',ob.company_id.companyname);
+    fillDataIntoSelect(selectSupplier, 'Select Supplier', suppliers, 'suppliername', ob.supplier_id.suppliername);
+    fillDataIntoSelect(selectCompanyName, 'Select Company', companies, 'companyname', ob.company_id.companyname);
 
     refreshGrnDetailsTable();
 
     //enable add button
-    buttonAddGrnDetails.disabled=false;
-    buttonAddGrnDetails.style.cursor="default";
+    buttonAddGrnDetails.disabled = false;
+    buttonAddGrnDetails.style.cursor = "default";
 
     warningTextInGrnDetailsSection.classList.add('d-none');
 
 
-
 }
 
-const deleteGrnHeader = (ob,rowIndex)=>{
+const deleteGrnHeader = (ob, rowIndex) => {
 
     const userConfirm = confirm(`Are You Sure To Delete following GRN ?
             Supplier Name Is ${ob.supplier_id.suppliername}
@@ -256,34 +250,34 @@ const deleteGrnHeader = (ob,rowIndex)=>{
             GRN Date Is ${ob.grndate}
             Our Po Number Is ${ob.ourponumber}
     `);
-    if (userConfirm){
+    if (userConfirm) {
         //server part
-        const deleteServerResponse = ajaxDeleteRequest("/grn-header",ob);
-        if (deleteServerResponse=="ok"){
+        const deleteServerResponse = ajaxDeleteRequest("/grn-header", ob);
+        if (deleteServerResponse == "ok") {
             alert("Delete Successful");
             grnHeaderTableRefresh();
             divModifyButton.classList.add('d-none');
-        }else {
+        } else {
             alert("delete unsuccessful");
         }
     }
 }
 
-const displaySupplierInformation = (fieldId)=>{
+const displaySupplierInformation = (fieldId) => {
     const selectedSupplier = JSON.parse(fieldId.value);
 
-    displaySupplierName.innerHTML="";
-    displaySupplierAddress.innerHTML="";
-    displaySupplierPhoneNumber.innerHTML="";
+    displaySupplierName.innerHTML = "";
+    displaySupplierAddress.innerHTML = "";
+    displaySupplierPhoneNumber.innerHTML = "";
 
-    displaySupplierName.innerHTML=selectedSupplier.suppliername
-    displaySupplierAddress.innerHTML=selectedSupplier.supplieraddress
-    displaySupplierPhoneNumber.innerHTML=selectedSupplier.suppliertelephone
+    displaySupplierName.innerHTML = selectedSupplier.suppliername
+    displaySupplierAddress.innerHTML = selectedSupplier.supplieraddress
+    displaySupplierPhoneNumber.innerHTML = selectedSupplier.suppliertelephone
 
 }
 
 //mekedi grn header ekayi ekata adala grn details thiyena table ekayi dekama print venna hadanne .....
-const printGrnHeader = async (ob,rowIndex)=>{
+const printGrnHeader = async (ob, rowIndex) => {
 
     //first we need to load data into grn Details table. we can achieve that by using loadDataIntoGrnDetailsTableForGrnHeaderPrint function then we need to parse header key to that function
     loadDataIntoGrnDetailsTableForGrnHeaderPrint(ob.grnheaderkey);
@@ -318,8 +312,8 @@ const printGrnHeader = async (ob,rowIndex)=>{
 <div class="col-4">
         <div class="card" style="border: 1px solid black">
             <p style="font-size: 11px; font-weight: bold; margin-top: 5px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.suppliername}</p>
-            <p style="font-size: 11px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.supplieraddress==null?" ":ob.supplier_id.supplieraddress}</p>
-            <p style="font-size: 11px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.suppliertelephone==null?" ":ob.supplier_id.suppliertelephone}</p>
+            <p style="font-size: 11px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.supplieraddress == null ? " " : ob.supplier_id.supplieraddress}</p>
+            <p style="font-size: 11px; margin-bottom: 2px; margin-left: 10px">${ob.supplier_id.suppliertelephone == null ? " " : ob.supplier_id.suppliertelephone}</p>
         </div>
 </div>
 <div class="col-2"></div>
@@ -337,7 +331,7 @@ const printGrnHeader = async (ob,rowIndex)=>{
                 </tr>
                 <tr>
                     <td style="line-height: 0.5; font-size: 12px;">Our Po No</td>
-                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.ourponumber==null?" ":ob.ourponumber}</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.ourponumber == null ? " " : ob.ourponumber}</td>
                 </tr>
             </tbody>
         </table>
@@ -373,9 +367,23 @@ const printGrnHeader = async (ob,rowIndex)=>{
 </div>
 
 <div class="row">
-<div class="col-4" style="font-size: 11px">Created At &nbsp; ${new Date(ob.added_date_time).toLocaleString('en-GB', { day: "2-digit", month:"short", year:"2-digit",hour:"2-digit", minute:"2-digit", hour12:true })} </div>
+<div class="col-4" style="font-size: 11px">Created At &nbsp; ${new Date(ob.added_date_time).toLocaleString('en-GB', {
+        day: "2-digit",
+        month: "short",
+        year: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+    })} </div>
 <div class="col-4" style="font-size: 11px"></div>
-<div class="col-4 text-end" style="font-size: 11px">Printed At &nbsp; ${currentDate.toLocaleString('en-GB',{day: "2-digit", month:"short", year:"2-digit",hour:"2-digit", minute:"2-digit", hour12:true})}</div>
+<div class="col-4 text-end" style="font-size: 11px">Printed At &nbsp; ${currentDate.toLocaleString('en-GB', {
+        day: "2-digit",
+        month: "short",
+        year: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+    })}</div>
 </div>
 
 <!--  prepared by, checked by, recieved by area end   -->
@@ -396,46 +404,60 @@ const printGrnHeader = async (ob,rowIndex)=>{
 }
 
 
-
 //po number eka type karahama ee number eken our po details tika Grn Header area ekata load function eka
-const loadPoDetails =(fieldId)=>{
+const loadPoDetails = async (fieldId) => {
 
-    //call service that get po header from po number then it get all our po details that have our po header key.
-    //this is initiated in grn Header dao and controller. because we use that service in grn header section
-    const poDetails = ajaxGetRequest("/grn-header/getourpodetailsfromourponumber/"+fieldId.value);
+    showOurPoValidatedOrNot.innerText = ""; //approved da naddda kiyana eke p tag eke text eka hide kara
 
 
-    const displayProperty=[
-        {dataType:'function',propertyName:getRawMaterial},
-        {dataType:'function',propertyName:getQuantityPoDetailsTable},
-        {dataType:'function',propertyName:getRatePoDetailsTable},
-    ];
+    const serverResponse = await ajaxGetRequest("/ourpoactivation/getourpoactivationstatusfromponumber/"+fieldId.value);    //need to get server response
+    if (serverResponse) {
+        //call service that get po header from po number then it get all our po details that have our po header key.
+        //this is initiated in grn Header dao and controller. because we use that service in grn header section
+        const poDetails = ajaxGetRequest("/grn-header/getourpodetailsfromourponumber/" + fieldId.value);
 
-    // fillDataIntoTable2(ourPoDetailsTableForGrnHeaderSection,poDetails,displayProperty,true);
-    fillDataIntoTableWithEditButton(ourPoDetailsTableForGrnHeaderSection,poDetails,displayProperty,refillOurPoDetailsIntoGrnDetails,true)
 
-    cardOurPoDetailsInGrnHeader.classList.remove('d-none');
+        const displayProperty = [
+            {dataType: 'function', propertyName: getRawMaterial},
+            {dataType: 'function', propertyName: getQuantityPoDetailsTable},
+            {dataType: 'function', propertyName: getRatePoDetailsTable},
+        ];
+
+        // fillDataIntoTable2(ourPoDetailsTableForGrnHeaderSection,poDetails,displayProperty,true);
+        fillDataIntoTableWithEditButton(ourPoDetailsTableForGrnHeaderSection, poDetails, displayProperty, refillOurPoDetailsIntoGrnDetails, true)
+
+        cardOurPoDetailsInGrnHeader.classList.remove('d-none');
+        showOurPoValidatedOrNot.innerText = `${fieldId.value} Is Approved`;
+        showOurPoValidatedOrNot.style.color = "green";
+    } else {
+        cardOurPoDetailsInGrnHeader.classList.add('d-none');
+        showOurPoValidatedOrNot.innerText = `${fieldId.value} Is Not Approved`;
+        showOurPoValidatedOrNot.style.color = "red";
+    }
 
 }
 
-const getRatePoDetailsTable = (ob)=>{
-    return `<p class="text-end">${Number(ob.rate).toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4})}</p>`;
+const getRatePoDetailsTable = (ob) => {
+    return `<p class="text-end">${Number(ob.rate).toLocaleString('en-US', {
+        minimumFractionDigits: 4,
+        maximumFractionDigits: 4
+    })}</p>`;
 }
 
-const getQuantityPoDetailsTable = (ob)=>{
+const getQuantityPoDetailsTable = (ob) => {
     return `<p class="text-end">${Number(ob.qty).toLocaleString('en-US')}</p>`
 }
 
 
 //our po details table eken data aran grn details ekata add karana function eka
-const refillOurPoDetailsIntoGrnDetails = (ob,rowIndex) =>{
-    txtQty.value=ob.qty;
+const refillOurPoDetailsIntoGrnDetails = (ob, rowIndex) => {
+    txtQty.value = ob.qty;
     txtRate.value = ob.rate;
     txtItemCode.value = ob.rawmaterial_id.rmkey;
 
 
     //raw material eka set karanawa
-    fillDataIntoSelect(selectRawMaterial,'Select Raw Material',rawMaterials,'rmname',ob.rawmaterial_id.rmname);
+    fillDataIntoSelect(selectRawMaterial, 'Select Raw Material', rawMaterials, 'rmname', ob.rawmaterial_id.rmname);
     const selectedRawMaterial = JSON.parse(selectRawMaterial.value);
     grnDetail.rawmaterial_id = selectedRawMaterial;
     console.log(grnDetail.rawmaterial_id);
@@ -446,35 +468,28 @@ const refillOurPoDetailsIntoGrnDetails = (ob,rowIndex) =>{
     grnDetail.itemcode = ob.rawmaterial_id.rmkey;
 
 
-
     //our po detail eke id eka set karanawa  // relationship save karana kota mulu object ekama bind karanna one id eka vitharak ba.
     grnDetail.ourpodetail_id = ob
-    console.log("Our po detail id is"+grnDetail.ourpodetail_id.id);
+    console.log("Our po detail id is" + grnDetail.ourpodetail_id.id);
 
     getRemainingGrnDetailsQuantityFromOurPoDetail(ob.id);
 
 
 }
 
-const getMaxGrnHeaderNumber = ()=>{
+const getMaxGrnHeaderNumber = () => {
     const getServerResponse = ajaxGetRequest("/grn-header/getmaxgrnnumber");
     const maxGrnNumberInNumber = Number(getServerResponse);
-    console.log(maxGrnNumberInNumber+" is next grn header number");
+    console.log(maxGrnNumberInNumber + " is next grn header number");
 
     textGrnNo.value = maxGrnNumberInNumber;
     grnHeader.grnno = maxGrnNumberInNumber;
 
 
-
 }
 
 
-
-
-
 // grn header area section finished.
-
-
 
 
 //grn details section area starts from here
@@ -486,87 +501,92 @@ const getMaxGrnHeaderNumber = ()=>{
 //-----------------------------------------
 
 
-const refreshGrnDetailsForm = ()=>{
+const refreshGrnDetailsForm = () => {
 
     grnDetail = new Object();
 
     //setting colors to default
-    selectRawMaterial.style.border="2px solid #ced4da";
-    txtQty.style.border="2px solid #ced4da";
-    txtRate.style.border="2px solid #ced4da";
-    txtItemCode.style.border="2px solid #ced4da";
-    txtItemDescription.style.border="2px solid #ced4da";
-    txtItemReferenceNumber.style.border="2px solid #ced4da";
+    selectRawMaterial.style.border = "2px solid #ced4da";
+    txtQty.style.border = "2px solid #ced4da";
+    txtRate.style.border = "2px solid #ced4da";
+    txtItemCode.style.border = "2px solid #ced4da";
+    txtItemDescription.style.border = "2px solid #ced4da";
+    txtItemReferenceNumber.style.border = "2px solid #ced4da";
 
 
     //emptying values
-    txtQty.value="";
-    txtRate.value="";
-    txtItemCode.value="";
-    txtItemDescription.value="";
-    txtItemReferenceNumber.value="";
+    txtQty.value = "";
+    txtRate.value = "";
+    txtItemCode.value = "";
+    txtItemDescription.value = "";
+    txtItemReferenceNumber.value = "";
 
-    rawMaterials  = ajaxGetRequest("/rawmaterial/findall")
-    fillDataIntoSelect(selectRawMaterial,'Select Raw Material',rawMaterials,'rmname');
+    rawMaterials = ajaxGetRequest("/rawmaterial/findall")
+    fillDataIntoSelect(selectRawMaterial, 'Select Raw Material', rawMaterials, 'rmname');
 
 
     //add button eka enable karanwa //update button eka disable karanawa
-    buttonAddGrnDetails.disabled=false;
-    buttonAddGrnDetails.style.cursor="default";
+    buttonAddGrnDetails.disabled = false;
+    buttonAddGrnDetails.style.cursor = "default";
 
-    buttonUpdateGrnDetails.disabled=true;
-    buttonUpdateGrnDetails.style.cursor="not-allowed";
+    buttonUpdateGrnDetails.disabled = true;
+    buttonUpdateGrnDetails.style.cursor = "not-allowed";
 
 
 }
 
 //grn details table ekata data fill karana function eka
-const refreshGrnDetailsTable = ()=>{
+const refreshGrnDetailsTable = () => {
 
     //table eka diable eka ayin karanawa
     cardGrnDetailsTableArea.classList.remove('d-none');
 
-    grnDetails = ajaxGetRequest("/grn-details/getgrndetailsbygrnheader/"+displayGrnKey.value);
+    grnDetails = ajaxGetRequest("/grn-details/getgrndetailsbygrnheader/" + displayGrnKey.value);
 
-    displayProperty=[
-        {dataType:'function',propertyName:getRawMaterial},
-        {dataType:'function',propertyName:getQuantity},
-        {dataType:'text',propertyName:'itemcode'},
-        {dataType:'text',propertyName:'gd_description'},
-        {dataType:'text',propertyName:'gd_referencenumber'},
-        {dataType:'function',propertyName:getRate},
+    displayProperty = [
+        {dataType: 'function', propertyName: getRawMaterial},
+        {dataType: 'function', propertyName: getQuantity},
+        {dataType: 'text', propertyName: 'itemcode'},
+        {dataType: 'text', propertyName: 'gd_description'},
+        {dataType: 'text', propertyName: 'gd_referencenumber'},
+        {dataType: 'function', propertyName: getRate},
     ];
 
 
-    fillDataIntoTable2(grnDetailsTable,grnDetails,displayProperty,true,divModifyButton2)
+    fillDataIntoTable2(grnDetailsTable, grnDetails, displayProperty, true, divModifyButton2)
 
 }
 
 
-const getRawMaterial = (ob)=>{
+const getRawMaterial = (ob) => {
     return `<p class="text-center">${ob.rawmaterial_id.rmname}</p>`
 }
 
-const getQuantity = (ob)=>{
-    return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3})}</p>`
+const getQuantity = (ob) => {
+    return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US', {
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3
+    })}</p>`
 }
 
-const getRate = (ob)=>{
-    return `<p class="text-end">${Number(ob.rate).toLocaleString('en-US',{minimumFractionDigits:4, maximumFractionDigits:4})}</p>`
+const getRate = (ob) => {
+    return `<p class="text-end">${Number(ob.rate).toLocaleString('en-US', {
+        minimumFractionDigits: 4,
+        maximumFractionDigits: 4
+    })}</p>`
 }
 
 
-
-const grnDetailsCheckErrors = ()=>{
+const grnDetailsCheckErrors = () => {
 
     let errors = "";
 
-    if (grnDetail.rawmaterial_id == null){
-        errors=errors+"Raw Material Cannot Be Empty \n"
+    if (grnDetail.rawmaterial_id == null) {
+        errors = errors + "Raw Material Cannot Be Empty \n"
     }
 
-    if (grnDetail.quantity == null){
-        errors=errors+"Quantity Cannot Be Empty \n"
+    if (grnDetail.quantity == null) {
+        errors = errors + "Quantity Cannot Be Empty \n"
     }
 
     // if (grnDetail.itemcode == null){
@@ -581,25 +601,23 @@ const grnDetailsCheckErrors = ()=>{
     //     errors=errors+"Reference Number Cannot Be Empty \n"
     // }
 
-    if (grnDetail.rate == null){
-        errors=errors+"Rate Cannot Be Empty \n"
+    if (grnDetail.rate == null) {
+        errors = errors + "Rate Cannot Be Empty \n"
     }
-
 
 
     return errors;
 }
 
 
-
-const saveGrnDetails = ()=>{
+const saveGrnDetails = () => {
 
     grnDetail.grnheader = displayGrnKey.value
 
 
     let errors = grnDetailsCheckErrors();
 
-    if (errors==""){
+    if (errors == "") {
 
         const userConfirm = confirm(`Are You Sure To Add Following Grn Details \n
         Raw Material Name Is ${grnDetail.rawmaterial_id.rmname}
@@ -608,73 +626,72 @@ const saveGrnDetails = ()=>{
         Grn Header Is ${grnDetail.grnheader}
         `);
 
-        if (userConfirm){
-            const postServerResponse =ajaxPostRequest("/grn-details",grnDetail);
-            if (postServerResponse=="ok"){
+        if (userConfirm) {
+            const postServerResponse = ajaxPostRequest("/grn-details", grnDetail);
+            if (postServerResponse == "ok") {
                 alert("Save Successful");
                 refreshGrnDetailsForm();
                 refreshGrnDetailsTable();
-                displayRemainingQuantity.innerText="";
-            }else {
-                alert("Save Unsuccessful \n"+postServerResponse);
+                displayRemainingQuantity.innerText = "";
+            } else {
+                alert("Save Unsuccessful \n" + postServerResponse);
             }
         }
-    }else {
-        alert("You Have Errors \n"+errors)
+    } else {
+        alert("You Have Errors \n" + errors)
     }
 }
 
 
-const refillGrnDetails = (ob,rowIndex)=>{
+const refillGrnDetails = (ob, rowIndex) => {
 
     grnDetail = JSON.parse(JSON.stringify(ob));
     oldGrnDetail = JSON.parse(JSON.stringify(ob));
 
-    txtQty.value= ob.quantity
-    txtRate.value= ob.rate
-    txtItemCode.value= ob.itemcode
+    txtQty.value = ob.quantity
+    txtRate.value = ob.rate
+    txtItemCode.value = ob.itemcode
     txtItemDescription.value = ob.gd_description
     txtItemReferenceNumber.value = ob.gd_referencenumber
 
-    fillDataIntoSelect(selectRawMaterial,'Select Raw Material',rawMaterials,'rmname',ob.rawmaterial_id.rmname);
+    fillDataIntoSelect(selectRawMaterial, 'Select Raw Material', rawMaterials, 'rmname', ob.rawmaterial_id.rmname);
 
 
     //add button eka enable karanwa //update button eka disable karanawa
-    buttonAddGrnDetails.disabled=true;
-    buttonAddGrnDetails.style.cursor="not-allowed";
+    buttonAddGrnDetails.disabled = true;
+    buttonAddGrnDetails.style.cursor = "not-allowed";
 
-    buttonUpdateGrnDetails.disabled=false;
-    buttonUpdateGrnDetails.style.cursor="default";
-
+    buttonUpdateGrnDetails.disabled = false;
+    buttonUpdateGrnDetails.style.cursor = "default";
 
 
 }
 
 
-const grnDetailsCheckUpdates = ()=>{
+const grnDetailsCheckUpdates = () => {
     let updates = '';
 
-    if (grnDetail.rawmaterial_id.rmname != oldGrnDetail.rawmaterial_id.rmname){
-        updates=updates+"Rawmaterial Is changed \n"
+    if (grnDetail.rawmaterial_id.rmname != oldGrnDetail.rawmaterial_id.rmname) {
+        updates = updates + "Rawmaterial Is changed \n"
     }
-    if (grnDetail.quantity != oldGrnDetail.quantity){
-        updates=updates+"Quantity Is Changed \n"
-    }
-
-    if (grnDetail.itemcode != oldGrnDetail.itemcode){
-        updates=updates+"Item Code Is Changed \n"
+    if (grnDetail.quantity != oldGrnDetail.quantity) {
+        updates = updates + "Quantity Is Changed \n"
     }
 
-    if (grnDetail.gd_description != oldGrnDetail.gd_description){
-        updates=updates+"Description Is Changed \n"
+    if (grnDetail.itemcode != oldGrnDetail.itemcode) {
+        updates = updates + "Item Code Is Changed \n"
     }
 
-    if (grnDetail.gd_referencenumber != oldGrnDetail.gd_referencenumber){
-        updates=updates+"Reference Number Is Changed \n"
+    if (grnDetail.gd_description != oldGrnDetail.gd_description) {
+        updates = updates + "Description Is Changed \n"
     }
 
-    if (grnDetail.rate != oldGrnDetail.rate){
-        updates=updates+"Rate Is Changed \n"
+    if (grnDetail.gd_referencenumber != oldGrnDetail.gd_referencenumber) {
+        updates = updates + "Reference Number Is Changed \n"
+    }
+
+    if (grnDetail.rate != oldGrnDetail.rate) {
+        updates = updates + "Rate Is Changed \n"
     }
 
 
@@ -682,31 +699,31 @@ const grnDetailsCheckUpdates = ()=>{
 }
 
 
-const updateGrnDetail = ()=>{
+const updateGrnDetail = () => {
     const updates = grnDetailsCheckUpdates();
 
 
-    if (updates!=""){
+    if (updates != "") {
 
-        const userConfirm = confirm(`Are You Sure To Update Following Grn Details \n`+updates);
-        if (userConfirm){
-            const putServerResponse = ajaxPutRequest("/grn-details",grnDetail);
-            if (putServerResponse=="ok"){
+        const userConfirm = confirm(`Are You Sure To Update Following Grn Details \n` + updates);
+        if (userConfirm) {
+            const putServerResponse = ajaxPutRequest("/grn-details", grnDetail);
+            if (putServerResponse == "ok") {
                 alert("Update Successful");
                 refreshGrnDetailsForm();
                 refreshGrnDetailsTable();
                 divModifyButton2.classList.add('d-none');
-            }else {
-                alert("Update Unsuccessful"+putServerResponse);
+            } else {
+                alert("Update Unsuccessful" + putServerResponse);
             }
         }
-    }else {
+    } else {
         alert("Nothing to Update \n")
     }
 }
 
 
-const deleteGrnDetails =(ob,rowIndex)=>{
+const deleteGrnDetails = (ob, rowIndex) => {
 
     const userConfirm = confirm(`Are You sure Delete following Grn Details
         Raw Material Name Is ${ob.rawmaterial_id.rmname}
@@ -714,54 +731,51 @@ const deleteGrnDetails =(ob,rowIndex)=>{
         Rate Is ${ob.rate}
         Grn Header Is ${ob.grnheader}
     `);
-    if (userConfirm){
-        const deleteServerResponse = ajaxDeleteRequest("/grn-details",ob);
-        if (deleteServerResponse=="ok"){
+    if (userConfirm) {
+        const deleteServerResponse = ajaxDeleteRequest("/grn-details", ob);
+        if (deleteServerResponse == "ok") {
             alert("Delete Successful");
             refreshGrnDetailsTable();
             divModifyButton2.classList.add('d-none');
-        }else {
-            alert("Delete Unsuccessful \n"+deleteServerResponse);
+        } else {
+            alert("Delete Unsuccessful \n" + deleteServerResponse);
         }
     }
 }
 
 
-const getRemainingGrnDetailsQuantityFromOurPoDetail = (ourpoid)=>{
+const getRemainingGrnDetailsQuantityFromOurPoDetail = (ourpoid) => {
 
-    const validateExistingGrnDetailsByOurPoId = ajaxGetRequest("/grn-details/validateexisting-grndetails-fromourpoid/"+ourpoid)
+    const validateExistingGrnDetailsByOurPoId = ajaxGetRequest("/grn-details/validateexisting-grndetails-fromourpoid/" + ourpoid)
 
-    if (validateExistingGrnDetailsByOurPoId=="1"){  //1 ka kiyanne thiyenawa 0 kiyanne na kiyana eka
+    if (validateExistingGrnDetailsByOurPoId == "1") {  //1 ka kiyanne thiyenawa 0 kiyanne na kiyana eka
         //ee kiyanne grndetails table eke kalin thiyenawa kiyana eka
 
         console.log(`id is  ${ourpoid} from getRemainingGrnDetailsQuantityFromOurPoDetail function`);
 
-        const getServerResponse = ajaxGetRequest("/grn-details/getremaininggrnquantity/"+ourpoid)
+        const getServerResponse = ajaxGetRequest("/grn-details/getremaininggrnquantity/" + ourpoid)
         console.log(` ${Number(getServerResponse)}  remaining quantity from sever`);
 
         const remainingQuantity = Number(getServerResponse);
 
-        displayRemainingQuantity.innerText=`${remainingQuantity} Is Your Remaining Quantity `
+        displayRemainingQuantity.innerText = `${remainingQuantity} Is Your Remaining Quantity `
 
         return remainingQuantity;
 
-    }else {
-        displayRemainingQuantity.innerText="";
+    } else {
+        displayRemainingQuantity.innerText = "";
     }
-
-
 
 
 }
 
 
-const validateGrnDetailsQuantity = (fieldId)=>{
+const validateGrnDetailsQuantity = (fieldId) => {
 
 
-
-    if (checkBoxWithOutPoNumber.checked){
+    if (checkBoxWithOutPoNumber.checked) {
         //checked kiyanne proceed without po kiyana option eka
-    }else {
+    } else {
         //else kiyanne po ekak thiyenawa kiyana eka
         //need to get remaining quantity
         const getRemainingValueFromDisplayText = displayRemainingQuantity.innerText;
@@ -770,55 +784,43 @@ const validateGrnDetailsQuantity = (fieldId)=>{
 
         console.log(finalRemainingValue);
 
-        if (fieldId.value > finalRemainingValue){
-            fieldId.style.border="2px solid red";
+        if (fieldId.value > finalRemainingValue) {
+            fieldId.style.border = "2px solid red";
             grnDetail.quantity = null;
-        }else {
-            fieldId.style.border="2px solid green";
+        } else {
+            fieldId.style.border = "2px solid green";
             grnDetail.quantity = fieldId.value;
         }
     }
 
 
-
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
 
 
 //print area function are starting from here
 
-const loadDataIntoGrnDetailsTableForGrnHeaderPrint = (headerKey)=>{
+const loadDataIntoGrnDetailsTableForGrnHeaderPrint = (headerKey) => {
 
-    const grnDetailsList  = ajaxGetRequest("/grn-details/getgrndetailsbygrnheader/"+headerKey);
+    const grnDetailsList = ajaxGetRequest("/grn-details/getgrndetailsbygrnheader/" + headerKey);
 
-    const displayProperty=[
-        {dataType:'text',propertyName:'itemcode'},
-        {dataType:'function',propertyName:getRawMaterial},
-        {dataType:'text',propertyName:'gd_description'},
-        {dataType:'text',propertyName:'gd_referencenumber'},
-        {dataType:'function',propertyName:getQuantityGrnDetails},
+    const displayProperty = [
+        {dataType: 'text', propertyName: 'itemcode'},
+        {dataType: 'function', propertyName: getRawMaterial},
+        {dataType: 'text', propertyName: 'gd_description'},
+        {dataType: 'text', propertyName: 'gd_referencenumber'},
+        {dataType: 'function', propertyName: getQuantityGrnDetails},
     ];
 
 
-    fillDataIntoTable(grnDetailsTableForGrnHeaderPrint,grnDetailsList,displayProperty,false);
+    fillDataIntoTable(grnDetailsTableForGrnHeaderPrint, grnDetailsList, displayProperty, false);
 
 }
 
-const getQuantityGrnDetails = (ob)=>{
-    return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3})}</p>`
+const getQuantityGrnDetails = (ob) => {
+    return `<p class="text-end">${Number(ob.quantity).toLocaleString('en-US', {
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3
+    })}</p>`
 }
 
 

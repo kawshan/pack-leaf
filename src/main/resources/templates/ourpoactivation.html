@@ -40,15 +40,15 @@
             <div class="col-md-6">
                 <button type="button" class="btn btn-warning fw-bold"
                         style="width: 15%; color: whitesmoke; border: 1px solid black;"
-                        onclick="refillItem(window['editOb'],window['editRow'])">
-                    <i class="fa-solid fa-recycle fa-beat"></i> Edit
+                        onclick="refillOurPoActivation(window['editOb'],window['editRow'])">
+                    <i class="fa-solid fa-recycle fa-beat"></i> Refill
                 </button>
                 <button type="button" id="divModifyButtonDelete" class="btn btn-danger fw-bold"
                         style=" width: 15%; color: whitesmoke; border: 1px solid black; pointer-events: all"
-                        onclick="deleteItem(window['editOb'],window['editRow'])">
+                        onclick="deleteOurPoAActivation(window['editOb'],window['editRow'])">
                     <i class="fa-solid fa-trash fa-beat"></i> Delete
                 </button>
-                <button onclick="printStudent(window['editOb'],window['editRow'])" type="button"
+                <button onclick="printOneOurPoApproval(window['editOb'],window['editRow'])" type="button"
                         class="btn btn-primary fw-bold"
                         style=" width: 15%; color: whitesmoke;border: 1px solid black">
                     <i class="fa-solid fa-eye fa-beat"></i> Print
@@ -59,6 +59,7 @@
 
     <div class="col-md-3"></div>
     <div class="col-md-3">
+        <button type="button" style="width: 25%; height: 40px" class="btn btn-primary" onclick="printAllOurPoApprovals()">Print All</button>
     </div>
 
 
@@ -74,11 +75,11 @@
     <div class="col-md-3"></div>
     <div class="col-md-3">
         <label for="selectOurPo" class="form-label fw-bold">Our Po <i class="text-danger fw-bold">*</i> </label>
-        <select class="form-select text-start" id="selectOurPo" required></select>
+        <select class="form-select text-start" id="selectOurPo" required onchange="selectDBValidator(this,'','ourPoActivation','ourpoheader_id')"></select>
     </div>
     <div class="col-md-3">
         <label for="selectActivationStatus" class="form-label fw-bold">Activation Status <i class="text-danger">*</i> </label>
-        <select class="form-select text-start" id="selectActivationStatus">
+        <select class="form-select text-start" id="selectActivationStatus" onchange="selectValidator(this,'','ourPoActivation','activation_status')">
             <option value="" selected disabled>Select An Option</option>
             <option value="true">Approved</option>
             <option value="false">Not-Approved</option>
@@ -94,10 +95,10 @@
             <button type="button" class="btn btn-danger">Reset</button>
         </div>
         <div class="col-md-4 text-center">
-            <button type="button" class="btn btn-warning">Update</button>
+            <button type="button" class="btn btn-warning" id="buttonOurPoApprovalUpdate" onclick="updateOurPoActivation()" style="pointer-events: all">Update</button>
         </div>
         <div class="col-md-4 text-center">
-            <button type="button" class="btn btn-success">Submit</button>
+            <button type="button" class="btn btn-success" id="buttonOurPoApprovalSubmit" onclick="submitOurPoActivation()" style="pointer-events: all">Submit</button>
         </div>
     </div>
 <!--      button area start  -->
@@ -113,7 +114,7 @@
     <div class="col-md-4"></div>
     <div class="col-md-4">
 
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="tableOurPoActivation">
             <thead class="table-secondary text-center">
                 <th>#</th>
                 <th>Our Po No</th>
@@ -131,7 +132,19 @@
 <!--   table area end     -->
 
 
+<!--      print table area start      -->
+<div class="d-none">
+    <table class="table table-bordered" id="tablePrintOurPoActivation" style="border: 1px solid black">
+        <thead class="text-center" style="font-family: 'Times New Roman'; font-size: 14px;">
+        <th>#</th>
+        <th>Our Po No</th>
+        <th>Approval Status</th>
+        </thead>
+        <tbody style="font-size: 11px; font-family: 'Times New Roman'; "></tbody>
 
+    </table>
+</div>
+<!--      print table area end      -->
 
 
 </body>

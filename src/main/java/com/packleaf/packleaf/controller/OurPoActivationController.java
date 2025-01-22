@@ -3,6 +3,7 @@ package com.packleaf.packleaf.controller;
 import com.packleaf.packleaf.dao.OurPoActivationDao;
 import com.packleaf.packleaf.entity.OurPoActivation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,7 +18,7 @@ public class OurPoActivationController {
 
     @GetMapping(value = "/findall")
     public List<OurPoActivation> getAllOurPoActivation(){
-        return ourPoActivationDao.findAll();
+        return ourPoActivationDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
 
@@ -34,7 +35,7 @@ public class OurPoActivationController {
 
             OurPoActivation existingOurPoActivation = ourPoActivationDao.validateExistingOurPoActivation(ourPoActivation.getOurpoheader_id().getId());
             if (existingOurPoActivation != null) {
-                return "Our Po Activation Already Exists";
+                return "Our Po Activation"+ ourPoActivation.getOurpoheader_id().getOurponumber() +"Already Exists";
             }
 
             ourPoActivationDao.save(ourPoActivation);
