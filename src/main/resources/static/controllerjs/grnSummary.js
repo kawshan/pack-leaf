@@ -44,7 +44,7 @@ const refreshGrnVoucherTable= ()=>{
 
 
 const getDate = (ob)=>{
-    return  `<p>${ob[0]}</p>`;
+    return  `<p>${new Date(ob[0]).toLocaleString('en-GB',{day:"2-digit",month:"short",year:"numeric"})}</p>`;
 }
 const getGrnNumber = (ob)=>{
     return  `<p class="text-end">${ob[1]}</p>`;
@@ -79,7 +79,7 @@ const grnSummeryPrint = async ()=>{
 <div class="container-fluid" style="position: relative">
 
     <div class="row mt-5 text-center">
-        <p style="font-size: 14px; font-weight: bolder">GRN Summary</p>
+        <p style="font-size: 14px; font-weight: bolder; font-family: Verdana">GRN Summary</p>
     </div>
    
 

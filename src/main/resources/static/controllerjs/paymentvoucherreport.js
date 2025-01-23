@@ -85,7 +85,7 @@ const printPaymentVoucherReport = async ()=>{
 <div class="container-fluid">
 
     <div class="row mt-5 text-center">
-        <p style="font-size: 14px; font-weight: bolder">Payment Voucher Summary</p>
+        <p style="font-size: 14px; font-weight: bolder; font-family: Verdana">Payment Voucher Summary</p>
     </div>
 
     <div class="row" style="margin: 3px">

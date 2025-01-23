@@ -81,19 +81,22 @@ const printStockReportMc =  async ()=>{
     <title>Stock Report Print</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </head>
 <body>
+
 <div class="container-fluid">
 
     <div class="row" style="margin-top: 2cm">
     <div class="col-4"></div>
-    <div class="col-4 text-center" style="font-size: 14px; font-weight: bold">Stock Report</div>
+    <div class="col-4 text-center" style="font-size: 14px; font-family: Verdana; font-weight: bold">Stock Report</div>
     <div class="col-4"></div>
     </div>
 
     <div class="row mt-4">
-        <div class="col-2" style="font-size: 14px">Item Name :</div>
-        <div class="col-6">${selectedItem.rmname}</div>
+        <div class="col-2 " style="font-size: 14px; font-family: Verdana">Item Name :</div>
+        <div class="col-6" style="font-size: 12px; font-family: Verdana">${selectedItem.rmname}</div>
         <div class="col-4"></div>
     </div>
 
@@ -157,7 +160,7 @@ const getReference = (ob)=>{
 }
 
 const getGrnDateForPrint = (ob)=>{
-    return ob[0];
+    return new Date(ob[0]).toLocaleString('en-GB',{day:"2-digit",month:"short",year:"numeric"});
 }
 
 const getSupplierNameForPrint = (ob)=>{

@@ -315,9 +315,11 @@ const fillDataIntoTableForStockReportPrint = (tableId, dataList, columnList, but
 
     // Add the second-to-last cell with "Previous Value" and class 'text-end'
     const previousValueCell = document.createElement('td');
-    previousValueCell.innerText = 'Previous Value'; // Add the text
+    previousValueCell.innerText = 'Pre Value'; // Add the text
     previousValueCell.className = 'text-end'; // Add the class 'text-end'
     previousValueCell.style.fontWeight = 'bold'; // Optional: Add styling
+    previousValueCell.style.fontFamily='verdana';
+    previousValueCell.style.fontSize="11px";
     emptyRow.appendChild(previousValueCell);
 
     // Add the last cell with "0"

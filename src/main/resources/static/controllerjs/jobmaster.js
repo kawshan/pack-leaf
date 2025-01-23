@@ -324,7 +324,7 @@ const printAllJobs = async ()=>{
 <div class="container-fluid" style="position: relative">
 
     <div class="row mb-2 text-center" style="margin-top: 2cm">
-        <p style="font-size: 14px; font-weight: bold">All jobs</p>
+        <p style="font-size: 14px; font-weight: bold; font-family: 'Times New Roman';">All jobs</p>
     </div>
 
     <div class="row" style="margin: 3px">
