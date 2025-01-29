@@ -88,7 +88,7 @@ const printStockReportMc =  async ()=>{
 
 <div class="container-fluid">
 
-    <div class="row" style="margin-top: 2cm">
+    <div class="row" style="margin-top: 1cm">
     <div class="col-4"></div>
     <div class="col-4 text-center" style="font-size: 14px; font-family: Verdana; font-weight: bold">Stock Report</div>
     <div class="col-4"></div>
@@ -150,13 +150,20 @@ const getRawMaterialNameForPrint = (ob)=>{
 }
 
 const getReference = (ob)=>{
-        if (ob[2]=="GRN"){
-            return "GRN"
-        }else if (ob[2]=="IN"){
-            return "Issue Note"
-        }else {
-            return "Stock Adjustment"
-        }
+    // return ob[2];
+    const referenceArray = ob[2].split(" ");
+    if (referenceArray.length>2){
+        const firstNamePart = referenceArray.slice(0,2).join(" ")
+        const secondNamePart = referenceArray.slice(2).join(" ")
+
+        return `<p>${firstNamePart}</p>`+`<p>${secondNamePart}</p>`
+
+    }else {
+        return ob[2];
+    }
+
+
+
 }
 
 const getGrnDateForPrint = (ob)=>{
@@ -164,11 +171,37 @@ const getGrnDateForPrint = (ob)=>{
 }
 
 const getSupplierNameForPrint = (ob)=>{
-    return ob[1];
+    // return ob[1];
+
+    if(ob[1]==null){
+        return " ";
+    }
+
+    const supplierNameArray = ob[1].split(" ");
+    if (supplierNameArray.length>3 && supplierNameArray.length<7){
+        const firstNamePart = supplierNameArray.slice(0,3).join(" ");
+        const secondNamePart = supplierNameArray.slice(3).join(" ");
+
+        return `<p>${firstNamePart}</p>`+`<p>${secondNamePart}</p>`
+    }else if (supplierNameArray.length>=7){
+        const firstNamePart = supplierNameArray.slice(0,3).join(" ");
+        const secondNamePart = supplierNameArray.slice(3,6).join(" ");
+        const thirdNamePart = supplierNameArray.slice(6).join(" ");
+
+        return `<p>${firstNamePart}</p>`+`<p>${secondNamePart}</p>`+`<p>${thirdNamePart}</p>`
+    }
+
+
+    else {
+        return ob[1];
+    }
+
+
 }
 
 const getQuantityForPrint = (ob)=>{
-    if (ob[2]=="GRN"){
+    const splitArray = ob[2].split(" ");
+    if (splitArray[0]=="GRN"){
         return `<p class="text-end">${Number(ob[3]).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3})}</p>`
     }else {
         return " ";
@@ -177,23 +210,22 @@ const getQuantityForPrint = (ob)=>{
 
 
 const getIssueNoteForPrint = (ob) =>{
-    if (ob[2]=="GRN"){
-        return ' ';
-    }else if (ob[2]=="IN") {
+    const splitArray = ob[2].split(" ");
+    if (splitArray[0]=="Issue"){
         return `<p class="text-end">${Number(ob[3]).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3})}</p>`;
     }else {
         return ' ';
     }
+
 }
 
 
 const getStockAdjustmentForPrint = (ob) =>{
-    if (ob[2]=="GRN"){
-        return ' ';
-    }else if (ob[2]=="IN") {
-       return ' ';
-    }else {
+    const splitArray = ob[2].split(" ");
+    if (splitArray[0]=="Stock"){
         return `<p class="text-end">${Number(ob[3]).toLocaleString('en-US')}</p>`;
+    }else {
+        return " "
     }
 }
 
@@ -201,15 +233,16 @@ const getStockAdjustmentForPrint = (ob) =>{
 let runningTotal = 0;
 
 const calculateRunningTotal = (ob)=>{
-    if (ob[2]=="GRN"){  //grn nam running number ekata ekathu karanawa...
+    const splitArray = ob[2].split(" ");
+    if (splitArray[0]=="GRN"){  //grn nam running number ekata ekathu karanawa...
         runningTotal+=parseFloat(ob[3]);
         return `<p class="text-end">${Number(runningTotal).toLocaleString('en-US')}</p>`;
-    }else if (ob[2]=="IN") {    //issue note nam running number ekan adu karanwa
+    }else if (splitArray[0]=="Issue") {    //issue note nam running number ekan adu karanwa
         runningTotal-=parseFloat(ob[3]);
         return `<p class="text-end">${Number(runningTotal).toLocaleString('en-US')}</p>`;
 
 
-    }else if (ob[2]=="ADJ") { //else ekedi venne stock adjustment eke
+    }else if (splitArray[0]=="Stock") { //else ekedi venne stock adjustment eke
         //stock adjustment nam ee number eka + da - da kiyala check karanna one
         let numberVal = parseFloat(ob[3]);
 

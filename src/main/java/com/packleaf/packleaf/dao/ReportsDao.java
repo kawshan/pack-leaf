@@ -44,25 +44,52 @@ public interface ReportsDao extends JpaRepository<Company,Integer> {
 //        @Query(value = "select gh.grndate as dates, (select suppliername from supplier where id=gh.supplier_id) as supplier_name, substring(gh.grnheaderkey,1,3) as code_type, gd.quantity from grndetails as gd inner join grnheader as gh on gd.grnheader = gh.grnheaderkey and gd.rawmaterial_id=?1 and gh.grndate between ?2 and ?3 union all select inh.issuenotedate as dates, '' as supplier_name, substring(inh.headerkey,1,2) as code_type, ind.quantity from issuenotedetail as ind inner join issuenoteheader as inh on ind.issuenoteheader = inh.headerkey and ind.rawmaterial_id=?1 and inh.issuenotedate between ?1 and ?2 order by dates asc;",nativeQuery = true)
 //
 //      dan thiyenne aluth ma query eka stock adjustment eka dammata passe
+//        @Query(value = "select\n" +
+//                "gh.grndate as dates,\n" +
+//                "(select suppliername from supplier where id=gh.supplier_id) as supplier_name,\n" +
+//                "substring(gh.grnheaderkey,1,3) as code_type,\n" +
+//                "gd.quantity from grndetails as gd inner join grnheader as gh on gd.grnheader = gh.grnheaderkey and\n" +
+//                "gd.rawmaterial_id=?1 and gh.grndate between ?2 and ?3 \n" +
+//                "union all\n" +
+//                "select\n" +
+//                "inh.issuenotedate as dates,\n" +
+//                "(select jobmaster.jobnumber from jobmaster where id=inh.jobmaster_id) as supplier_name,\n" +
+//                "substring(inh.headerkey,1,2) as code_type,\n" +
+//                "ind.quantity\n" +
+//                "from issuenotedetail as ind inner join issuenoteheader as inh on ind.issuenoteheader = inh.headerkey and\n" +
+//                "ind.rawmaterial_id=?1 and inh.issuenotedate between ?2 and ?3 \n" +
+//                "union all\n" +
+//                "select\n" +
+//                "sah.adjustment_date as dates,\n" +
+//                "'' as supplier_name,\n" +
+//                "substring(sah.adjustment_key,1,3) as code_type,\n" +
+//                "sad.quantity\n" +
+//                "from stock_adjustment_details as sad inner join stock_adjustment_header as sah on sah.adjustment_key = sad.header_key\n" +
+//                "and sad.rawmaterial_id=?1 and sah.adjustment_date between ?2 and ?3 \n" +
+//                "order by dates asc;",nativeQuery = true)
+
+
+
+
         @Query(value = "select\n" +
                 "gh.grndate as dates,\n" +
-                "(select suppliername from supplier where id=gh.supplier_id) as supplier_name,\n" +
-                "substring(gh.grnheaderkey,1,3) as code_type,\n" +
+                "(select suppliername from supplier where id=gh.supplier_id) as reference,\n" +
+                "concat('GRN',' ',gh.grnno) as code_type,\n" +
                 "gd.quantity from grndetails as gd inner join grnheader as gh on gd.grnheader = gh.grnheaderkey and\n" +
                 "gd.rawmaterial_id=?1 and gh.grndate between ?2 and ?3 \n" +
                 "union all\n" +
                 "select\n" +
                 "inh.issuenotedate as dates,\n" +
-                "'' as supplier_name,\n" +
-                "substring(inh.headerkey,1,2) as code_type,\n" +
+                "ind.description as reference,\n" +
+                "concat('Issue Note',' ',inh.issuenotenumber) as code_type,\n" +
                 "ind.quantity\n" +
                 "from issuenotedetail as ind inner join issuenoteheader as inh on ind.issuenoteheader = inh.headerkey and\n" +
                 "ind.rawmaterial_id=?1 and inh.issuenotedate between ?2 and ?3 \n" +
                 "union all\n" +
                 "select\n" +
                 "sah.adjustment_date as dates,\n" +
-                "'' as supplier_name,\n" +
-                "substring(sah.adjustment_key,1,3) as code_type,\n" +
+                "sad.description as reference,\n" +
+                "concat('Stock Adjustment',' ',sah.adjustment_no) as code_type,\n" +
                 "sad.quantity\n" +
                 "from stock_adjustment_details as sad inner join stock_adjustment_header as sah on sah.adjustment_key = sad.header_key\n" +
                 "and sad.rawmaterial_id=?1 and sah.adjustment_date between ?2 and ?3 \n" +
