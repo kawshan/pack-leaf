@@ -1,0 +1,102 @@
+<div th:fragment="navbar">
+    <!--nav bar starts-->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #3C3D37">
+        <div class="container-fluid">
+
+            <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+                <span class="material-symbols-outlined" style="color: white">menu</span>
+            </button>
+
+            <a class="navbar-brand text-white"><b>Pack Leaf</b></a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <ul class="ms-2 navbar-nav">
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="material-symbols-outlined">house</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Item
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/item-category">Item Category Master</a></li>
+                            <li><a class="dropdown-item" href="/item">Item Master</a></li>
+                            <li><a class="dropdown-item" href="/customer">Customer Master</a></li>
+                            <li><a class="dropdown-item" href="/purchaseorderheader">Customer Purchase Order</a></li>
+                            <li><a class="dropdown-item" href="/invoice-detail">Invoice</a></li>
+                        </ul>
+                    </li>
+
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Stock
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/supplier">Supplier Master</a></li>
+                            <li><a class="dropdown-item" href="/rawmaterialcategory">Raw Material Category</a></li>
+                            <li><a class="dropdown-item" href="/rawmaterial">Raw Material</a></li>
+                            <li><a class="dropdown-item" href="/ourpoheader">Our Po</a></li>
+                            <li><a class="dropdown-item" href="/ourpoactivation">Our Po Approval</a></li>
+                            <li><a class="dropdown-item" href="/grn-header">GRN</a></li>
+                            <li><a class="dropdown-item" href="/jobmaster">Job Master</a></li>
+                            <li><a class="dropdown-item" href="/issuenoteheader">Issue Note</a></li>
+                            <li><a class="dropdown-item" href="/stockadjustmentheader">Stock Adjustment</a></li>
+                        </ul>
+                    </li>
+
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Bank
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/ownbankaccount">Own Bank Account Master</a></li>
+                            <li><a class="dropdown-item" href="/checkbookmaster">Cheque Book Master</a></li>
+                            <li><a class="dropdown-item" href="/issuecheque">Issue Cheque</a></li>
+                            <li><a class="dropdown-item" href="/paymentvoucherheader">Payment Voucher</a></li>
+                        </ul>
+                    </li>
+
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Report
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/stockreport">Stock Report</a></li>
+                            <li><a class="dropdown-item" href="/paymentvoucherreport">Payment Voucher Summery</a></li>
+                            <li><a class="dropdown-item" href="/grnvouchersummary">Grn Summery</a></li>
+                        </ul>
+                    </li>
+
+
+
+                </ul>
+
+
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </nav>
+    <!--nav bar ends-->
+</div>

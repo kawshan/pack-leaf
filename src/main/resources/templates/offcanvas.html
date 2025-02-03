@@ -1,0 +1,178 @@
+<div th:fragment="offcanvas">
+    <!--off canvas start-->
+    <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="staticBackdropLabel">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+
+
+
+            <div class="row mt-2">
+                <!--item collapse start-->
+                <p class="d-inline-flex gap-1">
+                    <button class="btn" style="background-color: #54C392; padding-bottom: 5%" type="button" data-bs-toggle="collapse" data-bs-target="#ItemExample" aria-expanded="false" aria-controls="ItemExample">
+                        <span class="material-symbols-outlined">category</span> Item Section
+                    </button>
+                </p>
+                <div class="collapse" id="ItemExample">
+                    <div class="card card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <a class="btn" href="/item-category">Item Category Master</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a class="btn" href="/item">Item Master</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a class="btn" href="/customer">Customer Master</a>
+                            </li>
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/purchaseorderheader">Customer Purchase Order</a>
+                            </li>
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/invoice-detail">Invoice</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!--item collapse end-->
+            </div>
+
+
+            <div class="row mt-2">
+                <!--stock collapse start-->
+                <p class="d-inline-flex gap-1">
+                    <button class="btn" style="background-color: #54C392; padding-bottom: 5%" type="button" data-bs-toggle="collapse" data-bs-target="#StockExample" aria-expanded="false" aria-controls="ItemExample">
+                        <span class="material-symbols-outlined">category</span> Stock Section
+                    </button>
+                </p>
+                <div class="collapse" id="StockExample">
+                    <div class="card card-body">
+                        <ul class="list-group">
+
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/supplier">Supplier</a>
+                            </li>
+
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/rawmaterialcategory">Raw Material Category</a>
+                            </li>
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/rawmaterial">Raw Material</a>
+                            </li>
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/ourpoheader">Our PO</a>
+                            </li>
+
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/ourpoactivation">Our PO Approval</a>
+                            </li>
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/grn-header">GRN</a>
+                            </li>
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/jobmaster">Job Master</a>
+                            </li>
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/issuenoteheader">Issue Note</a>
+                            </li>
+
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/stockadjustmentheader">Stock Adjustment</a>
+                            </li>
+
+
+
+                            <!--                    <li class="list-group-item">And a fifth one</li>-->
+                        </ul>
+                    </div>
+                </div>
+                <!--stock collapse end-->
+            </div>
+
+
+            <div class="row mt-2">
+                <!--finance section collapse start-->
+                <p class="d-inline-flex gap-1">
+                    <button class="btn" style="background-color: #54C392; padding-bottom: 5%" type="button" data-bs-toggle="collapse" data-bs-target="#FinanceExample" aria-expanded="false" aria-controls="ItemExample">
+                        <span class="material-symbols-outlined">category</span> Bank Section
+                    </button>
+                </p>
+                <div class="collapse" id="FinanceExample">
+                    <div class="card card-body">
+                        <ul class="list-group">
+
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/ownbankaccount">Own Bank Account Master</a>
+                            </li>
+
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/checkbookmaster">Cheque Book Master</a>
+                            </li>
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/issuecheque">Issue Cheque</a>
+                            </li>
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/paymentvoucherheader">Payment Voucher</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--finance section collapse end-->
+            </div>
+
+
+
+            <div class="row mt-2">
+                <!--report collapse start-->
+                <p class="d-inline-flex gap-1">
+                    <button class="btn" style="background-color: #54C392; padding-bottom: 5%" type="button" data-bs-toggle="collapse" data-bs-target="#reportExample" aria-expanded="false" aria-controls="reportExample">
+                        <span class="material-symbols-outlined">pie_chart</span> Report Section
+                    </button>
+                </p>
+                <div class="collapse" id="reportExample">
+                    <div class="card card-body">
+                        <ul class="list-group">
+
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/stockreport">Stock Report</a>
+                            </li>
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/paymentvoucherreport">Payment Voucher Summery</a>
+                            </li>
+
+                            <li class="list-group-item">
+                                <a class="btn" href="/grnvouchersummary">GRN Summery</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!--report collapse end-->
+            </div>
+
+
+        </div>
+    </div>
+    <!--off canvas end-->
+</div>
