@@ -239,7 +239,7 @@ const checkUpdates = ()=>{
     }
 
     if (itemCategory.ctmoq != oldItemCategory.ctmoq){
-        updates=updates+"category is updated \n";
+        updates=updates+"MOQ is updated \n";
     }
 
     if (itemCategory.ctduration != oldItemCategory.ctduration){

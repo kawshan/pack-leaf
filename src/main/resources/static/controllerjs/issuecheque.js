@@ -310,81 +310,73 @@ const loadDateIntoTablePrint = ()=>{
 
 const printOneIssueCheque = async (ob)=>{
 
+    // getting number to words code start
+    // let amount = ob.cheque_amount;
+    // let amount2words = numberToWords.toWords(amount) + " rupees only"
+
+
+    let dollars = Math.floor(ob.cheque_amount);
+    let cents = Math.round((ob.cheque_amount-dollars)*100);
+
+    let words = numberToWords.toWords(dollars)+" rupees"
+    if (cents>0){
+        words+=" and "+numberToWords.toWords(cents)+" cents";
+    }
+
+    words+=" only"
+
+    console.log(words);
+
     const newWindow = window.open();
     await newWindow.document.write(`
+
     <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>cheque book print</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheque Printing</title>
+    <style>
+        @media print {
+            @page {
+                size: 17.8cm 8.9cm; /* Set cheque size */
+                margin: 0;
+            }
+            body {
+                width: 17.8cm;
+                height: 3in;
+            }
+            .cheque-container {
+                padding: 10px;
+                font-family: Arial, sans-serif;
+                position: relative;
+                width: 7.5in;
+                height: 3in;
+            }
+            .field {
+                position: absolute;
+                font-size: 14px;
+            }
+            .date { top: 0.6cm; right: 20px; }
+            .payee { top: 2cm; left: 80px; }
+            .amount { top: 4cm; right: 40px;}
+            .amount-text { top: 4cm; left: 80px;}
+        }
+    </style>
 </head>
 <body>
-<div class="container-fluid">
 
-    <div class="row mt-5 text-center">
-        <p style="font-size: 12px; font-weight: bolder">Cheque Book Detail</p>
+    <div class="cheque-container">
+        <div class="field payee" style="font-family: Verdana; font-size: 12px">${ob.description==null?" ":ob.description}</div>
+        <div class="field amount" style="font-family: Verdana; font-size: 12px">**${ob.cheque_amount.toLocaleString('en-US',{minimumFractionDigits: 2,maximumFractionDigits: 2})}**</div>
+        <div class="field amount-text" style="font-size: 12px; font-family: Verdana">${words}</div>
+        
     </div>
 
-
-    <div class="row">
-        <table class="table table-bordered" style="border: 1px solid black; font-size: 11px">
-            <thead class="text-center">
-                <th style="width: 30%">Properties</th>
-                <th>Description</th>
-            </thead>
-            <tbody>
-
-                <tr>
-                    <td>Issue Code</td>
-                    <td>${ob.issue_cheque_code}</td>
-                </tr>
-
-                <tr>
-                    <td>Issue Date</td>
-                    <td>${ob.issue_cheque_date}</td>
-                </tr>
-                
-                <tr>
-                    <td>Cheque Date</td>
-                    <td>${ob.cheque_date}</td>
-                </tr>
-
-                <tr>
-                    <td>From Account</td>
-                    <td>${ob.ownbankaccount_id.bank_short_name}</td>
-                </tr>
-
-                <tr>
-                    <td>Cheque Number</td>
-                    <td>${ob.cheque_number}</td>
-                </tr>
-
-
-                <tr>
-                    <td>Amount</td>
-                    <td>${Number(ob.cheque_amount).toLocaleString('en-US', {minimumFractionDigits: 2,maximumFractionDigits: 2})}</td>
-                </tr>
-
-                <tr>
-                    <td>Description</td>
-                    <td>${ob.description == null ? " " : ob.description}</td>
-                </tr>
-
-                <tr>
-                    <td>Status</td>
-                    <td>${ob.issuechequestatus_id.name}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-
-
-</div>
 </body>
 </html>
+
+
     `)
 
     newWindow.stop();
