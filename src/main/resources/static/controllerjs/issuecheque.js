@@ -310,9 +310,12 @@ const loadDateIntoTablePrint = ()=>{
 
 const printOneIssueCheque = async (ob)=>{
 
-    // getting number to words code start
-    // let amount = ob.cheque_amount;
-    // let amount2words = numberToWords.toWords(amount) + " rupees only"
+    const date = new Date(ob.cheque_date);
+    const formattedDate = date.getDate().toString().padStart(2,'0')+
+        (date.getMonth()+1).toString().padStart(2,'0')+
+        '  '+
+        date.getFullYear().toString().slice(-2);
+    console.log(formattedDate);
 
 
     let dollars = Math.floor(ob.cheque_amount);
@@ -367,6 +370,7 @@ const printOneIssueCheque = async (ob)=>{
 <body>
 
     <div class="cheque-container">
+        <div class="field date" style="font-family: Verdana; font-size: 12px; letter-spacing: 15px">${formattedDate}</div>
         <div class="field payee" style="font-family: Verdana; font-size: 12px">${ob.description==null?" ":ob.description}</div>
         <div class="field amount" style="font-family: Verdana; font-size: 12px">**${ob.cheque_amount.toLocaleString('en-US',{minimumFractionDigits: 2,maximumFractionDigits: 2})}**</div>
         <div class="field amount-text" style="font-size: 12px; font-family: Verdana">${words}</div>
