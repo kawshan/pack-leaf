@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Master</title>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/commonjs/selectcommonfunction.js"></script>
+    <script src="/commonjs/jquery.js"></script>
+    <script src="/commonjs/validation.js"></script>
+    <script src="/commonjs/ajaxcommonfunction.js"></script>
+    <script src="/commonjs/tablecommonfuntion.js"></script>
+    <script src="/controllerjs/employeemaster.js"></script>
+
+    <!--    jquery cdn start-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <!--    jquery cdn end-->
+</head>
+<body>
+
+
+<!--header area start-->
+<div class="row p-4" style="background-color: #54C392;">
+    <h1 class="text-center">Employee Master</h1>
+</div>
+<!--header area start-->
+
+<!--    edit delete print button start-->
+<div class="row mt-2">
+    <div id="divModifyButton" class="d-none">
+        <div class="col-md-6">
+            <button type="button" class="btn btn-warning fw-bold"
+                    style="width: 15%; color: whitesmoke; border: 1px solid black;"
+                    onclick="refillEmployeeMaster(window['editOb'],window['editRow'])">
+                <i class="fa-solid fa-recycle fa-beat"></i> refill
+            </button>
+            <button type="button" id="divModifyButtonDelete" class="btn btn-danger fw-bold"
+                    style=" width: 15%; color: whitesmoke; border: 1px solid black; pointer-events: all"
+                    onclick="deleteEmployeeMaster(window['editOb'],window['editRow'])">
+                <i class="fa-solid fa-trash fa-beat"></i> Delete
+            </button>
+            <button onclick="printOneEmployee(window['editOb'],window['editRow'])" type="button"
+                    class="btn btn-primary fw-bold"
+                    style=" width: 15%; color: whitesmoke;border: 1px solid black">
+                <i class="fa-solid fa-eye fa-beat"></i> Print
+            </button>
+        </div>
+    </div>
+</div>
+<!--    edit delete print button end-->
+
+
+
+
+<div class="card m-5 p-5">
+    <form onsubmit="return false">
+
+        <div class="row mt-5">
+            <div class="col-md-3">
+                <label for="textFullName" class="form-label fw-bold">Full Name</label>
+                <input type="text" id="textFullName" class="form-control text-start" placeholder="Enter Full Name" onkeyup="textValidator(this,'','employeeMaster','full_name')">
+            </div>
+            <div class="col-md-3">
+                <label for="textCallingName" class="form-label fw-bold">Calling Name</label>
+                <input type="text" id="textCallingName" class="form-control text-start" placeholder="Enter Calling Name" onkeyup="textValidator(this,'','employeeMaster','calling_name')">
+            </div>
+            <div class="col-md-3">
+                <label for="selectDOB" class="form-label fw-bold">Date Of Birth</label>
+                <input type="date" id="selectDOB" class="form-control text-start" placeholder="Select Date Of Birth" onchange="textValidator(this,'','employeeMaster','dob')">
+            </div>
+            <div class="col-md-3">
+                <label for="textNic" class="form-label fw-bold">NIC number</label>
+                <input type="text" id="textNic" class="form-control text-start" placeholder="Enter Nic Number" onkeyup="textValidator(this,'','employeeMaster','nic')">
+            </div>
+        </div>
+
+
+
+        <div class="row mt-5">
+            <div class="col-md-3">
+                <label for="textMobile" class="form-label fw-bold">Mobile Number</label>
+                <input type="text" id="textMobile" class="form-control text-start" placeholder="Enter Mobile Number" onkeyup="textValidator(this,'','employeeMaster','mobile')" >
+            </div>
+            <div class="col-md-3">
+                <label for="textLandNo" class="form-label fw-bold">Land Number</label>
+                <input type="text" id="textLandNo" class="form-control text-start" placeholder="Enter land Number" onkeyup="textValidator(this,'','employeeMaster','land_no')" >
+            </div>
+            <div class="col-md-3">
+                <label for="textEmail" class="form-label fw-bold">Email</label>
+                <input type="text" id="textEmail" class="form-control text-start" placeholder="Enter email" onkeyup="textValidator(this,'','employeeMaster','email')">
+            </div>
+            <div class="col-md-3">
+                <label for="textAddress" class="form-label fw-bold">Address</label>
+                <input type="text" id="textAddress" class="form-control text-start" placeholder="Enter Address" onkeyup="textValidator(this,'','employeeMaster','address')">
+            </div>
+        </div>
+
+
+        <div class="row mt-5">
+            <div class="col-md-3">
+                <label for="selectGender" class="form-label fw-bold">gender<i class="text-danger">*</i></label>
+                <select id="selectGender" class="form-select text-start" onchange="selectDBValidator(this,'','employeeMaster','gender_id')"></select>
+            </div>
+            <div class="col-md-3">
+                <label for="selectStatus" class="form-label fw-bold">Status<i class="text-danger">*</i></label>
+                <select id="selectStatus" class="form-select text-start" onchange="selectDBValidator(this,'','employeeMaster','employeestatus_id')" ></select>
+            </div>
+            <div class="col-md-3">
+                <label for="selectDesignation" class="form-label fw-bold">Designation<i class="text-danger">*</i></label>
+                <select id="selectDesignation" class="form-select text-start" onchange="selectDBValidator(this,'','employeeMaster','designation_id')"></select>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+
+        <div class="row mt-5">
+            <div class="col-md-4 text-start">
+                <button type="button" class="btn btn-danger" style="pointer-events: all">Reset</button>
+            </div>
+            <div class="col-md-4 text-center">
+                <button type="button" id="buttonEmployeeUpdate" class="btn btn-warning" onclick="updateEmployeeMaster()" style="pointer-events: all">Update</button>
+            </div>
+            <div class="col-md-4 text-end">
+                <button type="button" id="buttonEmployeeSubmit" class="btn btn-primary" onclick="submitEmployeeMaster()" style="pointer-events: all">Submit</button>
+            </div>
+        </div>
+
+
+
+
+
+    </form>
+</div>
+
+
+<div class="row">
+    <div class="col-md-10"></div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-primary" onclick="printAllEmployees()">Print All Employees</button>
+    </div>
+</div>
+
+
+<div class="card m-5 p-5">
+    <table class="table table-bordered text-center" id="employeeTable" style="border: 1px solid black;">
+        <thead class="text-center">
+            <th>#</th>
+            <th>full name</th>
+            <th>calling name</th>
+            <th>mobile</th>
+            <th>email</th>
+            <th>status</th>
+            <th>Action</th>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+
+<!--print table for all employees start-->
+<div class="d-none" id="divEmployeeTablePrint">
+    <table class="table table-bordered text-center" id="employeeTablePrint" style="border: 1px solid black; font-size: 11px; font-family: Verdana">
+        <thead class="text-center">
+        <th>#</th>
+        <th>full name</th>
+        <th>calling name</th>
+        <th>mobile</th>
+        <th>email</th>
+        <th>status</th>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<!--print table for all employees end-->
+
+
+
+
+</body>
+</html>

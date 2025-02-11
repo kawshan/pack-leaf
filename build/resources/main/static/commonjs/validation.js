@@ -16,6 +16,7 @@ const textValidator = (fieldId,pattern,object,property)=>{
             fieldId.style.border='2px solid red';
         }else {
             fieldId.style.border='1px solid #ced4da';
+            window[object][property] = null;
         }
     }
 }
