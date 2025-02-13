@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Master</title>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/commonjs/selectcommonfunction.js"></script>
+    <script src="/commonjs/jquery.js"></script>
+    <script src="/commonjs/validation.js"></script>
+    <script src="/commonjs/ajaxcommonfunction.js"></script>
+    <script src="/commonjs/tablecommonfuntion.js"></script>
+    <script src="/controllerjs/userMaster.js"></script>
+
+    <!--    jquery cdn start-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <!--    jquery cdn end-->
+</head>
+<body>
+
+<!--header area start-->
+<div class="row p-4" style="background-color: #54C392;">
+    <h1 class="text-center">User Master</h1>
+</div>
+<!--header area start-->
+
+<!--    edit delete print button start-->
+<div class="row mt-2">
+    <div id="divModifyButton" class="d-none">
+        <div class="col-md-6">
+            <button type="button" class="btn btn-warning fw-bold"
+                    style="width: 15%; color: whitesmoke; border: 1px solid black;"
+                    onclick="refillUserMasterForm(window['editOb'],window['editRow'])">
+                <i class="fa-solid fa-recycle fa-beat"></i> refill
+            </button>
+            <button type="button" id="divModifyButtonDelete" class="btn btn-danger fw-bold"
+                    style=" width: 15%; color: whitesmoke; border: 1px solid black; pointer-events: all"
+                    onclick="deleteUserMaster(window['editOb'],window['editRow'])">
+                <i class="fa-solid fa-trash fa-beat"></i> Delete
+            </button>
+            <button onclick="printOneEmployee(window['editOb'],window['editRow'])" type="button"
+                    class="btn btn-primary fw-bold"
+                    style=" width: 15%; color: whitesmoke;border: 1px solid black">
+                <i class="fa-solid fa-eye fa-beat"></i> Print
+            </button>
+        </div>
+    </div>
+</div>
+<!--    edit delete print button end-->
+
+
+<div class="card m-5 p-5">
+    <form onsubmit="return false">
+
+        <div class="row mt-5">
+            <div class="col-md-3">
+                <label for="selectEmployee" class="form-label fw-bold">Employee</label>
+                <select id="selectEmployee" class="form-select text-start" onchange="selectDBValidator(this,'','userMaster','employee_id')"></select>
+            </div>
+            <div class="col-md-3">
+                <label for="textUserName" class="form-label fw-bold">UserName</label>
+                <input type="text" id="textUserName" class="form-control text-start" placeholder="Enter username" onkeyup="textValidator(this,'','userMaster','username')">
+            </div>
+            <div class="col-md-3">
+                <label for="textPassword" class="form-label fw-bold">Password</label>
+                <input type="text" id="textPassword" class="form-control text-start" placeholder="Enter Password">
+            </div>
+            <div class="col-md-3">
+                <label for="textRePassword" class="form-label fw-bold">Re type Password</label>
+                <input type="text" id="textRePassword" class="form-control text-start" placeholder="Retype Password" onkeyup="passwordRetypeValidator()">
+            </div>
+        </div>
+
+        <div class="row mt-5">
+
+            <div class="col-md-3">
+                <label for="textEmail" class="form-label fw-bold">Email</label>
+                <input type="text" id="textEmail" class="form-control text-start" placeholder="Enter Email" onchange="textValidator(this,'','userMaster','email')">
+            </div>
+
+            <div class="col-md-3">
+                <label for="selectStatus" class="form-label fw-bold">Status</label>
+                <select id="selectStatus" class="form-select text-start" onchange="selectValidator(this,'','userMaster','status')">
+                    <option selected disabled>Selected An Option</option>
+                    <option value="true">active</option>
+                    <option value="false">inactive</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="fw-bold form-label">Select Role</label>
+                <div id="divRoles">
+
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <label for="textDescription" class="form-label fw-bold">Description</label>
+                <input type="text" id="textDescription" class="form-control text-start" placeholder="Enter Description" onkeyup="textValidator(this,'','userMaster','user_description')">
+            </div>
+
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-4 text-start">
+                <button type="button" id="buttonUserMasterReset" class="btn btn-danger">Reset</button>
+            </div>
+            <div class="col-md-4 text-center">
+                <button type="button" id="buttonUserMasterUpdate" style="pointer-events: all" class="btn btn-warning" onclick="updateUserMaster()">Update</button>
+            </div>
+            <div class="col-md-4 text-end">
+                <button type="button" id="buttonUserMasterSave" style="pointer-events: all" class="btn btn-primary" onclick="saveUserMaster()">Save</button>
+            </div>
+        </div>
+
+
+
+    </form>
+</div>
+
+
+
+<div class="card p-5 m-5">
+    <table class="table table-bordered" id="userTable">
+        <thead>
+            <th>#</th>
+            <th>employee</th>
+            <th>username</th>
+            <th>email</th>
+            <th>role</th>
+            <th>Status</th>
+            <th>Action</th>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+
+
+
+</body>
+</html>
