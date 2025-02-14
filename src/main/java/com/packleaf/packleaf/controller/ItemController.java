@@ -86,4 +86,12 @@ public class ItemController {
         return itemDao.getJobWithoutItems(jobmasterId);
     }
 
+
+    @GetMapping(value = "/get-imkey-byitemname/{itemName}")
+    public String getItemKeyByItemName(@PathVariable("itemName")String itemName){
+        return itemDao.getItemFromItemName(itemName);
+    }
+
+
+
 }

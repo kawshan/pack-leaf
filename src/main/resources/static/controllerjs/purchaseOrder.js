@@ -391,6 +391,8 @@ const refreshPurchaseOrderDetailForm = ()=>{
     txtQty.value="";
     txtRate.value="";
     txtValue.value="";
+    selectItemName.value="";
+
 
 
     selectItemName.style.border="2px solid #ced4da";
@@ -399,8 +401,7 @@ const refreshPurchaseOrderDetailForm = ()=>{
     txtValue.style.border="2px solid #ced4da";
 
     items = ajaxGetRequest("/item/findall")
-    fillDataIntoSelect(selectItemName,'Select Item',items,'itmname');
-
+    fillDataIntoDataList(dataListItemName,items,'itmname')
 }
 
 
@@ -507,7 +508,12 @@ const refillPurchaseOrderDetails = (ob,rowIndex) =>{
 
     //update button eka enable karanawa
     btnUpdatePurchaseOrderDetail.disabled=false
-    btnUpdatePurchaseOrderDetail.style.cursor="default"
+    btnUpdatePurchaseOrderDetail.style.cursor="default";
+
+    //add button eka disable karanawa
+    btnAddPurchaseOrderDetail.disabled=true
+    btnAddPurchaseOrderDetail.style.cursor="not-allowed";
+
 
 
     purchaseOrderDetail=JSON.parse(JSON.stringify(ob))
@@ -515,12 +521,12 @@ const refillPurchaseOrderDetails = (ob,rowIndex) =>{
 
 
 
-    txtQty.value = ob.poqty;
-    txtRate.value = ob.porate;
-    txtValue.value = ob.povalue;
+    txtQty.value = purchaseOrderDetail.poqty;
+    txtRate.value = purchaseOrderDetail.porate;
+    txtValue.value = purchaseOrderDetail.povalue;
+    selectItemName.value=purchaseOrderDetail.item_id.itmname
 
 
-    fillDataIntoSelect(selectItemName,'Select Item',items,'itmname',ob.item_id.itmname);
 
 
 
@@ -607,9 +613,18 @@ const deletePurchaseOderDetails= (ob,rowIndex)=>{
 
 //create function to save item key
 const saveImKey = (fieldID)=>{
-    let selectedItem = JSON.parse(fieldID.value);
-    console.log(selectedItem.imkey);
-    purchaseOrderDetail.imkey=selectedItem.imkey;
+    // let selectedItem = JSON.parse(fieldID.value);
+    // console.log(selectedItem.imkey);
+    // purchaseOrderDetail.imkey=selectedItem.imkey;
+    let selectedItem = fieldID.value;
+    console.log(`selected item name is ${selectedItem}`)
+    const getImKeyFromServer = ajaxGetRequest(`/item/get-imkey-byitemname/${selectedItem}`);
+    console.log(`Im key from server ${getImKeyFromServer}`);
+    purchaseOrderDetail.imkey=getImKeyFromServer; //bind value to the property
+
+
+
+
 }
 
 // purchase order details area end

@@ -157,7 +157,9 @@
             <tr>
                 <td>
                     <label for="selectItemName" class="form-label fw-bold">Item name</label>
-                    <select id="selectItemName" class="form-select" onchange="selectDBValidator(this,'','purchaseOrderDetail','item_id'); saveImKey(this)"></select>
+<!--                    <select id="selectItemName" class="form-select" onchange="selectDBValidator(this,'','purchaseOrderDetail','item_id'); saveImKey(this)"></select>-->
+                    <input type="text" list="dataListItemName" id="selectItemName" class="form-control text-start" placeholder="Type & Search Item Name" onkeyup="dataListValidator2(this,'items','purchaseOrderDetail','item_id','itmname'); saveImKey(this)">
+                    <datalist id="dataListItemName"></datalist>
                 </td>
 
 

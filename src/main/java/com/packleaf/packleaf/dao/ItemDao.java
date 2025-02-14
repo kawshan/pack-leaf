@@ -14,10 +14,13 @@ public interface ItemDao extends JpaRepository<Item,Integer> {
     @Query(value = "select i from Item i where i.itmname=?1")
     public Item getItemByItemName(String itemName);
 
-    //meka ona venne job master eke dan item ekata thiyenne many to many relation ekak nisa.
 
+    //meka ona venne job master eke dan item ekata thiyenne many to many relation ekak nisa.
     @Query(value = "select i from Item i where i.id not in (select jmhi.item_id.id from JobMasterHasItem jmhi where jmhi.jobmaster_id.id=?1)order by i.code asc")
     public List<Item> getJobWithoutItems(Integer jobmasterId);
+
+    @Query(value = "select item.imkey from item where itmname=?1",nativeQuery = true)
+    public String getItemFromItemName(String itemName);
 
 
 
