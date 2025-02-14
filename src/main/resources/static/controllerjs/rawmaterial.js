@@ -27,6 +27,7 @@ const refreshRawMaterialForm = ()=>{
     txtRmRate.value="";
     txtRmReOrderLevel.value="";
     SelectRmStatus.value="";
+    selectRmCt.value="";
 
 
     selectRmCt.style.border="2px solid #ced4da";
@@ -40,7 +41,8 @@ const refreshRawMaterialForm = ()=>{
 
 
     rawMaterialCategories = ajaxGetRequest("/rawmaterialcategory/findall");
-    fillDataIntoSelect(selectRmCt,'select Raw Material Category',rawMaterialCategories,'rmctname');
+    // fillDataIntoSelect(selectRmCt,'select Raw Material Category',rawMaterialCategories,'rmctname');
+    fillDataIntoDataList(listRawMaterialCategory,rawMaterialCategories,'rmctname')
 
     rawMaterialForms = ajaxGetRequest("/rawmaterialform/findall");
     fillDataIntoSelect(selectRmForm,'Select Raw Material Form',rawMaterialForms,'name');
@@ -115,21 +117,6 @@ const checkError = ()=>{
         errors=errors+"Raw Material Form Cannot Be Empty \n"
     }
 
-    // if (rawmaterial.rmpacking == null){
-    //     errors=errors+"Raw Material Packing Cannot Be Empty \n"
-    // }
-
-    // if (rawmaterial.rmqty == null){
-    //     errors=errors+"Raw Material QTY Cannot Be Empty \n"
-    // }
-
-    // if (rawmaterial.rmrate == null){
-    //     errors=errors+"Raw Material Rate Cannot Be Empty \n"
-    // }
-
-    // if (rawmaterial.rmreorderlevel == null){
-    //     errors=errors+"Raw Material Reorder Level Cannot Be Empty \n"
-    // }
 
     if (rawmaterial.rmstatus == null){
         errors=errors+"Raw Material Status Cannot Be Empty \n"
@@ -151,11 +138,6 @@ const submitRawMaterial = ()=>{
         Raw Material Form Is ${rawmaterial.rawmaterialform_id.name}
         Raw Material Status Is ${rawmaterial.rmstatus}
         `);
-        //me tika uda message ekata one nathi nisa comment kara
-        // Raw Material Packing is ${rawmaterial.rmpacking}
-        // Raw Material Quantity is ${rawmaterial.rmqty}
-        // Raw Material Rate is ${rawmaterial.rmrate}
-        // Raw Material Re Order Level Is ${rawmaterial.rmreorderlevel}
 
         if (userConfirm){
             let postServerResponse = ajaxPostRequest("/rawmaterial",rawmaterial);
@@ -178,17 +160,15 @@ const refillRawMaterial = (ob,rowIndex)=>{
     rawmaterial = JSON.parse(JSON.stringify(ob));
     oldrawmaterial = JSON.parse(JSON.stringify(ob));
 
-    textRmName.value=ob.rmname
-    txtRmPacking.value=ob.rmpacking
-    txtRmQty.value=ob.rmqty
-    txtRmRate.value=ob.rmrate
-    txtRmReOrderLevel.value=ob.rmreorderlevel
-    SelectRmStatus.value=ob.rmstatus
+    textRmName.value=rawmaterial.rmname
+    txtRmPacking.value=rawmaterial.rmpacking
+    txtRmQty.value=rawmaterial.rmqty
+    txtRmRate.value=rawmaterial.rmrate
+    txtRmReOrderLevel.value=rawmaterial.rmreorderlevel
+    SelectRmStatus.value=rawmaterial.rmstatus
+    selectRmCt.value=rawmaterial.rawmaterialcategory_id.rmctname
 
-
-    fillDataIntoSelect(selectRmCt,'select Raw Material Category',rawMaterialCategories,'rmctname',ob.rawmaterialcategory_id.rmctname);
-
-    fillDataIntoSelect(selectRmForm,'Select Raw Material Form',rawMaterialForms,'name',ob.rawmaterialform_id.name);
+    fillDataIntoSelect(selectRmForm,'Select Raw Material Form',rawMaterialForms,'name',rawmaterial.rawmaterialform_id.name);
 
 
 
@@ -269,12 +249,6 @@ const deleteRawMaterial = (ob,rowIndex)=>{
     Raw Material Form Is ${ob.rawmaterialform_id.name}
     Raw Material Status is ${ob.rmstatus}
     `);
-        //me tika uda message ekata one na ee nisa comment kara
-        // Raw Material Packing IS ${ob.rmpacking}
-        // Raw Material Quantity Is ${ob.rmqty}
-        // Raw Material Rate Is ${ob.rmrate}
-        // Raw Material Reorder Level ${ob.rmreorderlevel}
-
         if (userConfirm){
             const deleteServerResponse = ajaxDeleteRequest("/rawmaterial",ob);
             if (deleteServerResponse=="ok"){

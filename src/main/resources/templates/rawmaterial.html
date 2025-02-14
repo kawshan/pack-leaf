@@ -64,16 +64,26 @@
 <!--    first row start-->
     <div class="row">
 
-        <div class="col-md-3"></div>
         <div class="col-md-3">
             <label for="selectRmCt" class="form-label fw-bold">Raw Material Category <i class="text-danger">*</i> </label>
-            <select id="selectRmCt" class="form-select text-center" onchange="selectDBValidator(this,'','rawmaterial','rawmaterialcategory_id')"></select>
+            <input type="text" id="selectRmCt" list="listRawMaterialCategory" class="form-control text-start" placeholder="Type & Search RawMaterial Category" onkeyup="dataListValidator2(this,'rawMaterialCategories','rawmaterial','rawmaterialcategory_id','rmctname')">
+            <datalist id="listRawMaterialCategory"></datalist>
         </div>
+
         <div class="col-md-3">
             <label for="textRmName" class="form-label fw-bold">Raw Material Name <i class="text-danger">*</i> </label>
             <input type="text" id="textRmName" class="form-control text-start" placeholder="Enter Raw Material Name" onkeyup="textValidator(this,'','rawmaterial','rmname')">
         </div>
-        <div class="col-md-3"></div>
+
+        <div class="col-md-3">
+            <label for="selectRmForm" class="form-label fw-bold">Raw Material Form <i class="text-danger">*</i> </label>
+            <select id="selectRmForm" class="form-select text-start" onchange="selectDBValidator(this,'','rawmaterial','rawmaterialform_id')"></select>
+        </div>
+
+        <div class="col-md-3">
+            <label for="txtRmPacking" class="form-label fw-bold ">Raw Material Packing </label>
+            <input type="text" id="txtRmPacking" class="form-control text-start" placeholder="Enter Raw Material Packing" onkeyup="textValidator(this,'','rawmaterial','rmpacking')">
+        </div>
 
     </div>
 <!--    first row end-->
@@ -81,47 +91,17 @@
 
     <!--    second row start-->
     <div class="row mt-5">
-        <div class="col-md-3"></div>
-        <div class="col-md-3">
-            <label for="selectRmForm" class="form-label fw-bold">Raw Material Form <i class="text-danger">*</i> </label>
-            <select id="selectRmForm" class="form-select text-start" onchange="selectDBValidator(this,'','rawmaterial','rawmaterialform_id')">
-
-            </select>
-        </div>
-        <div class="col-md-3">
-            <label for="txtRmPacking" class="form-label fw-bold ">Raw Material Packing </label>
-            <input type="text" id="txtRmPacking" class="form-control text-start" placeholder="Enter Raw Material Packing" onkeyup="textValidator(this,'','rawmaterial','rmpacking')">
-        </div>
-        <div class="col-md-3"></div>
-    </div>
-    <!--    second row end-->
-
-
-    <!--third row start-->
-    <div class="row mt-5">
-        <div class="col-md-3"></div>
         <div class="col-md-3">
             <label for="txtRmQty" class="form-label fw-bold ">Raw Material QTY  </label>
             <input type="text" id="txtRmQty" class="form-control text-start" placeholder="Enter Raw Material QTY" onkeyup="textValidator(this,'','rawmaterial','rmqty')">
-
         </div>
         <div class="col-md-3">
             <label for="txtRmRate" class="form-label fw-bold ">Raw Material Rate </label>
             <input type="text" id="txtRmRate" class="form-control text-start" placeholder="Enter Raw Material Rate" onkeyup="textValidator(this,'','rawmaterial','rmrate')">
-
         </div>
-        <div class="col-md-3"></div>
-    </div>
-    <!--third row start-->
-
-
-    <!--forth row start    -->
-    <div class="row mt-5">
-        <div class="col-md-3"></div>
         <div class="col-md-3">
             <label for="txtRmReOrderLevel" class="form-label fw-bold ">Raw Material Re Order Level </label>
             <input type="text" id="txtRmReOrderLevel" class="form-control text-start" placeholder="Enter Raw Material Re order level" onkeyup="textValidator(this,'','rawmaterial','rmreorderlevel')">
-
         </div>
         <div class="col-md-3">
             <label for="SelectRmStatus" class="form-label fw-bold ">Raw Material Status <i class="text-danger">*</i> </label>
@@ -130,12 +110,13 @@
                 <option value="true">Active</option>
                 <option value="false">Inactive</option>
             </select>
-
-
         </div>
-        <div class="col-md-3"></div>
     </div>
-    <!--forth row end    -->
+    <!--    second row end-->
+
+
+
+
 
 <!--    button raw start-->
     <div class="row mt-5">
