@@ -36,6 +36,7 @@ const refreshItemForm = () =>{
 
 
 
+    selectItemCategory.value="";
     txtItemPrice.value="";
     txtItemCode.value="";
     txtItemName.value="";
@@ -48,10 +49,8 @@ const refreshItemForm = () =>{
     textCustomerItemName.value="";
 
 
-    // selectItemCategory
-    // fill data into item category
-    itemCategories=ajaxGetRequest("/item-category/findall")
-    fillDataIntoSelect(selectItemCategory,'Select Item Category',itemCategories,'ctcode');
+    itemCategories=ajaxGetRequest("/item-category/findall");
+    fillDataIntoDataList(dataListItemCategory,itemCategories,'ctcode')
 
     // selectLaminate
     // fill data into item laminate
@@ -128,11 +127,6 @@ const checkErrors= ()=>{
         errors=errors+"category cannot Be Empty \n"
     }
 
-    // if (item.price == null){
-    //     errors=errors+"Price Cannot Be Empty \n"
-    // }
-
-
     if (item.code == null){
         errors=errors+"Code Cannot Be Empty \n"
     }
@@ -141,26 +135,10 @@ const checkErrors= ()=>{
         errors=errors+"Name Cannot Be Empty \n"
     }
 
-    // if (item.description == null){
-    //     errors=errors+"Description Cannot Be Empty \n"
-    // }
-
     //laminate
     if (item.laminate_id == null){
         errors=errors+"Laminate Cannot Be Empty \n"
     }
-
-    // if (item.foil == null){
-    //     errors=errors+"Foil Cannot Be Empty \n"
-    // }
-
-    // if (item.nocolours == null){
-    //     errors=errors+"Colours Cannot Be Empty \n"
-    // }
-
-    // if (item.plate == null){
-    //     errors=errors+"Plate Cannot Be Empty \n"
-    // }
 
     if (item.spotuv == null){
         errors=errors+"Spot UV Cannot Be Empty \n"
@@ -213,21 +191,22 @@ const refillItem = (ob,rowIndex)=>{
     item=JSON.parse(JSON.stringify(ob));
     oldItem=JSON.parse(JSON.stringify(ob));
 
-    txtItemPrice.value=ob.price;
-    txtItemCode.value=ob.code;
-    txtItemName.value=ob.itmname;
-    txtItemDescription.value=ob.description;
+    txtItemPrice.value=item.price;
+    txtItemCode.value=item.code;
+    txtItemName.value=item.itmname;
+    txtItemDescription.value=item.description;
 
-    selectItemFoil.value=ob.foil;
-    txtItemColours.value=ob.nocolours;
-    txtPlateNumber.value=ob.plate;
-    selectItemSpotUV.value=ob.spotuv;
-    selectItemStatus.value=ob.status;
-    textCustomerItemName.value=ob.customer_item_name;
+    selectItemFoil.value=item.foil;
+    txtItemColours.value=item.nocolours;
+    txtPlateNumber.value=item.plate;
+    selectItemSpotUV.value=item.spotuv;
+    selectItemStatus.value=item.status;
+    textCustomerItemName.value=item.customer_item_name;
 
-    // fill data into dynamic select boxes
-    fillDataIntoSelect(selectItemCategory,'Select Item Category',itemCategories,'ctcode',ob.category_id.ctcode);
-    fillDataIntoSelect(selectLaminate,'Select Item Category',laminates,'name',ob.laminate_id.name)
+    // fill data into data list
+    selectItemCategory.value=item.category_id.ctcode;
+
+    fillDataIntoSelect(selectLaminate,'Select Item Category',laminates,'name',item.laminate_id.name)
 
 }
 

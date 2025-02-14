@@ -81,9 +81,9 @@
             <div class="col-md-3"></div>
             <div class="col-md-3">
                 <label for="selectItemCategory" class="form-label fw-bold"> Item Category  <i class="text-danger">*</i>  </label>
-                <select id="selectItemCategory" class="form-select text-start" onchange="selectDBValidator(this,'','item','category_id')">
+                <input list="dataListItemCategory" type="text" id="selectItemCategory" class="form-control text-center" placeholder="Type & Search Item Category" onkeyup="dataListValidator2(this,'itemCategories','item','category_id','ctcode')">
+                <datalist id="dataListItemCategory"></datalist>
 
-                </select>
             </div>
             <div class="col-md-3">
                 <label for="txtItemPrice" class="form-label fw-bold">Item Price </label>
