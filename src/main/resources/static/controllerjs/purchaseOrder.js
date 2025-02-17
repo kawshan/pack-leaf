@@ -141,7 +141,7 @@ const submitPurchaseOrderHeader = ()=>{
                     btnAddPurchaseOrderDetail.style.cursor="default";
 
                 }else {
-                    alert("save unsuccessful \n"+postServerResponse)
+                    alert("save unsuccessful \n"+postServerResponse.responseText)
                 }
             }
         }else {
@@ -175,7 +175,8 @@ const deletePurchaseOrderHeader = (ob,rowIndex)=>{
 
 const refillPurchaseOrderHeader = (ob,rowIndex)=>{
 
-
+    purchaseOrderHeader=JSON.parse(JSON.stringify(ob));
+    oldpurchaseOrderHeader = JSON.parse(JSON.stringify(ob));
 
 
     //refill eke di key eke display vena ekata data set karanna one

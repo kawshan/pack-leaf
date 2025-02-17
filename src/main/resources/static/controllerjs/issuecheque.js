@@ -328,6 +328,10 @@ const printOneIssueCheque = async (ob)=>{
 
     words+=" only"
 
+    const wordsArray = words.split('rupees');
+    console.log(wordsArray[0])
+    console.log(wordsArray[1])
+
     console.log(words);
 
     const newWindow = window.open();
@@ -360,20 +364,20 @@ const printOneIssueCheque = async (ob)=>{
                 position: absolute;
                 font-size: 14px;
             }
-            .date { top: 0.6cm; right: 20px; }
-            .payee { top: 2cm; left: 80px; }
+            .date { top: 1cm; right: 1px; }
+            .payee { top: 2.5cm; left: 110px; }
             .amount { top: 4cm; right: 40px;}
-            .amount-text { top: 4cm; left: 80px;}
+            .amount-text { top: 4cm; left: 110px;}
         }
     </style>
 </head>
 <body>
 
     <div class="cheque-container">
-        <div class="field date" style="font-family: Verdana; font-size: 12px; letter-spacing: 15px">${formattedDate}</div>
+        <div class="field date" style="font-family: Verdana; font-size: 12px; letter-spacing: 20px">${formattedDate}</div>
         <div class="field payee" style="font-family: Verdana; font-size: 12px">${ob.description==null?" ":ob.description}</div>
         <div class="field amount" style="font-family: Verdana; font-size: 12px">**${ob.cheque_amount.toLocaleString('en-US',{minimumFractionDigits: 2,maximumFractionDigits: 2})}**</div>
-        <div class="field amount-text" style="font-size: 12px; font-family: Verdana">${words}</div>
+        <div class="field amount-text" style="font-size: 12px; font-family: Verdana"><p>${wordsArray[0]}</p><p>${wordsArray[1]}</p></div>
         
     </div>
 

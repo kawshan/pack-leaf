@@ -33,8 +33,15 @@ public class PurchaseOrderHeaderController {
 
 
     @PostMapping
-    public ResponseEntity<PurchaseOrderHeader> savePurchaseOrderHeader(@RequestBody PurchaseOrderHeader purchaseOrderHeader){
+    public ResponseEntity<Object> savePurchaseOrderHeader(@RequestBody PurchaseOrderHeader purchaseOrderHeader){
         try {
+
+            PurchaseOrderHeader existingPurchaseOrderHeader = purchaseOrderHeaderDao.getPurchaseOrderHeaderByPoNumber(purchaseOrderHeader.getPonumber());
+            if(existingPurchaseOrderHeader != null){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("po number already exists");
+            }
+
+
             String purchaseOrderHeaderMax = purchaseOrderHeaderDao.getMaxPurchaseOrderHeaderKey();
             if (purchaseOrderHeaderMax == null || purchaseOrderHeaderMax.equals("")){
                 purchaseOrderHeader.setPokey("PO0001");

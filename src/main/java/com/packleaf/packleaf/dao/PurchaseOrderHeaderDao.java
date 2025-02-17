@@ -25,5 +25,8 @@ public interface PurchaseOrderHeaderDao extends JpaRepository<PurchaseOrderHeade
     @Query(value = "delete from podetail where purchaseorderkey=?1",nativeQuery = true)
     public void deletePoDetailsFromPoKey(String pokey);
 
+    @Query(value = "select poh from PurchaseOrderHeader poh where poh.ponumber=?1")
+    public PurchaseOrderHeader getPurchaseOrderHeaderByPoNumber(String ponumber);
+
 
 }
