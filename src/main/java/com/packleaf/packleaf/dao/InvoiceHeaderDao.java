@@ -1,7 +1,9 @@
 package com.packleaf.packleaf.dao;
 
 import com.packleaf.packleaf.entity.InvoiceHeader;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -31,6 +33,13 @@ public interface InvoiceHeaderDao extends JpaRepository<InvoiceHeader,Integer> {
 
     @Query(value = "select ih from InvoiceHeader ih where ih.pokey=?1")
     public InvoiceHeader getInvoiceHeaderByPokey(String pokey);
+
+    @Transactional
+    @Modifying
+    @Query(value = "delete from invoicedetail where invoicekey=?1",nativeQuery = true)
+    public void deleteInvoiceDetailsByInvoiceKey(String invoicekey);
+
+
 
 
 }

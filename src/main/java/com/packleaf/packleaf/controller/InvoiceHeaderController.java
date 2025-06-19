@@ -53,6 +53,7 @@ public class InvoiceHeaderController {
     public String deleteInvoiceHeader(@RequestBody InvoiceHeader invoiceHeader){
         try {
             invoiceHeaderDao.delete(invoiceHeader);
+            invoiceHeaderDao.deleteInvoiceDetailsByInvoiceKey(invoiceHeader.getInkey());
             return "ok";
         }catch (Exception e){
             return "delete not complete"+e.getMessage();

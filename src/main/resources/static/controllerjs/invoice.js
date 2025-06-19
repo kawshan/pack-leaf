@@ -1,13 +1,13 @@
 window.addEventListener('load',function () {
 
     invoiceDetails = ajaxGetRequest("/invoice-detail/findall");
-    invoiceHeaders = ajaxGetRequest("/invoice-header/findall");
+
 
 
     refreshInvoiceDetailsForm();
 
 
-    refreshInvoiceDetailsTable();
+    // refreshInvoiceDetailsTable();
 
 
     refreshInvoiceHeaderForm();
@@ -72,7 +72,10 @@ const refreshInvoiceDetailsForm = ()=>{
 
 const refreshInvoiceDetailsTable = ()=>{
 
-   let invoiceDetailsFromMaxInvoiceKey =ajaxGetRequest("/invoice-detail/getinvoicedetailsbymaxinvoicekey") //invoice detail dao eke define karala athi
+   // let invoiceDetailsFromMaxInvoiceKey =ajaxGetRequest("/invoice-detail/getinvoicedetailsbymaxinvoicekey") //invoice detail dao eke define karala athi
+
+
+    let getInvoiceDetailsFromHeaderKey = ajaxGetRequest(`/invoice-detail/getallinvoicedetailbyinvoicekey/${textInvoiceHeaderKey.value}`)
 
     displayProperty=[
         {dataType: 'function', propertyName: getItemName},
@@ -81,7 +84,7 @@ const refreshInvoiceDetailsTable = ()=>{
         {dataType: 'text', propertyName: 'invvalue'},
     ];
 
-    fillDataIntoTable(tableInvoiceDetails,invoiceDetailsFromMaxInvoiceKey,displayProperty,true);
+    fillDataIntoTable(tableInvoiceDetails,getInvoiceDetailsFromHeaderKey,displayProperty,true);
     // $("#tableInvoiceDetails").dataTable();
 
 }
@@ -203,9 +206,9 @@ const refillInvoiceDetails = (ob,rowindex)=>{
     invoiceDetail = JSON.parse(JSON.stringify(ob));
     oldInvoiceDetail = JSON.parse(JSON.stringify(ob));
 
-    txtQty.value=ob.invqty
-    txtRate.value=ob.invrate
-    txtValue.value=ob.invvalue
+    txtQty.value=invoiceDetail.invqty
+    txtRate.value=invoiceDetail.invrate
+    txtValue.value=invoiceDetail.invvalue
 
     fillDataIntoSelect(selectItemName,'select an option',itemNames,'itmname',ob.item_id.itmname)
 
@@ -383,7 +386,7 @@ const refreshInvoiceHeaderForm = ()=>{
 
 const refreshInvoiceHeaderTable = ()=>{
 
-
+    const invoiceHeaders = ajaxGetRequest("/invoice-header/findall");
 
     displayProperty=[
         {dataType: 'function', propertyName: getCustomerName},
