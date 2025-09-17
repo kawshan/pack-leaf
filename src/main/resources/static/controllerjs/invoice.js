@@ -465,9 +465,9 @@ const checkErrorsInvoiceHeader = ()=>{
 const submitInvoiceHeader = async ()=>{
 
 
-        const getPoKeyForHeader = await getPokeyServerResponse;
-        invoiceHeader.pokey = getPoKeyForHeader;
-        console.log(`invoice header po key is ${invoiceHeader.pokey}`);
+        // const getPoKeyForHeader = await getPokeyServerResponse;
+        // invoiceHeader.pokey = getPoKeyForHeader;
+        // console.log(`invoice header po key is ${invoiceHeader.pokey}`);
 
 
 

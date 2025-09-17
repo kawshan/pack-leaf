@@ -641,44 +641,64 @@ const saveImKey = (fieldID)=>{
 
 
 
-let lastPurchaseOrderKey = null; // Variable to track the last displayed purchase order key
-
-// Function to get the purchase order key and display it only when it changes
-const getPurchaseOrderKeyForNewRequirement = (ob) => {
-    const currentPurchaseOrderKey = ob.purchaseorderkey;
-
-    // If the current purchase order key is the same as the last one, return an empty string
-    if (currentPurchaseOrderKey === lastPurchaseOrderKey) {
-        return ''; // Do not display the purchase order key again
-    }
-
-    // Otherwise, update lastPurchaseOrderKey and return the current one
-    lastPurchaseOrderKey = currentPurchaseOrderKey;
-    return currentPurchaseOrderKey;
-};
-
-
-
-
 
 //modal eka athule pending purchase order details tika table ekata load karana function eka || meka call karala thiyenawa window . add event listener eke refresh venakotama call venna one nisa
 const refreshPendingPurchaseOrderDetailsTable = ()=>{
 
-    const getPendingPurchaseOrderDetailsServerResponse = ajaxGetRequest("/purchaseorderdetails/getpendingpurchaseorderdetails");
+    const getPendingPurchaseOrderDetailsServerResponse = ajaxGetRequest("/pendingPoReport");
 
     const displayProperty=[
-        {dataType: 'function', propertyName: getItemName},
-        {dataType: 'function', propertyName: getPurchaseOrderKeyForNewRequirement},
-        {dataType: 'function', propertyName: getPoQty},
-        {dataType: 'function', propertyName: getPoRate},
-        {dataType: 'function', propertyName: getPoValue},
+        {dataType: 'function', propertyName: getItemNameForPendingPO},
+        {dataType: 'function', propertyName: getPoKeyForPendingOrder},
+        {dataType: 'function', propertyName: getPoQtyForPendingOrder},
+        {dataType: 'function', propertyName: getPoRateForPendingOrder},
+        {dataType: 'function', propertyName: getPoValueForPendingOrder},
     ];
 
 
     fillDataIntoTableForPendingPurchaseOrderPrint(tablePendingPurchaseOrderPrint,getPendingPurchaseOrderDetailsServerResponse,displayProperty,false);
 
+}
+// new mwthods to get pending po values
+
+
+
+const getItemNameForPendingPO = (ob)=>{
+    return `<p>${ob.itmname}</p>`
+}
+
+
+let lastPurchaseOrderKey = null; // Variable to track the last displayed purchase order key
+
+
+const getPoKeyForPendingOrder = (ob)=>{
+    const currentPurchaseOrderKey = ob.pokey;
+
+    if (currentPurchaseOrderKey === lastPurchaseOrderKey){
+        return " ";
+    }
+
+    lastPurchaseOrderKey=currentPurchaseOrderKey;
+    return `<p>${currentPurchaseOrderKey}</p>`
+}
+const getPoQtyForPendingOrder = (ob)=>{
+    return `<p>${ob.remainingQuantity}</p>`
+}
+const getPoRateForPendingOrder = (ob)=>{
+    return `<p class="text-end">${ob.porate}</p>`
+}
+const getPoValueForPendingOrder = (ob)=>{
+    let remainingQuantity = ob.remainingQuantity;
+    let rate = ob.porate;
+    let result = remainingQuantity*rate;
+    return `<p class="text-end">${Number(result).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`
 
 }
+
+
+
+
+
 
 //pending purchase order model eka yata thiyena print button eka click karahama run venna one function eka
 const printPendingOrderMC = ()=>{
