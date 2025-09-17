@@ -9,16 +9,27 @@ import java.util.List;
 public interface PendingPoReportDao extends JpaRepository<Customer,Integer> {
 
 
-    @Query(value = "select inh.inkey, inh.invno, inh.invdate, poh.pokey, pod.item_id, i.itmname,\n" +
-            "coalesce(sum(ind.invqty),0) as invoiceQuantity, pod.poqty as poQuantity,\n" +
-            "pod.poqty - coalesce(sum(ind.invqty),0) as remainingQuantity, pod.porate\n" +
-            "from poheader as poh\n" +
-            "join podetail as pod on poh.pokey = pod.purchaseorderkey\n" +
-            "join item as i on pod.item_id = i.id\n" +
-            "left JOIN invoiceheader inh on inh.ponumber = poh.ponumber\n" +
-            "left join invoicedetail ind on ind.invoicekey = inh.inkey and ind.item_id = pod.item_id\n" +
-            "group by inh.inkey, inh.invno, inh.invdate, poh.pokey, pod.item_id, pod.poqty, i.itmname, pod.porate\n" +
-            "having (pod.poqty - coalesce(sum(ind.invqty),0)) > 0;",nativeQuery = true)
+    @Query(value = "select\n" +
+            "    poh.pokey,\n" +
+            "    pod.item_id,\n" +
+            "    i.itmname,\n" +
+            "    pod.poqty as poQuantity,\n" +
+            "    coalesce(inv.invoiceQuantity, 0) as invoiceQuantity,\n" +
+            "    pod.poqty - coalesce(inv.invoiceQuantity, 0) as remainingQuantity,\n" +
+            "    pod.porate\n" +
+            "from podetail pod\n" +
+            "join poheader poh on poh.pokey = pod.purchaseorderkey\n" +
+            "join item i on pod.item_id = i.id\n" +
+            "left join (\n" +
+            "    select\n" +
+            "        ind.item_id,\n" +
+            "        inh.ponumber,\n" +
+            "        sum(ind.invqty) as invoiceQuantity\n" +
+            "    from invoicedetail ind\n" +
+            "    join invoiceheader inh on ind.invoicekey = inh.inkey\n" +
+            "    group by ind.item_id, inh.ponumber\n" +
+            ") inv on inv.item_id = pod.item_id and inv.ponumber = poh.ponumber\n" +
+            "where pod.poqty - coalesce(inv.invoiceQuantity, 0) > 0;",nativeQuery = true)
     public List<Object[]> getPendingPoReport();
 
 

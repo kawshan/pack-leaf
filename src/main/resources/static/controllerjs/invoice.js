@@ -171,7 +171,6 @@ const buttonInvoiceDetailsAdd = ()=>{
         +"\n invoice qty are "+invoiceDetail.invqty
         +"\n invoice rate is "+invoiceDetail.invrate
         +"\n invoice value is "+invoiceDetail.invvalue
-        +"\n purchase order id is "+invoiceDetail.podetail_id.id
 
     );
         if (userConfirm){
@@ -449,13 +448,13 @@ const checkErrorsInvoiceHeader = ()=>{
         errors=errors+"Invoice Date Cannot Be Empty \n"
     }
 
-    if (invoiceHeader.ponumber == null){
-        errors=errors+"Purchase order Number Cannot Be Empty \n"
-    }
+    // if (invoiceHeader.ponumber == null){
+    //     errors=errors+"Purchase order Number Cannot Be Empty \n"
+    // }
 
-    if (invoiceHeader.dispatchkey == null){
-        errors=errors+"Dispatch Number Cannot Be Empty \n"
-    }
+    // if (invoiceHeader.dispatchkey == null){
+    //     errors=errors+"Dispatch Number Cannot Be Empty \n"
+    // }
 
 
     return errors;
@@ -522,13 +521,13 @@ else {
                 paragraphWaringInInvoiceDetails.innerHTML="";
 
             }else {
-                alert("error happened");
+                alert(`error happened ${postServerResponse.status}`);
                 refreshInvoiceHeaderForm();
                 refreshInvoiceHeaderTable();
             }
         }
     }else {
-        alert("you have some errors"+errors)
+        alert("you have some errors \n"+errors)
     }
 }
 
@@ -692,7 +691,7 @@ const printInvoiceHeader = async (ob,rowIndex)=>{
 
 const validatePoNumberExisting = (fieldId)=>{
     const poNumber = fieldId.value;
-    if (new RegExp('^[0-9]{4,10}$').test(poNumber)){
+    if (new RegExp('').test(poNumber)){
         console.log(`${poNumber} is validated`)
         //check validation on backend
         const checkPoNumberGetServerResponse = ajaxGetRequest("/invoice-header/getinvoiceheaderbyponumber/"+poNumber);
@@ -716,7 +715,7 @@ const validatePoNumberExisting = (fieldId)=>{
 const getPokeyFromPoNumber = async (fieldId)=>{
     const poNumberValue = fieldId.value
 
-    if (new RegExp('^[0-9]{4,10}$').test(poNumberValue)){
+    if (new RegExp('^[0-9]{2,10}$').test(poNumberValue)){
         console.log("validate to check pokey from po number");
 
         //const eka ayin kara eka global variable ekak karanna.
@@ -859,23 +858,28 @@ const getRemainingQuantityFromPoId = (poId)=>{
 
 
 const validateItemRemaining = (fieldID)=>{
-    //let's give a message   or bind value to the object and apply green and red colours or add hint using is-invalid and some text
 
-    let getRemainingValueFromDisplayText = remainingQuantityText.innerHTML;
-    let getIntegerPart = getRemainingValueFromDisplayText.split(' ');
-    console.log(`${getIntegerPart[0]} is split value from remaining paragraph text`);
+    if (textPoNumber.value==""){
 
-    let result  =  Number(getIntegerPart[0]);
-
-    if (fieldID.value > result){
-        fieldID.style.border="2px solid red";
-        invoiceDetail.invqty = null;
-        displayQuantityValidation.innerHTML=`quantity cannot be greater than remaining quantity`;
-        displayQuantityValidation.style.color="red";
     }else {
-        displayQuantityValidation.innerHTML=`quantity is validated`;
-        displayQuantityValidation.style.color="green";
-        invoiceDetail.invqty = fieldID.value;
+        //let's give a message   or bind value to the object and apply green and red colours or add hint using is-invalid and some text
+
+        let getRemainingValueFromDisplayText = remainingQuantityText.innerHTML;
+        let getIntegerPart = getRemainingValueFromDisplayText.split(' ');
+        console.log(`${getIntegerPart[0]} is split value from remaining paragraph text`);
+
+        let result  =  Number(getIntegerPart[0]);
+
+        if (fieldID.value > result){
+            fieldID.style.border="2px solid red";
+            invoiceDetail.invqty = null;
+            displayQuantityValidation.innerHTML=`quantity cannot be greater than remaining quantity`;
+            displayQuantityValidation.style.color="red";
+        }else {
+            displayQuantityValidation.innerHTML=`quantity is validated`;
+            displayQuantityValidation.style.color="green";
+            invoiceDetail.invqty = fieldID.value;
+        }
     }
 
 
@@ -929,7 +933,7 @@ const searchUsingInvoiceNumber = (fieldID)=>{
 //displaying data into invoice table section    //dakunu paththe thiyena table ekata data display keranawa
     printInvNumber.innerHTML=printInvoiceHeader.invno
     printInvDate.innerHTML=formatDate(printInvoiceHeader.invdate)
-    printPoNumber.innerHTML=printInvoiceHeader.pokey
+    printPoNumber.innerHTML=printInvoiceHeader.ponumber
     printDispatchNo.innerHTML=printInvoiceHeader.dispatchkey
 
     labelShowCompanyName.innerHTML="";

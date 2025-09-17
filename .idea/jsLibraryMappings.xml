@@ -3,7 +3,6 @@
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{number-to-words}" />
     <file url="file://$PROJECT_DIR$/src/main" libraries="{font-awesome, jquery.dataTables, number-to-words}" />
-    <file url="file://$PROJECT_DIR$/src/test" libraries="{number-to-words}" />
     <file url="PROJECT" libraries="{bootstrap, dataTables}" />
   </component>
 </project>

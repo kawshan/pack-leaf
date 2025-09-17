@@ -651,6 +651,8 @@ const refreshPendingPurchaseOrderDetailsTable = ()=>{
         {dataType: 'function', propertyName: getItemNameForPendingPO},
         {dataType: 'function', propertyName: getPoKeyForPendingOrder},
         {dataType: 'function', propertyName: getPoQtyForPendingOrder},
+        {dataType: 'function', propertyName: getInvoicedQuantityForPendingOrder},
+        {dataType: 'function', propertyName: getRemainingQuantityForPendingOrder},
         {dataType: 'function', propertyName: getPoRateForPendingOrder},
         {dataType: 'function', propertyName: getPoValueForPendingOrder},
     ];
@@ -682,7 +684,7 @@ const getPoKeyForPendingOrder = (ob)=>{
     return `<p>${currentPurchaseOrderKey}</p>`
 }
 const getPoQtyForPendingOrder = (ob)=>{
-    return `<p>${ob.remainingQuantity}</p>`
+    return `<p>${ob.poQuantity}</p>`
 }
 const getPoRateForPendingOrder = (ob)=>{
     return `<p class="text-end">${ob.porate}</p>`
@@ -692,9 +694,15 @@ const getPoValueForPendingOrder = (ob)=>{
     let rate = ob.porate;
     let result = remainingQuantity*rate;
     return `<p class="text-end">${Number(result).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`
-
 }
 
+
+const getInvoicedQuantityForPendingOrder = (ob)=>{
+    return `<p class="text-end">${ob.invoiceQuantity}</p>`
+}
+const getRemainingQuantityForPendingOrder = (ob)=>{
+    return `<p class="text-end">${ob.remainingQuantity}</p>`
+}
 
 
 

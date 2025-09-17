@@ -14,14 +14,11 @@ import java.util.Date;
 
 public class PendingPoDto {
 
-    private String inkey;
-    private String invno;
-    private Date invdate;
     private String pokey;
     private Integer Item_id;
     private String itmname;
-    private Double invoiceQuantity;
     private Double poQuantity;
+    private Double invoiceQuantity;
     private Double remainingQuantity;
     private Double porate;  // new field
 

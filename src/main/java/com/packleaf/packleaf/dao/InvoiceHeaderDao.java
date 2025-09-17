@@ -41,5 +41,10 @@ public interface InvoiceHeaderDao extends JpaRepository<InvoiceHeader,Integer> {
 
 
 
+    @Query(value = "select inh from InvoiceHeader inh where inh.invno = ?1")
+    public InvoiceHeader getInvoiceHeaderByInvno(String invno);
+
+
+
 
 }

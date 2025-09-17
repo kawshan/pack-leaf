@@ -26,6 +26,14 @@ public class InvoiceHeaderController {
     @PostMapping()
     public ResponseEntity<InvoiceHeader> saveInvoiceHeader(@RequestBody InvoiceHeader invoiceHeader){
         try {
+
+            InvoiceHeader checkInvoiceNumberExisting = invoiceHeaderDao.getInvoiceHeaderByInvno(invoiceHeader.getInvno());
+            if(checkInvoiceNumberExisting != null){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            }
+
+
+
             String invoiceHeaderMax = invoiceHeaderDao.getInvoiceHeaderMaxInvoiceKey();
             if (invoiceHeaderMax == null || invoiceHeaderMax.equals("")) {
                 invoiceHeader.setInkey("IN0001");

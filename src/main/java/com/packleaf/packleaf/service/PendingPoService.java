@@ -19,7 +19,6 @@ public class PendingPoService {
     private PendingPoReportDao pendingPoReportDao;
 
 
-
     // Helper method to safely convert any numeric type to Double
     private Double toDouble(Object obj) {
         if (obj == null) return 0.0;
@@ -43,22 +42,18 @@ public class PendingPoService {
     }
 
 
-
-    public List<PendingPoDto> generatePendingPO(){
+    public List<PendingPoDto> generatePendingPO() {
         List<Object[]> results = pendingPoReportDao.getPendingPoReport();
         return results.stream().map(obj ->
                 new PendingPoDto(
                         (String) obj[0],
-                        (String) obj[1],
-                        (Date) obj[2],
-                        (String) obj[3],
-                        (Integer) obj[4],
-                        (String) obj[5],
-                        toDouble(obj[6]),              // invoiceQuantity
-                        toDouble(obj[7]),              // poQuantity
-                        toDouble(obj[8]),               // remainingQuantity
-                        toDouble(obj[9])  // map porate here
+                        (Integer) obj[1],
+                        (String) obj[2],
+                        toDouble(obj[3]),               // invoiceQuantity
+                        toDouble(obj[4]),               // poQuantity
+                        toDouble(obj[5]),               // remainingQuantity
+                        toDouble(obj[6])                // map porate here
                 )
-                ).collect(Collectors.toList());
+        ).collect(Collectors.toList());
     }
 }
