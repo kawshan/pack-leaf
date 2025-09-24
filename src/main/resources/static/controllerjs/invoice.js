@@ -797,8 +797,10 @@ const refreshPoDetailsFromPoNumberInInvoiceHeader = (poNumber)=>{
 const refillPoDetailsIntoInvoiceDetails=(ob,rowOb)=>{
 
     //for testing delete those two lines after done testing........ testing is done✔ can delete
-    buttonAddInvoiceDetail.disabled=false
-    buttonAddInvoiceDetail.style.cursor="default"
+    if(textInvoiceHeaderKey.value!==""){
+        buttonAddInvoiceDetail.disabled=false
+        buttonAddInvoiceDetail.style.cursor="default"
+    }
 
 
     console.log(ob);
