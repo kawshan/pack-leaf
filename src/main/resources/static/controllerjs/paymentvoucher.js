@@ -854,20 +854,42 @@ const refillGrnDetailsIntoPaymentVoucherDetails = (ob)=>{
 
 const refreshPendingGrnTable = ()=>{
 
-    const getPendingGrnList = ajaxGetRequest("/paymentvoucherdetails/getpending-grn");
+    const getPendingGrnList = ajaxGetRequest("/pendingGrn");
 
     const displayProperty = [
-        {dataType:'function',propertyName:getSupplierName},
-        {dataType:'function',propertyName:getCompanyName},
-        {dataType:'function',propertyName:getGrnNumber},
-        {dataType:'text',propertyName:'grndate'},
+        {dataType:'function',propertyName:getsupperlierNameForPendingGrn},
+        {dataType:'function',propertyName:getCompanyNameForPendingGrn},
+        {dataType:'function',propertyName:getGrnNoForPendingGrn},
+        {dataType:'function',propertyName:getTotalGrnValueForPendingGrn},
+        {dataType:'function',propertyName:getTotalPayedPendingGrn},
+        {dataType:'function',propertyName:getRemainingForPendingGrn},
     ];
 
-    fillDataIntoTable(pendingGrnHeaderTable,getPendingGrnList,displayProperty,false)
-
-
+    fillDataIntoTable(pendingGrnHeaderTable,getPendingGrnList,displayProperty,false);
 
 }
+
+const getsupperlierNameForPendingGrn = (ob)=>{
+    return `<p>${ob.supplierName}</p>`
+}
+const getCompanyNameForPendingGrn = (ob)=>{
+    return `<p>${ob.companyName}</p>`
+}
+const getGrnNoForPendingGrn = (ob)=>{
+    return `<p class="text-end">${ob.grnNo}</p>`
+}
+const getTotalGrnValueForPendingGrn = (ob)=>{
+    return `<p class="text-end">${Number(ob.totalGrnValue).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`
+}
+
+const getTotalPayedPendingGrn = (ob)=>{
+    return `<p class="text-end">${Number(ob.totalPayed).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`
+}
+
+const getRemainingForPendingGrn = (ob)=>{
+    return `<p class="text-end">${Number(ob.remaining).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`
+}
+
 
 const printPendingGrn = async ()=>{
 
