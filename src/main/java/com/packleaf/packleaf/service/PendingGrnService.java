@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,8 @@ public class PendingGrnService {
                         (String) obj[3],
                         (BigDecimal) obj[4],
                         (Double) obj[5],
-                        (Double) obj[6]
+                        (Double) obj[6],
+                        (Date) obj[7]
                         )
         ).collect(Collectors.toList());
     }

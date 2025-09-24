@@ -860,6 +860,7 @@ const refreshPendingGrnTable = ()=>{
         {dataType:'function',propertyName:getsupperlierNameForPendingGrn},
         {dataType:'function',propertyName:getCompanyNameForPendingGrn},
         {dataType:'function',propertyName:getGrnNoForPendingGrn},
+        {dataType:'function',propertyName:getGrnDateForPendingGrn},
         {dataType:'function',propertyName:getTotalGrnValueForPendingGrn},
         {dataType:'function',propertyName:getTotalPayedPendingGrn},
         {dataType:'function',propertyName:getRemainingForPendingGrn},
@@ -878,6 +879,11 @@ const getCompanyNameForPendingGrn = (ob)=>{
 const getGrnNoForPendingGrn = (ob)=>{
     return `<p class="text-end">${ob.grnNo}</p>`
 }
+
+const getGrnDateForPendingGrn = (ob)=>{
+    return `<p>${ob.grnDate}</p>`
+}
+
 const getTotalGrnValueForPendingGrn = (ob)=>{
     return `<p class="text-end">${Number(ob.totalGrnValue).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`
 }

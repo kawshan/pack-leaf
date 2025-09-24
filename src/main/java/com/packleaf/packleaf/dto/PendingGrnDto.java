@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -19,6 +20,7 @@ public class PendingGrnDto {
     private BigDecimal totalGrnValue;
     private Double totalPayed;
     private Double remaining;
+    private Date grnDate;
 
 
 

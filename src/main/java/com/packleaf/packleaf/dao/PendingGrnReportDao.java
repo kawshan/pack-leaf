@@ -12,7 +12,8 @@ public interface PendingGrnReportDao extends JpaRepository<Customer,Integer> {
     @Query(value = "select s.suppliername, c.companyname, gh.grnno, pv.payment_grn_numbers,\n" +
             "sum(coalesce(gd.quantity * gd.rate,0)) as total_grn_value,\n" +
             "coalesce(sum(pv.total_payed_value),0) as final_total_payed,\n" +
-            "(sum(coalesce(gd.quantity * gd.rate,0)) - coalesce(sum(pv.total_payed_value),0)) as remaining\n" +
+            "(sum(coalesce(gd.quantity * gd.rate,0)) - coalesce(sum(pv.total_payed_value),0)) as remaining,\n" +
+            "gh.grndate\n" +
             "from grndetails gd\n" +
             "join grnheader gh on gh.grnheaderkey = gd.grnheader\n" +
             "join rawmaterial rm on gd.rawmaterial_id = rm.id\n" +
@@ -25,7 +26,7 @@ public interface PendingGrnReportDao extends JpaRepository<Customer,Integer> {
             "group by ph.payment_grn_numbers\n" +
             ")\n" +
             "pv on gh.grnno = pv.payment_grn_numbers\n" +
-            "group by s.suppliername, c.companyname, gh.grnno;",nativeQuery = true)
+            "group by s.suppliername, c.companyname, gh.grnno,gh.grndate;",nativeQuery = true)
     public List<Object[]> getPendingPoReport();
 
 
