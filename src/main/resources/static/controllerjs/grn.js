@@ -28,6 +28,7 @@ const grnHeaderFormRefresh = () => {
     textGrnDate.value = "";
     textOurPoNumber.value = "";
     displayGrnKey.value = "";
+    textSupplierInvoiceNumber.value = "";
 
     suppliers = ajaxGetRequest("/supplier/findall")
     fillDataIntoSelect(selectSupplier, 'Select Supplier', suppliers, 'suppliername')
@@ -42,6 +43,7 @@ const grnHeaderFormRefresh = () => {
     textGrnNo.style.border = "2px solid #ced4da";
     textGrnDate.style.border = "2px solid #ced4da";
     textOurPoNumber.style.border = "2px solid #ced4da";
+    textSupplierInvoiceNumber.style.border = "2px solid #ced4da";
 
 
     //emptying values when user changed supplier displaying text -> purpose of this when user click reset button we need to make form area as it is
@@ -67,6 +69,7 @@ const grnHeaderColoursDefault = () => {
     textGrnNo.style.border = "2px solid #ced4da";
     textGrnDate.style.border = "2px solid #ced4da";
     textOurPoNumber.style.border = "2px solid #ced4da";
+    textSupplierInvoiceNumber.style.border = "2px solid #ced4da";
 }
 
 
@@ -184,6 +187,7 @@ const submitGrnHeader = async () => {
             Our Po Number Is ${grnHeader.ourponumber}
             GRN Key Is ${grnHeader.grnheaderkey}
             ID IS ${grnHeader.id}
+            Supplier Invoice Number IS ${grnHeader.supplier_invoice_number}
         `);
         if (userConfirm) {
             const putServerResponse = ajaxPutRequest("/grn-header", grnHeader);
@@ -212,6 +216,7 @@ const refillGrnHeader = (ob, rowIndex) => {
 
     textGrnNo.value = ob.grnno
     textGrnDate.value = ob.grndate
+    textSupplierInvoiceNumber.value = ob.supplier_invoice_number
 
 
     //po number eke logic eka -> po number ekak thiyenawanam ekata adala table eka load venna one po number ekak naththam proceed without po click venna one
@@ -333,6 +338,12 @@ const printGrnHeader = async (ob, rowIndex) => {
                     <td style="line-height: 0.5; font-size: 12px;">Our Po No</td>
                     <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.ourponumber == null ? " " : ob.ourponumber}</td>
                 </tr>
+                
+                <tr>
+                    <td style="line-height: 0.5; font-size: 12px;">Sup Inv No</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.supplier_invoice_number}</td>
+                </tr>
+                
             </tbody>
         </table>
     

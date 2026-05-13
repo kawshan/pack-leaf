@@ -27,7 +27,8 @@ public class PendingGrnService {
                         (BigDecimal) obj[4],
                         (Double) obj[5],
                         (Double) obj[6],
-                        (Date) obj[7]
+                        (Date) obj[7],
+                        (String) obj[8]
                         )
         ).collect(Collectors.toList());
     }

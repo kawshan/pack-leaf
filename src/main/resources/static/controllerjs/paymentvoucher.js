@@ -858,6 +858,7 @@ const refreshPendingGrnTable = ()=>{
 
     const displayProperty = [
         {dataType:'function',propertyName:getsupperlierNameForPendingGrn},
+        {dataType:'function',propertyName:getsupperlierInvoiceNumber},
         {dataType:'function',propertyName:getCompanyNameForPendingGrn},
         {dataType:'function',propertyName:getGrnNoForPendingGrn},
         {dataType:'function',propertyName:getGrnDateForPendingGrn},
@@ -873,8 +874,28 @@ const refreshPendingGrnTable = ()=>{
 const getsupperlierNameForPendingGrn = (ob)=>{
     return `<p>${ob.supplierName}</p>`
 }
+
+const getsupperlierInvoiceNumber = (ob)=>{
+    if (ob.supplier_invoice_number==null){
+        return "";
+    }else {
+        return `<p>${ob.supplier_invoice_number}</p>`
+    }
+}
+
+let companyNameRunner = ""
 const getCompanyNameForPendingGrn = (ob)=>{
-    return `<p>${ob.companyName}</p>`
+
+    const current = ob.companyName
+
+    if(companyNameRunner == current){
+        return ""
+    }else {
+        companyNameRunner = ob.companyName
+        return `<p>${ob.companyName}</p>`
+    }
+
+
 }
 const getGrnNoForPendingGrn = (ob)=>{
     return `<p class="text-end">${ob.grnNo}</p>`

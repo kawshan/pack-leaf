@@ -21,6 +21,7 @@ public class PendingGrnDto {
     private Double totalPayed;
     private Double remaining;
     private Date grnDate;
+    private String supplier_invoice_number;
 
 
 

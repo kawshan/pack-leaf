@@ -35,6 +35,9 @@ public class GrnHeader {
     @Column(name = "added_date_time")
     private LocalDateTime added_date_time;
 
+    @Column(name = "supplier_invoice_number")
+    private String supplier_invoice_number;
+
     @ManyToOne
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")
     private Supplier supplier_id;

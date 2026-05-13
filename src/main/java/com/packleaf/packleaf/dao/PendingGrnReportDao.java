@@ -9,24 +9,44 @@ import java.util.List;
 public interface PendingGrnReportDao extends JpaRepository<Customer,Integer> {
 
 
-    @Query(value = "select s.suppliername, c.companyname, gh.grnno, pv.payment_grn_numbers,\n" +
-            "sum(coalesce(gd.quantity * gd.rate,0)) as total_grn_value,\n" +
-            "coalesce(sum(pv.total_payed_value),0) as final_total_payed,\n" +
-            "(sum(coalesce(gd.quantity * gd.rate,0)) - coalesce(sum(pv.total_payed_value),0)) as remaining,\n" +
-            "gh.grndate\n" +
-            "from grndetails gd\n" +
-            "join grnheader gh on gh.grnheaderkey = gd.grnheader\n" +
-            "join rawmaterial rm on gd.rawmaterial_id = rm.id\n" +
-            "join supplier s on gh.supplier_id = s.id\n" +
-            "join company c on gh.company_id = c.id\n" +
-            "left join (\n" +
-            "select\n" +
-            "ph.payment_grn_numbers, sum(coalesce(pd.quantity * pd.rate,0)) as total_payed_value\n" +
-            "from paymentvoucherheader ph join paymentvoucherdetails pd on ph.payment_voucher_header_key = pd.pv_header_key\n" +
-            "group by ph.payment_grn_numbers\n" +
-            ")\n" +
-            "pv on gh.grnno = pv.payment_grn_numbers\n" +
-            "group by s.suppliername, c.companyname, gh.grnno,gh.grndate;",nativeQuery = true)
+    @Query(value = "SELECT\n" +
+            "    s.suppliername,\n" +
+            "    c.companyname,\n" +
+            "    gh.grnno,\n" +
+            "    pv.payment_grn_numbers,\n" +
+            "    SUM(COALESCE(gd.quantity * gd.rate, 0)) AS total_grn_value,\n" +
+            "    COALESCE(SUM(pv.total_payed_value), 0) AS final_total_payed,\n" +
+            "    (\n" +
+            "        SUM(COALESCE(gd.quantity * gd.rate, 0))\n" +
+            "        - COALESCE(SUM(pv.total_payed_value), 0)\n" +
+            "    ) AS remaining,\n" +
+            "    gh.grndate,\n" +
+            "    gh.supplier_invoice_number\n" +
+            "FROM grndetails gd\n" +
+            "JOIN grnheader gh\n" +
+            "    ON gh.grnheaderkey = gd.grnheader\n" +
+            "JOIN rawmaterial rm\n" +
+            "    ON gd.rawmaterial_id = rm.id\n" +
+            "JOIN supplier s\n" +
+            "    ON gh.supplier_id = s.id\n" +
+            "JOIN company c\n" +
+            "    ON gh.company_id = c.id\n" +
+            "LEFT JOIN (\n" +
+            "    SELECT\n" +
+            "        ph.payment_grn_numbers,\n" +
+            "        SUM(COALESCE(pd.quantity * pd.rate, 0)) AS total_payed_value\n" +
+            "    FROM paymentvoucherheader ph\n" +
+            "    JOIN paymentvoucherdetails pd\n" +
+            "        ON ph.payment_voucher_header_key = pd.pv_header_key\n" +
+            "    GROUP BY ph.payment_grn_numbers\n" +
+            ") pv\n" +
+            "    ON gh.grnno = pv.payment_grn_numbers\n" +
+            "GROUP BY\n" +
+            "    s.suppliername,\n" +
+            "    c.companyname,\n" +
+            "    gh.grnno,\n" +
+            "    gh.grndate,\n" +
+            "    gh.supplier_invoice_number;",nativeQuery = true)
     public List<Object[]> getPendingPoReport();
 
 
