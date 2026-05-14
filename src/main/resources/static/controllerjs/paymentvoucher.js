@@ -869,6 +869,8 @@ const refreshPendingGrnTable = ()=>{
 
     fillDataIntoTable(pendingGrnHeaderTable,getPendingGrnList,displayProperty,false);
 
+
+    displayTfootValues();
 }
 
 const getsupperlierNameForPendingGrn = (ob)=>{
@@ -905,15 +907,22 @@ const getGrnDateForPendingGrn = (ob)=>{
     return `<p>${ob.grnDate}</p>`
 }
 
+
+let runningGrnValue = 0;
 const getTotalGrnValueForPendingGrn = (ob)=>{
+    runningGrnValue = runningGrnValue + Number(ob.totalGrnValue);
     return `<p class="text-end">${Number(ob.totalGrnValue).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`
 }
 
+let runningPayedGRN = 0;
 const getTotalPayedPendingGrn = (ob)=>{
+    runningPayedGRN=runningPayedGRN+Number(ob.totalPayed);
     return `<p class="text-end">${Number(ob.totalPayed).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`
 }
 
+let runningRemainingGRN = 0;
 const getRemainingForPendingGrn = (ob)=>{
+    runningRemainingGRN = runningRemainingGRN + Number(ob.remaining);
     return `<p class="text-end">${Number(ob.remaining).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`
 }
 
@@ -961,6 +970,10 @@ const printPendingGrn = async ()=>{
 
 
 
-
-
+// function to display total grn and payed and remaining values
+const displayTfootValues = ()=>{
+    tfootGrnValue.innerText = runningGrnValue.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    tfootGrnPayed.innerText = runningPayedGRN.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    tfootGrnRemaining.innerText = runningRemainingGRN.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
 
