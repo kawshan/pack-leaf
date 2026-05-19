@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDate;
 
 @Entity
@@ -43,6 +44,11 @@ public class PaymentVoucherHeader {
     @Column(name = "cheque_amount")
     private BigDecimal cheque_amount;
 
+
+    @Column(name = "pdc_date")
+    private LocalDate pdc_date;
+
+
     @ManyToOne
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")
     private Supplier supplier_id;
@@ -50,6 +56,8 @@ public class PaymentVoucherHeader {
     @ManyToOne
     @JoinColumn(name = "ownbankaccount_id",referencedColumnName = "id")
     private OwnBankAccount ownbankaccount_id;
+
+
 
 
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,9 @@ public class AllItemStockReportService {
                         (String) obj[2],
                         (String) obj[3],
                         (String) obj[4],
-                        (BigDecimal) obj[5]
+                        (BigDecimal) obj[5],
+                        (BigDecimal) obj[6],
+                        (Date) obj[7]
                 )
                 ).collect(Collectors.toList());
     }

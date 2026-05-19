@@ -27,6 +27,7 @@ const refreshPaymentVoucherHeaderForm = ()=>{
     selectBankShortName.style.border="2px solid #ced4da";
     textChequeNumber.style.border="2px solid #ced4da";
     textChequeAmount.style.border="2px solid #ced4da";
+    textPDCDate.style.border="2px solid #ced4da";
 
     suppliersList = ajaxGetRequest("/supplier/findall");
     fillDataIntoSelect(selectSupplier,"Select Supplier",suppliersList,'suppliername')
@@ -42,6 +43,7 @@ const refreshPaymentVoucherHeaderForm = ()=>{
     selectPaymentMode.value="";
     textChequeNumber.value="";
     textChequeAmount.value="";
+    textPDCDate.value="";
 
 
     //payment mode eka anuwa meka hide karann one nisa mulinma hide karla damma
@@ -69,6 +71,7 @@ const changeColoursToDefault = ()=>{
     selectBankShortName.style.border="2px solid #ced4da";
     textChequeNumber.style.border="2px solid #ced4da";
     textChequeAmount.style.border="2px solid #ced4da";
+    textPDCDate.style.border="2px solid #ced4da";
 }
 
 
@@ -81,6 +84,7 @@ const refreshPaymentVoucherHeaderTable = ()=>{
         {dataType: 'text',propertyName:'payment_voucher_header_key'},
         {dataType: 'text',propertyName:'payment_voucher_number'},
         {dataType: 'text',propertyName:'payment_voucher_date'},
+        {dataType: 'text',propertyName:'pdc_date'},
         {dataType: 'text',propertyName:'payment_grn_numbers'},
     ];
 
@@ -137,6 +141,7 @@ const savePaymentVoucherHeader = async ()=>{
             Payment Mode Is ${paymentVoucherHeader.payment_mode}
             Payment Voucher Number ${paymentVoucherHeader.payment_voucher_number}
             Payment Voucher Date ${paymentVoucherHeader.payment_voucher_date}
+            PDC Date ${paymentVoucherHeader.pdc_date}
             `);
             if (userConfirm){
                 const postServerResponse = ajaxPostRequest("/paymentvoucherheader",paymentVoucherHeader);
@@ -168,6 +173,7 @@ const savePaymentVoucherHeader = async ()=>{
             Payment Mode Is ${paymentVoucherHeader.payment_mode}
             Payment Voucher Number ${paymentVoucherHeader.payment_voucher_number}
             Payment Voucher Date ${paymentVoucherHeader.payment_voucher_date}
+            PDC Date ${paymentVoucherHeader.pdc_date}
             Grn Number Is ${paymentVoucherHeader.payment_grn_numbers}
         `);
         if (userConfirm){
@@ -195,6 +201,7 @@ const refillPaymentVoucherHeader = (ob)=>{
     displayPaymentVoucherCode.value=ob.payment_voucher_header_key
     textPaymentVoucherNo.value=ob.payment_voucher_number
     textPaymentVoucherDate.value=ob.payment_voucher_date
+    textPDCDate.value=ob.pdc_date
     textGrnNo.value=ob.payment_grn_numbers
     selectPaymentMode.value=ob.payment_mode
 
@@ -235,6 +242,7 @@ const deletePaymentVoucherHeader = (ob)=>{
             Payment Mode Is ${ob.payment_mode}
             Payment Voucher Number ${ob.payment_voucher_number}
             Payment Voucher Date ${ob.payment_voucher_date}
+            PDC Date ${ob.pdc_date}
     `);
     if (userConfirm){
         const deleteServerResponse = ajaxDeleteRequest("/paymentvoucherheader",ob);
@@ -392,6 +400,12 @@ const printPaymentVoucherHeader = async (ob)=>{
                 <tr>
                     <td style="font-size: 12px; width: 50%" class="text-start">Date :</td>
                     <td style="font-size: 12px; width: 50%" class="text-end">${new Date(ob.payment_voucher_date).toLocaleString('en-GB', { day: "2-digit", month: "short", year: "2-digit" })}</td>
+                </tr>
+                
+                
+                <tr>
+                    <td style="font-size: 12px; width: 50%" class="text-start">Date :</td>
+                    <td style="font-size: 12px; width: 50%" class="text-end">${new Date(ob.pdc_date).toLocaleString('en-GB', { day: "2-digit", month: "short", year: "2-digit" })}</td>
                 </tr>
 
             </table>

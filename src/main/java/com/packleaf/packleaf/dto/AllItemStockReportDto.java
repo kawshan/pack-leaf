@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +19,8 @@ public class AllItemStockReportDto {
     private String rmctname;
     private String rmpacking;
     private BigDecimal available_stock;
+    private BigDecimal last_grn_rate;
+    private Date last_grn_date;
 
 
 

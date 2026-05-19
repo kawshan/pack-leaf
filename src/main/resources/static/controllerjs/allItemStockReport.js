@@ -27,6 +27,7 @@ const refreshProductionReportTable = ()=>{
     const displayColumns = [
         {dataType: 'function', propertyName: getItemCategoryName},
         {dataType: 'function', propertyName: getItemShortName},
+        {dataType: 'function', propertyName: getItemLastGRNPrice},
         {dataType: 'function', propertyName: stockQuantity},
     ];
     fillDataIntoTable2(tableReportPrint,allItemStockReportList,displayColumns,false);
@@ -49,7 +50,9 @@ const getItemShortName = (ob) => {
     return ob.rmname;
 }
 
-
+const getItemLastGRNPrice = (ob) => {
+    return `<div class="text-end">${Number(ob.last_grn_rate).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</div>`
+}
 
 const stockQuantity = (ob) => {
     return `<div class="text-end">${ob.available_stock}</div>`
