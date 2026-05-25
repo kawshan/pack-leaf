@@ -183,18 +183,21 @@ const submitGrnHeader = async () => {
             alert(`You Have Following Errors \n` + errors);
         }
     } else {
-        console.log("update part");
 
-        //getting id from server
-        const getIdFromGrnHeaderKey = await ajaxGetRequest("/grn-header/getidfromgrmheaderkey/" + displayGrnKey.value);
-        //binding to the js object
-        grnHeader.id = getIdFromGrnHeaderKey;
+        const errors = checkErrorsGrnHeader();
+        if (errors==""){
+            console.log("update part");
+
+            //getting id from server
+            const getIdFromGrnHeaderKey = await ajaxGetRequest("/grn-header/getidfromgrmheaderkey/" + displayGrnKey.value);
+            //binding to the js object
+            grnHeader.id = getIdFromGrnHeaderKey;
 
 
-        //setting key to Js object
-        grnHeader.grnheaderkey = displayGrnKey.value
+            //setting key to Js object
+            grnHeader.grnheaderkey = displayGrnKey.value
 
-        const userConfirm = confirm(`Are You Sure To Update Following Grn Header
+            const userConfirm = confirm(`Are You Sure To Update Following Grn Header
             Supplier Name Is ${grnHeader.supplier_id.suppliername}
             Company Name Is ${grnHeader.company_id.companyname}
             GRN Number Is ${grnHeader.grnno}
@@ -206,17 +209,21 @@ const submitGrnHeader = async () => {
             Payment type Is ${grnHeader.payment_type}
 
         `);
-        if (userConfirm) {
-            const putServerResponse = ajaxPutRequest("/grn-header", grnHeader);
-            if (putServerResponse == "ok") {
-                alert("Update Successful")
-                grnHeaderTableRefresh();
-                grnHeaderColoursDefault();
-                divModifyButton.classList.add('d-none');
-            } else {
-                alert("Update Error Happened \n" + putServerResponse);
+            if (userConfirm) {
+                const putServerResponse = ajaxPutRequest("/grn-header", grnHeader);
+                if (putServerResponse == "ok") {
+                    alert("Update Successful")
+                    grnHeaderTableRefresh();
+                    grnHeaderColoursDefault();
+                    divModifyButton.classList.add('d-none');
+                } else {
+                    alert("Update Error Happened \n" + putServerResponse);
+                }
             }
+        }else {
+            alert(`you have following errors ${errors}`);
         }
+
 
 
     }
@@ -246,10 +253,16 @@ const refillGrnHeader = (ob, rowIndex) => {
     }
 
 
-    if (ob.payment_type == "cash"){
-        radioCash.checked=true;
-    }else if (ob.payment_type="credit"){
-        radioCredit.checked=true;
+    if (ob.payment_type != null){
+        if (ob.payment_type == "cash"){
+            radioCash.checked=true;
+
+        }else if (ob.payment_type="credit"){
+            radioCredit.checked=true;
+        }
+    }else {
+        radioCash.checked=false;
+        radioCredit.checked=false;
     }
 
 
