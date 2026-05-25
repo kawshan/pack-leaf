@@ -752,6 +752,7 @@ const loadGrnHeaderTable = ()=>{
         {dataType:'function',propertyName:getSupplierName},
         {dataType:'function',propertyName:getCompanyName},
         {dataType:'function',propertyName:getGrnNumber},
+        {dataType:'text',propertyName:'supplier_invoice_number'},
         {dataType:'text',propertyName:'grnheaderkey'},
     ];
 

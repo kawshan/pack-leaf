@@ -163,7 +163,8 @@
             <tr>
                 <td>
                     <label for="selectRawMaterial" class="form-label fw-bold">Select Raw Material</label>
-                    <select id="selectRawMaterial" class="form-select" onchange="selectDBValidator(this,'','stockAdjustmentDetails','rawmaterial_id')"></select>
+                    <input type="text" list="dataListItemName" id="selectRawMaterial" class="form-control text-start" placeholder="Type & search raw material name" onkeyup="dataListValidator2(this,'rawmaterialList','stockAdjustmentDetails','rawmaterial_id','rmname')">
+                    <datalist id="dataListItemName"></datalist>
                 </td>
 
 

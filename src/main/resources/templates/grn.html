@@ -188,6 +188,21 @@
                         <!--                forth row-->
 
 
+
+                        <!--                forth row-->
+                        <tr>
+                            <td>
+                                <label class="form-label fw-bold">Payment Type <i class="text-danger">*</i> </label>
+                            </td>
+                            <td>
+                                <input type="radio" onclick="grnHeader.payment_type=this.value" value="cash" id="radioCash" name="payType">cash
+                                <input type="radio" onclick="grnHeader.payment_type=this.value" value="credit" id="radioCredit" name="payType">credit
+                            </td>
+                        </tr>
+                        <!--                forth row-->
+
+
+
                         </tbody>
                     </table>
                 </div>
@@ -226,7 +241,9 @@
             <tr>
                 <td>
                     <label for="selectRawMaterial" class="form-label fw-bold">Select Raw Material</label>
-                    <select id="selectRawMaterial" class="form-select" onchange="selectDBValidator(this,'','grnDetail','rawmaterial_id')"></select>
+<!--                    <select id="selectRawMaterial" class="form-select" onchange="selectDBValidator(this,'','grnDetail','rawmaterial_id')"></select>-->
+                    <input type="text" list="dataListItemName" id="selectRawMaterial" class="form-control text-start" placeholder="Type & search raw material name" onkeyup="dataListValidator2(this,'rawMaterials','grnDetail','rawmaterial_id','rmname')">
+                    <datalist id="dataListItemName"></datalist>
                 </td>
 
 
@@ -298,6 +315,18 @@
 <!--    div modify button section end-->
 
 
+<!--    total area text area start-->
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <p id="lblTotalValue" style="font-size: 16px; font-weight: bold"></p>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+<!--    total area text area end-->
+
+
     <!-- grn details table area start-->
     <div class="card mt-5 p-5 d-none" id="cardGrnDetailsTableArea">
         <table class="table table-bordered" id="grnDetailsTable">
@@ -341,6 +370,7 @@
                             <th>Grn No</th>
                             <th>GRN Date</th>
                             <th>Our Po Number</th>
+                            <th>Payment Type</th>
                             <th>Action</th>
                             </thead>
                             <tbody></tbody>

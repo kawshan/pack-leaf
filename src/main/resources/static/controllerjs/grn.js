@@ -59,6 +59,12 @@ const grnHeaderFormRefresh = () => {
     checkBoxWithOutPoNumber.checked = false;
     textOurPoNumber.disabled = false;
 
+
+
+    radioCash.checked = false;
+    radioCredit.checked = false;
+
+
 }
 
 
@@ -83,6 +89,7 @@ const grnHeaderTableRefresh = () => {
         {dataType: 'text', propertyName: 'grnno'},
         {dataType: 'text', propertyName: 'grndate'},
         {dataType: 'text', propertyName: 'ourponumber'},
+        {dataType: 'text', propertyName: 'payment_type'},
     ];
 
 
@@ -130,6 +137,13 @@ const checkErrorsGrnHeader = () => {
     }
 
 
+    if (grnHeader.payment_type == null){
+        errors = errors+"Payment Type Cannot Be Empty \n"
+    }
+
+
+
+
     return errors;
 }
 
@@ -147,6 +161,7 @@ const submitGrnHeader = async () => {
             GRN Number Is ${grnHeader.grnno}
             GRN Date Is ${grnHeader.grndate}
             Our Po Number Is ${grnHeader.ourponumber}
+            Payment type Is ${grnHeader.payment_type}
         `);
             if (userConfirm) {
                 const postServerResponse = ajaxPostRequest("/grn-header", grnHeader);
@@ -188,6 +203,8 @@ const submitGrnHeader = async () => {
             GRN Key Is ${grnHeader.grnheaderkey}
             ID IS ${grnHeader.id}
             Supplier Invoice Number IS ${grnHeader.supplier_invoice_number}
+            Payment type Is ${grnHeader.payment_type}
+
         `);
         if (userConfirm) {
             const putServerResponse = ajaxPutRequest("/grn-header", grnHeader);
@@ -229,6 +246,14 @@ const refillGrnHeader = (ob, rowIndex) => {
     }
 
 
+    if (ob.payment_type == "cash"){
+        radioCash.checked=true;
+    }else if (ob.payment_type="credit"){
+        radioCredit.checked=true;
+    }
+
+
+
     displayGrnKey.value = ob.grnheaderkey
 
 
@@ -243,7 +268,7 @@ const refillGrnHeader = (ob, rowIndex) => {
 
     warningTextInGrnDetailsSection.classList.add('d-none');
 
-
+    refreshGrnTotalValueFromHeaderKey();
 }
 
 const deleteGrnHeader = (ob, rowIndex) => {
@@ -342,6 +367,11 @@ const printGrnHeader = async (ob, rowIndex) => {
                 <tr>
                     <td style="line-height: 0.5; font-size: 12px;">Sup Inv No</td>
                     <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.supplier_invoice_number}</td>
+                </tr>
+                
+                   <tr>
+                    <td style="line-height: 0.5; font-size: 12px;">Payment Type</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.payment_type}</td>
                 </tr>
                 
             </tbody>
@@ -531,9 +561,11 @@ const refreshGrnDetailsForm = () => {
     txtItemCode.value = "";
     txtItemDescription.value = "";
     txtItemReferenceNumber.value = "";
+    selectRawMaterial.value = "";
 
     rawMaterials = ajaxGetRequest("/rawmaterial/findall")
-    fillDataIntoSelect(selectRawMaterial, 'Select Raw Material', rawMaterials, 'rmname');
+    fillDataIntoDataList(dataListItemName,rawMaterials,'rmname')
+
 
 
     //add button eka enable karanwa //update button eka disable karanawa
@@ -564,7 +596,8 @@ const refreshGrnDetailsTable = () => {
     ];
 
 
-    fillDataIntoTable2(grnDetailsTable, grnDetails, displayProperty, true, divModifyButton2)
+    fillDataIntoTable2(grnDetailsTable, grnDetails, displayProperty, true, divModifyButton2);
+    $("#grnDetailsTable").dataTable();
 
 }
 
@@ -644,6 +677,7 @@ const saveGrnDetails = () => {
                 refreshGrnDetailsForm();
                 refreshGrnDetailsTable();
                 displayRemainingQuantity.innerText = "";
+                refreshGrnTotalValueFromHeaderKey();
             } else {
                 alert("Save Unsuccessful \n" + postServerResponse);
             }
@@ -664,8 +698,8 @@ const refillGrnDetails = (ob, rowIndex) => {
     txtItemCode.value = ob.itemcode
     txtItemDescription.value = ob.gd_description
     txtItemReferenceNumber.value = ob.gd_referencenumber
+    selectRawMaterial.value = ob.rawmaterial_id.rmname;
 
-    fillDataIntoSelect(selectRawMaterial, 'Select Raw Material', rawMaterials, 'rmname', ob.rawmaterial_id.rmname);
 
 
     //add button eka enable karanwa //update button eka disable karanawa
@@ -724,6 +758,7 @@ const updateGrnDetail = () => {
                 refreshGrnDetailsForm();
                 refreshGrnDetailsTable();
                 divModifyButton2.classList.add('d-none');
+                refreshGrnTotalValueFromHeaderKey()
             } else {
                 alert("Update Unsuccessful" + putServerResponse);
             }
@@ -837,7 +872,13 @@ const getQuantityGrnDetails = (ob) => {
 
 
 
+const refreshGrnTotalValueFromHeaderKey = ()=>{
+    const headerKey = displayGrnKey.value;
+    const getValueFromServer = ajaxGetRequest(`/grn-details/getGrnTotalValueFromHeaderKey/${headerKey}`)
 
+    lblTotalValue.innerText=`Your total value is ${Number(getValueFromServer).toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4})}`
+    lblTotalValue.style.color="green";
+}
 
 
 

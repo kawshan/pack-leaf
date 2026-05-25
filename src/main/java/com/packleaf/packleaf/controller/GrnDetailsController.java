@@ -85,5 +85,10 @@ public class GrnDetailsController {
     }
 
 
+    @GetMapping(value = "/getGrnTotalValueFromHeaderKey/{headerKey}")
+    public String getGrnTotalValueFromHeaderKey(@PathVariable("headerKey")String headerKey){
+        return grnDetailsDao.getTotalGrnValuesFromHeaderKey(headerKey);
+    }
+
 
 }

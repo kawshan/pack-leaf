@@ -10,7 +10,7 @@ import java.util.List;
 public interface GrnDetailsDao extends JpaRepository<GrnDetails,Integer> {
 
 
-    @Query(value = "select gd from GrnDetails gd where gd.grnheader=?1")
+    @Query(value = "select gd from GrnDetails gd where gd.grnheader=?1 order by gd.id desc")
     public List<GrnDetails> findByGrnHeader(String grnHeader);
 
 
@@ -65,6 +65,12 @@ public interface GrnDetailsDao extends JpaRepository<GrnDetails,Integer> {
 
     @Query(value = "select gd from GrnDetails gd where gd.id=?1")
     public GrnDetails getGrnDetailsFromId(Integer id);
+
+
+    @Query(value = "select sum(rate*quantity) from grndetails where grnheader = ?1 ",nativeQuery = true)
+    public String getTotalGrnValuesFromHeaderKey(String headerKey);
+
+
 
 
 }

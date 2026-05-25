@@ -193,6 +193,8 @@ const refillIssueNoteHeader = (ob,rowIndex)=>{
     refreshIssueNoteDetailTable() //header eke key eka aran details table ekath fill karanna one nisa meke call kare.
 
     warningMessageInIssueNoteDetailsSection.classList.add('d-none');
+
+    refreshIssueNoteDetailForm();
 }
 
 
@@ -350,12 +352,15 @@ const refreshIssueNoteDetailForm = ()=>{
     txtQty.style.border="2px solid #ced4da";
     txtDescription=document.getElementById("txtDescription");
     txtDescription.style.border="2px solid #ced4da";
+    selectRawMaterial.style.border="2px solid #ced4da";
 
     txtQty.value="";
     txtDescription.value="";
+    selectRawMaterial.value="";
 
     rawmaterialList = ajaxGetRequest("/rawmaterial/findall");
-    fillDataIntoSelect(selectRawMaterial,"Select Raw Material",rawmaterialList,'rmname')
+    fillDataIntoDataList(dataListItemName,rawmaterialList,'rmname');
+
 
     //add button eka enable karanwa update eka disable karanawa
     buttonIssueNoteDetailAdd.disabled=false;
@@ -440,9 +445,7 @@ const issueNoteDetailRefillForm = (ob)=>{
 
     txtQty.value=ob.quantity;
     txtDescription.value = ob.description;
-
-    fillDataIntoSelect(selectRawMaterial,"Select Raw Material",rawmaterialList,'rmname',ob.rawmaterial_id.rmname)
-
+    selectRawMaterialselectRawMaterial.value = ob.rawmaterial_id.rmname;
 
     //add button eka disable karanla update button eka enable karanna one
     buttonIssueNoteDetailAdd.disabled=true;

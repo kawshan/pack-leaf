@@ -327,14 +327,16 @@ const refreshStockAdjustmentDetailsForm = ()=>{
     txtQty.style.border="2px solid #ced4da";
     txtDescription.style.border="2px solid #ced4da";
     txtRate.style.border="2px solid #ced4da";
+    selectRawMaterial.style.border="2px solid #ced4da";
 
 
     txtQty.value="";
     txtDescription.value="";
     txtRate.value="";
+    selectRawMaterial.value="";
 
     rawmaterialList = ajaxGetRequest("/rawmaterial/findall");
-    fillDataIntoSelect(selectRawMaterial,'Select Raw Material',rawmaterialList,'rmname');
+    fillDataIntoDataList(dataListItemName,rawmaterialList,'rmname');
 
 
     buttonStockAdjustmentDetailsUpdate.disabled=true;
@@ -450,6 +452,7 @@ const refillStockAdjustmentDetails = (ob)=>{
     txtQty.value=ob.quantity;
     txtDescription.value=ob.description;
     txtRate.value=ob.rate;
+    selectRawMaterial.value=ob.rawmaterial_id.rmname;
 
 
     fillDataIntoSelect(selectRawMaterial,'Select Raw Material',rawmaterialList,'rmname',ob.rawmaterial_id.rmname);

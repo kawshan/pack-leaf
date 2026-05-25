@@ -38,6 +38,10 @@ public class GrnHeader {
     @Column(name = "supplier_invoice_number")
     private String supplier_invoice_number;
 
+    @Column(name = "payment_type")
+    private String payment_type;
+
+
     @ManyToOne
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")
     private Supplier supplier_id;

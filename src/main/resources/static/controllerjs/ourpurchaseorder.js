@@ -271,8 +271,7 @@ const refreshOurPurchaseOrderDetailsForm = ()=>{
 
 
     rawMaterials=ajaxGetRequest("/rawmaterial/findall");
-    fillDataIntoSelect(selectRawMaterial,'Select Raw Material Name',rawMaterials,'rmname');
-
+    fillDataIntoDataList(dataListItemName,rawMaterials,'rmname')
 
     //change colours to default
     txtQty.style.border="2px solid #ced4da";
@@ -378,6 +377,7 @@ const refillOurPurchaseOrderDetails = (ob,rowIndex)=>{
     txtQty.value=ob.qty;
     txtRate.value=ob.rate;
     txtDescription.value = ob.our_po_detail_description;
+    selectRawMaterial.value=ob.rawmaterial_id.rmname;
 
     fillDataIntoSelect(selectRawMaterial,'Select Raw Material Name',rawMaterials,'rmname',ob.rawmaterial_id.rmname);
 
