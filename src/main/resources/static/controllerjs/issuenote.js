@@ -27,7 +27,7 @@ const refreshIssueNoteHeader = ()=>{
     textIssueNoteDate.value="";
 
     jobList = ajaxGetRequest("/jobmaster/findall");
-    fillDataIntoSelect(selectJob,'Select Job Number',jobList,'jobnumber');
+    fillDataIntoDataList(dataListJobs,jobList,'jobnumber');
 
     divModifyButton.classList.add('d-none');    //reset button ekedith me function eka call karana nisa meka add kare.. reaseon eka thama reset karahama me button 3 th hide venna one nisa-> specific reason-> when user refill issue note header section is also view the table then user can do changes and then finish the task with out reloading the whole page
     cardIssueNoteDetailForTable.classList.add('d-none');
@@ -69,7 +69,11 @@ const refreshIssueNoteHeaderTable = ()=>{
 
 
 const getJobNumber = (ob)=>{
-    return ob.jobmaster_id.jobnumber;
+    if (ob.jobmaster_id == null){
+        return "";
+    }else {
+        return ob.jobmaster_id.jobnumber;
+    }
 }
 
 
@@ -77,9 +81,9 @@ const checkErrorIssueNoteHeader = ()=>{
     let errors = "";
 
 
-    if (issueNoteHeader.jobmaster_id == null){
-        errors=errors+"Job Cannot Be Empty \n"
-    }
+    // if (issueNoteHeader.jobmaster_id == null){
+    //     errors=errors+"Job Cannot Be Empty \n"
+    // }
     if (issueNoteHeader.issuenotenumber == null){
         errors=errors+"Issue Note Number Cannot Be Empty \n"
     }
@@ -98,7 +102,6 @@ const submitIssueNoteHeader = async ()=>{
         let errors = checkErrorIssueNoteHeader();
         if (errors==""){
             const userConfirm = confirm(`Are You Sure To Add Following Details \n
-            Job Number Is ${issueNoteHeader.jobmaster_id.jobnumber}
             Issue Note Number Is ${issueNoteHeader.issuenotenumber}
             Date Is ${issueNoteHeader.issuenotedate}
             `);
@@ -175,20 +178,34 @@ const submitIssueNoteHeader = async ()=>{
 
 
 const refillIssueNoteHeader = (ob,rowIndex)=>{
-    displayIssueNoteKey.value = ob.headerkey;
-    textIssueNoteNo.value = ob.issuenotenumber;
-    textIssueNoteDate.value = ob.issuenotedate;
 
-    fillDataIntoSelect(selectJob,'Select Job Number',jobList,'jobnumber',ob.jobmaster_id.jobnumber);
+    issueNoteHeader = JSON.parse(JSON.stringify(ob));
+    oldissueNoteHeader = JSON.parse(JSON.stringify(ob));
+
+    displayIssueNoteKey.value = issueNoteHeader.headerkey;
+    textIssueNoteNo.value = issueNoteHeader.issuenotenumber;
+    textIssueNoteDate.value = issueNoteHeader.issuenotedate;
+
+    if (issueNoteHeader.jobmaster_id == null){
+
+    }else {
+        selectJob.value = issueNoteHeader.jobmaster_id.jobnumber;
+    }
 
 
-    //value ekatath bind karanna one
-    issueNoteHeader.headerkey = displayIssueNoteKey.value;
-    issueNoteHeader.issuenotenumber = textIssueNoteNo.value;
-    issueNoteHeader.issuenotedate = textIssueNoteDate.value;
 
-    let selectedJob = JSON.parse(selectJob.value);
-    issueNoteHeader.jobmaster_id = selectedJob;
+
+    // idk why i put this shitty code in here ..... must be stupid ass customer requirement
+    // fillDataIntoSelect(selectJob,'Select Job Number',jobList,'jobnumber',ob.jobmaster_id.jobnumber);
+    //
+    //
+    // //value ekatath bind karanna one
+    // issueNoteHeader.headerkey = displayIssueNoteKey.value;
+    // issueNoteHeader.issuenotenumber = textIssueNoteNo.value;
+    // issueNoteHeader.issuenotedate = textIssueNoteDate.value;
+
+    // let selectedJob = JSON.parse(selectJob.value);
+    // issueNoteHeader.jobmaster_id = selectedJob;
 
     refreshIssueNoteDetailTable() //header eke key eka aran details table ekath fill karanna one nisa meke call kare.
 
@@ -201,7 +218,6 @@ const refillIssueNoteHeader = (ob,rowIndex)=>{
 
 const deleteIssueNoteHeader = (ob,rowIndex)=>{
     const userConfirm = confirm(`Are You Sure To Delete Following Issue Note \n
-        Job Number Is ${ob.jobmaster_id.jobnumber}
         Issue Note Number ${ob.issuenotenumber}
         Issue Note Date ${ob.issuenotedate}
     `);
@@ -258,7 +274,7 @@ const issueNoteHeaderPrint = async (ob,rowIndex)=>{
                 <tbody>
                 <tr>
                     <td style="line-height: 0.5; font-size: 12px;">Job Number</td>
-                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.jobmaster_id.jobnumber}</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.jobmaster_id == null ? "" : ob.jobmaster_id.jobnumbe}</td>
                 </tr>
                 <tr>
                     <td style="line-height: 0.5; font-size: 12px;">Issue Note Number</td>
@@ -445,7 +461,7 @@ const issueNoteDetailRefillForm = (ob)=>{
 
     txtQty.value=ob.quantity;
     txtDescription.value = ob.description;
-    selectRawMaterialselectRawMaterial.value = ob.rawmaterial_id.rmname;
+    selectRawMaterial.value = ob.rawmaterial_id.rmname;
 
     //add button eka disable karanla update button eka enable karanna one
     buttonIssueNoteDetailAdd.disabled=true;

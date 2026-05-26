@@ -99,7 +99,9 @@
                 <div class="col-md-3">
                     <label for="selectJob" class="form-label fw-bold"> Job Number <i class="text-danger">*</i>
                     </label>
-                    <select id="selectJob" class="form-select text-start" onchange="selectDBValidator(this,'','issueNoteHeader','jobmaster_id')"></select>
+<!--                    <select id="selectJob" class="form-select text-start" onchange="selectDBValidator(this,'','issueNoteHeader','jobmaster_id')"></select>-->
+                    <input type="text" list="dataListJobs" id="selectJob" class="form-control text-start" placeholder="Type and search job number" onkeyup="dataListValidator2(this,'jobList','issueNoteHeader','jobmaster_id','jobnumber')">
+                    <datalist id="dataListJobs"></datalist>
                 </div>
 
 
