@@ -11,6 +11,11 @@ window.addEventListener('load',function (){
     //max number eka ganna function eka call karanawa
     getMaxVoucherNumber();
 
+
+    // RELOAD PENDING PAYMENT TABLES
+    refreshPendingGrnTable();
+    refreshPendingGrnTableForCash();
+
 })
 
 
@@ -888,6 +893,34 @@ const refreshPendingGrnTable = ()=>{
     displayTfootValues();
 }
 
+
+
+
+const refreshPendingGrnTableForCash = ()=>{
+
+    const getPendingGrnList = ajaxGetRequest("/pendingGrn/forCash");
+
+    const displayProperty = [
+        {dataType:'function',propertyName:getsupperlierNameForPendingGrn},
+        {dataType:'function',propertyName:getsupperlierInvoiceNumber},
+        {dataType:'function',propertyName:getCompanyNameForPendingGrn},
+        {dataType:'function',propertyName:getGrnNoForPendingGrn},
+        {dataType:'function',propertyName:getGrnDateForPendingGrn},
+        {dataType:'function',propertyName:getTotalGrnValueForPendingGrnForCash},
+        {dataType:'function',propertyName:getTotalPayedPendingGrnForCash},
+        {dataType:'function',propertyName:getRemainingForPendingGrnForCash},
+    ];
+
+    fillDataIntoTable(pendingGrnHeaderTableForCash,getPendingGrnList,displayProperty,false);
+
+
+    displayTfootValuesForCash();
+}
+
+
+
+
+
 const getsupperlierNameForPendingGrn = (ob)=>{
     return `<p>${ob.supplierName}</p>`
 }
@@ -942,6 +975,30 @@ const getRemainingForPendingGrn = (ob)=>{
 }
 
 
+
+let runningGrnValueForCash = 0;
+const getTotalGrnValueForPendingGrnForCash = (ob)=>{
+    runningGrnValueForCash = runningGrnValueForCash + Number(ob.totalGrnValue);
+    return `<p class="text-end">${Number(ob.totalGrnValue).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`
+}
+
+let runningPayedGRNForCash = 0;
+const getTotalPayedPendingGrnForCash = (ob)=>{
+    runningPayedGRNForCash=runningPayedGRNForCash+Number(ob.totalPayed);
+    return `<p class="text-end">${Number(ob.totalPayed).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`
+}
+
+let runningRemainingGRNForCash = 0;
+const getRemainingForPendingGrnForCash = (ob)=>{
+    runningRemainingGRNForCash = runningRemainingGRNForCash + Number(ob.remaining);
+    return `<p class="text-end">${Number(ob.remaining).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</p>`
+}
+
+
+
+
+
+
 const printPendingGrn = async ()=>{
 
     const newWindow = window.open();
@@ -958,7 +1015,7 @@ const printPendingGrn = async ()=>{
 <div class="container-fluid">
 
     <div class="row mt-5 text-center">
-        <p style="font-size: 14px; font-weight: bolder">Pending GRN</p>
+        <p style="font-size: 14px; font-weight: bolder">Pending Credit Payment</p>
     </div>
 
     <div class="row" style="margin: 3px">
@@ -983,7 +1040,46 @@ const printPendingGrn = async ()=>{
 
 }
 
+const printPendingGrnForCash = async ()=>{
 
+    const newWindow = window.open();
+    await newWindow.document.write(`
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pending Cash Payment</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+
+    <div class="row mt-5 text-center">
+        <p style="font-size: 14px; font-weight: bolder">Pending Cash Payment</p>
+    </div>
+
+    <div class="row" style="margin: 3px">
+    ${pendingGrnHeaderTableForCash.outerHTML}
+    </div>
+
+
+
+</div>
+</body>
+</html>
+    
+    
+    `);
+
+
+    newWindow.stop();
+    newWindow.print();
+    newWindow.close();
+
+
+
+}
 
 // function to display total grn and payed and remaining values
 const displayTfootValues = ()=>{
@@ -991,4 +1087,14 @@ const displayTfootValues = ()=>{
     tfootGrnPayed.innerText = runningPayedGRN.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
     tfootGrnRemaining.innerText = runningRemainingGRN.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 }
+
+
+// function to display total grn and payed and remaining values
+const displayTfootValuesForCash = ()=>{
+    tfootGrnValueForCash.innerText = runningGrnValueForCash.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    tfootGrnPayedForCash.innerText = runningPayedGRNForCash.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    tfootGrnRemainingForCash.innerText = runningRemainingGRNForCash.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+
 

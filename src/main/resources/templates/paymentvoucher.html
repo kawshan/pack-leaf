@@ -75,12 +75,20 @@
 
 
         <div class="col-md-3">
-            <button type="button" style="width: 60%; height: 40px" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPendingGRN" onclick="refreshPendingGrnTable()">Pending Supplier Payment</button>
+            <button type="button" style="width: 60%; height: 40px" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPendingGRN">Pending Supplier Payment</button>
         </div>
 
 
     </div>
     <!--button row end-->
+
+<!--BUTTON ROW 2 START-->
+    <div class="row mt-3">
+        <div class="col-md-3">
+            <button type="button" style="width: 60%; height: 40px; background-color: #ea580c; border: 2px solid black" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPendingGRNForCash">Pending Cash Payment</button>
+        </div>
+    </div>
+    <!--BUTTON ROW 2 END-->
 
 
 
@@ -526,6 +534,66 @@
         </table>
     </div>
 <!--  print payment voucher helping table  -->
+
+
+
+
+
+
+    <!--   pending GRN model area start for cash-->
+    <div class="modal fade" id="modalPendingGRNForCash" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Pending Cash Payment</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12 text-end">
+                            <button type="button" class="btn btn-primary" onclick="printPendingGrnForCash()">Print</button>
+                        </div>
+                    </div>
+
+                    <!--Table pending GRN Header Start-->
+                    <div class="card m-4">
+                        <table class="table table-bordered table-responsive-sm"  id="pendingGrnHeaderTableForCash" style="font-size: 11px; border: 1px solid black">
+                            <thead>
+                            <th>#</th>
+                            <th style="width: 150px" onwheel="changeRowWidth(this)">Supplier Name</th>
+                            <th>Supplier Invoice NO</th>
+                            <th>Company Name</th>
+                            <th>Grn No</th>
+                            <th>Grn Date</th>
+                            <th>Grn Value</th>
+                            <th>Payed Amount</th>
+                            <th>Remaining Amount</th>
+                            </thead>
+                            <tbody></tbody>
+                            <tr>
+                                <td colspan="7" class="text-end" id="tfootGrnValueForCash"></td>
+                                <td class="text-end" id="tfootGrnPayedForCash"></td>
+                                <td class="text-end" id="tfootGrnRemainingForCash"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--Table pending GRN Header Start-->
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!--   pending GRN model area start for cash-->
+
 
 
 

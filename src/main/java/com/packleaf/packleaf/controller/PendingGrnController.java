@@ -22,5 +22,11 @@ public class PendingGrnController {
     }
 
 
+    @GetMapping(value = "/forCash")
+    public List<PendingGrnDto> getPendingGrnForCash() {
+        return pendingGrnService.getPendingGrnReportsForCash();
+    }
+
+
 
 }
