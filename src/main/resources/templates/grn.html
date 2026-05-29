@@ -98,9 +98,8 @@
                 <div class="col-md-3">
                     <label for="selectSupplier" class="form-label fw-bold"> Supplier Name <i class="text-danger">*</i>
                     </label>
-                    <select id="selectSupplier" class="form-select text-start" onchange="selectDBValidator(this,'','grnHeader','supplier_id'); displaySupplierInformation(this)">
-                        <option></option>
-                    </select>
+                    <input type="text" list="dataListSupplierName" id="selectSupplier" class="form-control text-start" placeholder="Type & search Supplier name" onkeyup="dataListValidator2(this,'suppliers','grnHeader','supplier_id','suppliername')">
+                    <datalist id="dataListSupplierName"></datalist>
                     <p style="padding-left: 3%" id="displaySupplierName"></p>
                     <p style="padding-left: 3%" id="displaySupplierAddress"></p>
                     <p style="padding-left: 3%" id="displaySupplierPhoneNumber"></p>
@@ -189,7 +188,7 @@
 
 
 
-                        <!--                forth row-->
+                        <!--                fifth row-->
                         <tr>
                             <td>
                                 <label class="form-label fw-bold">Payment Type <i class="text-danger">*</i> </label>
@@ -197,9 +196,49 @@
                             <td>
                                 <input type="radio" onclick="grnHeader.payment_type=this.value" value="cash" id="radioCash" name="payType">cash
                                 <input type="radio" onclick="grnHeader.payment_type=this.value" value="credit" id="radioCredit" name="payType">credit
+                                <input type="radio" onclick="grnHeader.payment_type=this.value" value="pdc" id="radioPdc" name="payType">pdc
                             </td>
                         </tr>
-                        <!--                forth row-->
+                        <!--                fifth row-->
+
+
+
+                        <!--                sixth row-->
+                        <tr>
+                            <td>
+                                <label for="textPdcBankDetails" class="form-label fw-bold">Bank </label>
+                            </td>
+                            <td>
+                                <input type="text" id="textPdcBankDetails" class="form-control text-start" placeholder="Enter PDC bank details" onkeyup="textValidator(this,'','grnHeader','grnheader_bank_name');">
+                            </td>
+                        </tr>
+                        <!--                sixth row-->
+
+
+
+                        <!--                seventh row-->
+                        <tr>
+                            <td>
+                                <label for="textPdcBranchDetails" class="form-label fw-bold">Branch </label>
+                            </td>
+                            <td>
+                                <input type="text" id="textPdcBranchDetails" class="form-control text-start" placeholder="Enter PDC branch details" onkeyup="textValidator(this,'','grnHeader','grnheader_branch_name');">
+                            </td>
+                        </tr>
+                        <!--                seventh row-->
+
+
+
+                        <!--                seventh row-->
+                        <tr>
+                            <td>
+                                <label for="textPdcDate" class="form-label fw-bold">PDC Date  </label>
+                            </td>
+                            <td>
+                                <input type="date" id="textPdcDate" class="form-control text-start" onchange="textValidator(this,'','grnHeader','grnheader_pdc_date');">
+                            </td>
+                        </tr>
+                        <!--                seventh row-->
 
 
 
@@ -371,6 +410,9 @@
                             <th>GRN Date</th>
                             <th>Our Po Number</th>
                             <th>Payment Type</th>
+                            <th>Bank Name</th>
+                            <th>Branch Name</th>
+                            <th>Pdc Date</th>
                             <th>Action</th>
                             </thead>
                             <tbody></tbody>

@@ -50,6 +50,16 @@ public class GrnHeader {
     @JoinColumn(name = "company_id",referencedColumnName = "id")
     private Company company_id;
 
+    @Column(name = "grnheader_bank_name")
+    private String grnheader_bank_name;
+
+
+    @Column(name = "grnheader_branch_name")
+    private String grnheader_branch_name;
+
+
+    @Column(name = "grnheader_pdc_date")
+    private String grnheader_pdc_date;
 
 
 

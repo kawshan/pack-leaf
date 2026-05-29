@@ -29,10 +29,12 @@ const grnHeaderFormRefresh = () => {
     textOurPoNumber.value = "";
     displayGrnKey.value = "";
     textSupplierInvoiceNumber.value = "";
+    textPdcBankDetails.value = "";
+    textPdcBranchDetails.value = "";
+    textPdcDate.value = "";
 
     suppliers = ajaxGetRequest("/supplier/findall")
-    fillDataIntoSelect(selectSupplier, 'Select Supplier', suppliers, 'suppliername')
-
+    fillDataIntoDataList(dataListSupplierName,suppliers,'suppliername')
     companies = ajaxGetRequest("/company/findall")
     fillDataIntoSelect(selectCompanyName, 'Select Company', companies, 'companyname')
 
@@ -63,6 +65,7 @@ const grnHeaderFormRefresh = () => {
 
     radioCash.checked = false;
     radioCredit.checked = false;
+    radioPdc.checked = false;
 
 
 }
@@ -76,6 +79,9 @@ const grnHeaderColoursDefault = () => {
     textGrnDate.style.border = "2px solid #ced4da";
     textOurPoNumber.style.border = "2px solid #ced4da";
     textSupplierInvoiceNumber.style.border = "2px solid #ced4da";
+    textPdcBankDetails.style.border = "2px solid #ced4da";
+    textPdcBranchDetails.style.border = "2px solid #ced4da";
+    textPdcDate.style.border = "2px solid #ced4da";
 }
 
 
@@ -90,6 +96,9 @@ const grnHeaderTableRefresh = () => {
         {dataType: 'text', propertyName: 'grndate'},
         {dataType: 'text', propertyName: 'ourponumber'},
         {dataType: 'text', propertyName: 'payment_type'},
+        {dataType: 'text', propertyName: 'grnheader_bank_name'},
+        {dataType: 'text', propertyName: 'grnheader_branch_name'},
+        {dataType: 'text', propertyName: 'grnheader_pdc_date'},
     ];
 
 
@@ -142,6 +151,18 @@ const checkErrorsGrnHeader = () => {
     }
 
 
+    if (grnHeader.payment_type == "pdc"){
+
+        if (grnHeader.grnheader_bank_name == null){
+            errors = errors+"Bank Cannot Be Empty \n"
+        }
+
+        if (grnHeader.grnheader_branch_name == null){
+            errors = errors+"Branch Cannot Be Empty \n"
+        }
+
+
+    }
 
 
     return errors;
@@ -241,6 +262,10 @@ const refillGrnHeader = (ob, rowIndex) => {
     textGrnNo.value = ob.grnno
     textGrnDate.value = ob.grndate
     textSupplierInvoiceNumber.value = ob.supplier_invoice_number
+    selectSupplier.value = ob.supplier_id.suppliername;
+    textPdcBankDetails.value = ob.supplier_id.grnheader_bank_name;
+    textPdcBranchDetails.value = ob.supplier_id.grnheader_branch_name;
+    textPdcDate.value = ob.supplier_id.grnheader_pdc_date;
 
 
     //po number eke logic eka -> po number ekak thiyenawanam ekata adala table eka load venna one po number ekak naththam proceed without po click venna one
@@ -259,10 +284,14 @@ const refillGrnHeader = (ob, rowIndex) => {
 
         }else if (ob.payment_type="credit"){
             radioCredit.checked=true;
+        }else if (ob.payment_type="pdc"){
+            radioPdc.checked=true;
         }
+
     }else {
         radioCash.checked=false;
         radioCredit.checked=false;
+        radioPdc.checked=false;
     }
 
 
@@ -270,7 +299,7 @@ const refillGrnHeader = (ob, rowIndex) => {
     displayGrnKey.value = ob.grnheaderkey
 
 
-    fillDataIntoSelect(selectSupplier, 'Select Supplier', suppliers, 'suppliername', ob.supplier_id.suppliername);
+
     fillDataIntoSelect(selectCompanyName, 'Select Company', companies, 'companyname', ob.company_id.companyname);
 
     refreshGrnDetailsTable();
@@ -386,6 +415,24 @@ const printGrnHeader = async (ob, rowIndex) => {
                     <td style="line-height: 0.5; font-size: 12px;">Payment Type</td>
                     <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.payment_type}</td>
                 </tr>
+                
+                
+                <tr>
+                    <td style="line-height: 0.5; font-size: 12px;">Bank Name</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.grnheader_bank_name == null ? " " : ob.grnheader_bank_name}</td>
+                </tr>
+                
+                <tr>
+                    <td style="line-height: 0.5; font-size: 12px;">Branch Name</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.grnheader_branch_name == null ? " " : ob.grnheader_branch_name}</td>
+                </tr>
+                
+                   <tr>
+                    <td style="line-height: 0.5; font-size: 12px;">PDC Date</td>
+                    <td class="text-end" style="line-height: 0.5; font-size: 12px;">${ob.grnheader_pdc_date == null ? " " : ob.grnheader_pdc_date}</td>
+                </tr>
+                
+                
                 
             </tbody>
         </table>
@@ -889,7 +936,7 @@ const refreshGrnTotalValueFromHeaderKey = ()=>{
     const headerKey = displayGrnKey.value;
     const getValueFromServer = ajaxGetRequest(`/grn-details/getGrnTotalValueFromHeaderKey/${headerKey}`)
 
-    lblTotalValue.innerText=`Your total value is ${Number(getValueFromServer).toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4})}`
+    lblTotalValue.innerText=`Your total value is ${Number(getValueFromServer).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}`
     lblTotalValue.style.color="green";
 }
 
