@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "jobmaster_has_item")
+@Table(name = "jobmaster_has_finishing_types")
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobMasterHasItem {
+public class JobMasterHasFinishingTypes {
 
     @Id
     @ManyToOne
@@ -21,8 +21,8 @@ public class JobMasterHasItem {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "item_id", referencedColumnName = "id")
-    private Item item_id;
+    @JoinColumn(name = "finishing_types_id", referencedColumnName = "id")
+    private FinishingTypes finishing_types_id;
 
 
 

@@ -14,7 +14,7 @@ const refreshJobMasterForm = ()=>{
     jobmaster = new Object();
 
     //many to many relationship ekata adalawa empty array ekek create kara..
-    jobmaster.jhi = [];
+    jobmaster.jmhft = [];
 
     buttonUpdateJobMaster.disabled=true;
     buttonUpdateJobMaster.style.cursor="not-allowed";
@@ -27,8 +27,8 @@ const refreshJobMasterForm = ()=>{
     txtJobDate.style.border="2px solid #ced4da";
     txtJobNumber.style.border="2px solid #ced4da";
     selectJobCustomer.style.border="2px solid #ced4da";
-    selectJobItem.style.border="2px solid #ced4da";
-    selectedJobItem.style.border="2px solid #ced4da";
+    selectJobFinishing.style.border="2px solid #ced4da";
+    selectedJobFinishing.style.border="2px solid #ced4da";
     txtQuantity.style.border="2px solid #ced4da";
     txtDescription.style.border="2px solid #ced4da";
     selectJobStatus.style.border="2px solid #ced4da";
@@ -42,10 +42,10 @@ const refreshJobMasterForm = ()=>{
     customersList = ajaxGetRequest("/customer/findall");
     fillDataIntoSelect(selectJobCustomer,"Select Customer",customersList,'customername');
 
-    itemsList = ajaxGetRequest("/item/findall")
-    fillDataIntoSelect(selectJobItem,"",itemsList,'itmname');
+    finishingsList = ajaxGetRequest("/finishing_types/findall")
+    fillDataIntoSelect(selectJobFinishing,"",finishingsList,'name');
 
-    fillDataIntoSelect(selectedJobItem,"",jobmaster.jhi,'itmname');
+    fillDataIntoSelect(selectedJobFinishing,"",jobmaster.jmhft,'name');
 
 
     jobStautues = ajaxGetRequest("/jobmasterstatus/findall");
@@ -86,13 +86,10 @@ const getCustomerName = (ob)=>{
 
 
 const getItemName = (ob)=>{
-    // return ob.item_id.itmname;
-    // return "";
     let items = '';
-    ob.jhi.forEach(element=>{
-        items=items+'<p>'+element.itmname+'</p>'
+    ob.jmhft.forEach(element=>{
+        items=items+'<p>'+element.name+'</p>'
     })
-    // return '<ul>'+items+'</ul>';
     return items;
 }
 
@@ -133,8 +130,8 @@ const checkErrors = ()=>{
     if (jobmaster.jobmasterstatus_id == null){
         errors=errors+"Job Master Status Cannot Be Empty \n";
     }
-    if (jobmaster.jhi.length==0){
-        errors=errors+"Items Cannot be empty \n"
+    if (jobmaster.jmhft.length==0){
+        errors=errors+"Finishing Cannot be empty \n"
     }
 
 
@@ -197,11 +194,11 @@ const refillJobMaster = (ob,rowIndex)=>{
     fillDataIntoSelect(selectJobCustomer,"Select Customer",customersList,'customername',ob.customer_id.customername);
     fillDataIntoSelect(selectJobStatus,"Select Status",jobStautues,'name',ob.jobmasterstatus_id.name);
 
-    itemsList=ajaxGetRequest("/item/jobwithoutitems/"+ob.id)
-    fillDataIntoSelect(selectJobItem,"",itemsList,'itmname');
+    finishingsList=ajaxGetRequest("/finishing_types/jobwithoutfinishingtypes/"+ob.id)
+    fillDataIntoSelect(selectJobFinishing,"",finishingsList,'name');
 
 
-    fillDataIntoSelect(selectedJobItem,"",jobmaster.jhi,'itmname');
+    fillDataIntoSelect(selectedJobFinishing,"",jobmaster.jmhft,'name');
 
 
 }
@@ -230,11 +227,11 @@ const checkUpdates = ()=>{
     if (jobmaster.jobdescription != oldJobMaster.jobdescription){
         updates=updates+"Description Is Updated \n"
     }
-    if (jobmaster.jhi.length != oldJobMaster.jhi.length){
+    if (jobmaster.jmhft.length != oldJobMaster.jmhft.length){
         updates=updates+"Items are updated \n"
     }else {
-        for (let element of jobmaster.jhi){
-            let extJHI = oldJobMaster.jhi.map(item => item.id).indexOf(element.id);
+        for (let element of jobmaster.jmhft){
+            let extJHI = oldJobMaster.jmhft.map(item => item.id).indexOf(element.id);
 
             if (extJHI != 1){
                 updates=updates+"Items Are Changed \n"
@@ -413,7 +410,7 @@ const printOneJob = async (ob)=>{
                     <td>Item Name</td>
                         <td>
                         ${
-                        ob.jhi.map(element => `<p>${element.itmname}</p>`).join('')
+                        ob.jmhft.map(element => `<p>${element.name}</p>`).join('')
                         }
                         </td>
                 </tr>
@@ -477,33 +474,33 @@ const getMaxJobNumber = ()=>{
 
 
 const addOneItem = ()=>{
-    console.log(selectJobItem.value);
-    if (selectJobItem.value===""){
+    console.log(selectJobFinishing.value);
+    if (selectJobFinishing.value===""){
         alert("please select item");
     }else {
-        let selectedItem = JSON.parse(selectJobItem.value);
-        jobmaster.jhi.push(selectedItem);
+        let selectedItem = JSON.parse(selectJobFinishing .value);
+        jobmaster.jmhft.push(selectedItem);
 
-        let extIndex = itemsList.map(item => item.itmname).indexOf(selectedItem.itmname);
+        let extIndex = finishingsList.map(item => item.name).indexOf(selectedItem.name);
         if (extIndex !== -1) {
-            itemsList.splice(extIndex, 1)
+            finishingsList.splice(extIndex, 1)
         }
 
-        fillDataIntoSelect(selectJobItem, "", itemsList, 'itmname');
-        fillDataIntoSelect(selectedJobItem, "", jobmaster.jhi, 'itmname');
+        fillDataIntoSelect(selectJobFinishing, "", finishingsList, 'name');
+        fillDataIntoSelect(selectedJobFinishing, "", jobmaster.jmhft, 'name');
     }
 }
 
 
 const addAllItem = ()=>{
 
-    itemsList.forEach((item)=>{
-        jobmaster.jhi.push(item);
+    finishingsList.forEach((item)=>{
+        jobmaster.jmhft.push(item);
     })
-    fillDataIntoSelect(selectedJobItem,"",jobmaster.jhi,'itmname');
+    fillDataIntoSelect(selectedJobFinishing,"",jobmaster.jmhft,'name');
 
-    itemsList = [];
-    fillDataIntoSelect(selectJobItem,"",itemsList,'itmname');
+    finishingsList = [];
+    fillDataIntoSelect(selectJobFinishing,"",finishingsList,'name');
 
 
 
@@ -511,32 +508,32 @@ const addAllItem = ()=>{
 
 
 const removeOneItem = ()=>{
-    console.log(selectedJobItem.value)
-    if (selectedJobItem.value==""){
+    console.log(selectedJobFinishing.value)
+    if (selectedJobFinishing.value==""){
         alert("please select item for remove");
     }else {
-        let selectedRemoveItem = JSON.parse(selectedJobItem.value);
-        itemsList.push(selectedRemoveItem);
+        let selectedRemoveItem = JSON.parse(selectedJobFinishing.value);
+        finishingsList.push(selectedRemoveItem);
 
-        let extIndex = jobmaster.jhi.map(item=>item.itemname).indexOf(selectedRemoveItem.itemname)
+        let extIndex = jobmaster.jmhft.map(item=>item.name).indexOf(selectedRemoveItem.name)
         if (extIndex !== -1){
-            jobmaster.jhi.splice(extIndex,1)
+            jobmaster.jmhft.splice(extIndex,1)
         }
 
-        fillDataIntoSelect(selectJobItem,"",itemsList,'itmname');
-        fillDataIntoSelect(selectedJobItem,"",jobmaster.jhi,'itmname');
+        fillDataIntoSelect(selectJobFinishing,"",finishingsList,'name');
+        fillDataIntoSelect(selectedJobFinishing,"",jobmaster.jmhft,'name');
     }
 }
 
 
 const removeAllItem = ()=>{
-    jobmaster.jhi.forEach((item)=>{
-        itemsList.push(item);
+    jobmaster.jmhft.forEach((item)=>{
+        finishingsList.push(item);
     })
-    fillDataIntoSelect(selectJobItem,"",itemsList,'itmname');
+    fillDataIntoSelect(selectJobFinishing,"",finishingsList,'name');
 
-    jobmaster.jhi = [];
-    fillDataIntoSelect(selectedJobItem,"",jobmaster.jhi,'itmname');
+    jobmaster.jmhft = [];
+    fillDataIntoSelect(selectedJobFinishing,"",jobmaster.jmhft,'name');
 
 
 }

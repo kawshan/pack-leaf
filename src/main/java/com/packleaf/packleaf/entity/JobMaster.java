@@ -45,8 +45,8 @@ public class JobMaster {
     private JobMasterStatus jobmasterstatus_id;
 
     @ManyToMany
-    @JoinTable(name = "jobmaster_has_item", joinColumns = @JoinColumn(name = "jobmaster_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
-    private List<Item> jhi;
+    @JoinTable(name = "jobmaster_has_finishing_types", joinColumns = @JoinColumn(name = "jobmaster_id"), inverseJoinColumns = @JoinColumn(name = "finishing_types_id"))
+    private List<FinishingTypes> jmhft;
 
 
 

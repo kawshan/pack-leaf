@@ -16,7 +16,8 @@ public interface ItemDao extends JpaRepository<Item,Integer> {
 
 
     //meka ona venne job master eke dan item ekata thiyenne many to many relation ekak nisa.
-    @Query(value = "select i from Item i where i.id not in (select jmhi.item_id.id from JobMasterHasItem jmhi where jmhi.jobmaster_id.id=?1)order by i.code asc")
+//                  @Query(value = "select i from Item i where i.id not in (select jmhi.item_id.id from JobMasterHasFinishingTypes jmhi where jmhi.jobmaster_id.id=?1)order by i.code asc")
+    @Query(value = "select fts from FinishingTypes fts where fts.id not in (select jmhfy.finishing_types_id.id from JobMasterHasFinishingTypes jmhfy where jmhfy.jobmaster_id.id=?1) order by fts.id asc")
     public List<Item> getJobWithoutItems(Integer jobmasterId);
 
     @Query(value = "select item.imkey from item where itmname=?1",nativeQuery = true)
