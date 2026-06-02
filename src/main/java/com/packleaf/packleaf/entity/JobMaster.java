@@ -49,6 +49,11 @@ public class JobMaster {
     private List<FinishingTypes> jmhft;
 
 
+    @OneToMany(mappedBy = "jobmaster_id",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<JobMasterHasItem> jobMasterHasItems;
+
+
+
 
 
 }

@@ -16,6 +16,11 @@ const refreshJobMasterForm = ()=>{
     //many to many relationship ekata adalawa empty array ekek create kara..
     jobmaster.jmhft = [];
 
+
+
+    //many to many attribute eka
+    jobmaster.jobMasterHasItems = new Array();
+
     buttonUpdateJobMaster.disabled=true;
     buttonUpdateJobMaster.style.cursor="not-allowed";
 
@@ -54,7 +59,164 @@ const refreshJobMasterForm = ()=>{
 
     //max number eka ganna function eka call karanawa
     getMaxJobNumber();
+    refreshInnerFormAndTable();
 }
+
+const refreshInnerFormAndTable = ()=>{
+    jmhsitm = new Object();
+    OLDjmhsitm = null;
+
+    itemList = ajaxGetRequest("/item/findall");
+    fillDataIntoSelect(selectItem,'Select Item',itemList,'itmname');
+
+    txtQty.value = "";
+    txtQty.style.border = "2px solid #ced4da";
+
+
+    selectItem.style.border = "2px solid #ced4da";
+
+    let displayProperty = [
+        {dataType: 'function', propertyName: getItemNameForInnerTable},
+        {dataType: 'function', propertyName: getItemQtyForInnerTable},
+    ];
+
+
+    fillDataIntoTableInnerTable(tableJobMasterItemDetails, jobmaster.jobMasterHasItems, displayProperty, refillInnerForm, deleteInnerRow);
+
+
+    buttonInnerUpdate.disabled = true;
+    buttonInnerAdd.disabled = false;
+
+}
+
+const getItemNameForInnerTable = (ob)=>{
+   return  ob.item_id.itmname;
+
+
+
+}
+
+const getItemQtyForInnerTable = (ob)=>{
+    return ob.jobmaster_has_item_qty
+
+
+
+}
+
+
+
+const refillInnerForm = (ob, rowIndex) => {
+
+    jmhsitm = JSON.parse(JSON.stringify(ob));
+    OLDjmhsitm = JSON.parse(JSON.stringify(ob));
+
+    itemList = ajaxGetRequest("/item/findall");
+    fillDataIntoSelect(
+        selectItem,
+        'Select Item',
+        itemList,
+        'itmname',
+        ob.item_id.itmname
+    );
+
+    txtQty.value = ob.jobmaster_has_item_qty;
+
+    buttonInnerUpdate.disabled = false;
+    buttonInnerAdd.disabled = true;
+}
+
+
+
+const innerUpdate = ()=>{
+
+    let errors = checkInnerFormErrors();
+
+    if(errors==""){
+
+        let userConfirm = confirm(`
+            Are You Sure To Update Following
+
+            Item : ${jmhsitm.item_id.itmname}
+            Qty  : ${jmhsitm.jobmaster_has_item_qty}
+        `);
+
+        if(userConfirm){
+
+            let extIndex = jobmaster.jobMasterHasItems
+                .map(item => item.item_id.id)
+                .indexOf(OLDjmhsitm.item_id.id);
+
+            if(extIndex != -1){
+
+                jobmaster.jobMasterHasItems[extIndex] =
+                    JSON.parse(JSON.stringify(jmhsitm));
+
+                alert("Item Updated Successfully");
+
+                refreshInnerFormAndTable();
+            }
+        }
+
+    }else{
+        alert(`You Have Following Errors\n${errors}`);
+    }
+}
+
+
+const deleteInnerRow = (ob,index) => {//need to do this
+    let userConfirm=confirm('are you sure to remove');
+    if (userConfirm){
+        let extIndex=jobmaster.jobMasterHasItems.map(item=>item.item_id).indexOf(ob.item_id);
+        if (extIndex!=-1){
+            jobmaster.jobMasterHasItems.splice(extIndex,1);
+            alert("item removed successfully");
+            refreshInnerFormAndTable()
+        }
+    }
+}
+
+
+
+const checkInnerFormErrors = ()=>{
+    let errors = "";
+
+    if (jmhsitm.item_id==null){
+        errors=errors+"Item Cannot Be Empty\n"
+    }
+
+
+    if (jmhsitm.jobmaster_has_item_qty == null){
+        errors=errors+"Quantity cannot be empty \n"
+    }
+
+    return errors;
+}
+
+
+const innerAdd = ()=>{
+    let errors = checkInnerFormErrors();
+    if (errors==""){
+        let userConfirm = confirm(`Are You Sure To add Following
+        Item name is ${jmhsitm.item_id.itmname}
+        Qty is is ${jmhsitm.jobmaster_has_item_qty}
+        `);
+        if (userConfirm){
+            jobmaster.jobMasterHasItems.push(jmhsitm);
+            alert(`Item Added Successfully`);
+            refreshInnerFormAndTable();
+        }
+    }else {
+        alert(`you have following errors \n ${errors}`);
+    }
+
+
+}
+
+
+
+
+
+
 
 
 const refreshJobMasterTable = ()=>{
@@ -200,6 +362,9 @@ const refillJobMaster = (ob,rowIndex)=>{
 
     fillDataIntoSelect(selectedJobFinishing,"",jobmaster.jmhft,'name');
 
+
+    // jobmaster.jobMasterHasItems = ob.jobMasterHasItems;
+    refreshInnerFormAndTable();
 
 }
 

@@ -3,6 +3,7 @@ package com.packleaf.packleaf.controller;
 import com.packleaf.packleaf.dao.JobMasterDao;
 import com.packleaf.packleaf.dao.JobMasterStatusDao;
 import com.packleaf.packleaf.entity.JobMaster;
+import com.packleaf.packleaf.entity.JobMasterHasItem;
 import com.packleaf.packleaf.entity.JobMasterStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -44,6 +45,9 @@ public class JobMasterController {
                 jobMaster.setJobmasterkey(maxJobMasterKey);
             }
 
+            for (JobMasterHasItem jobMasterHasItem : jobMaster.getJobMasterHasItems()) {
+                jobMasterHasItem.setJobmaster_id(jobMaster);
+            }
 
             jobDao.save(jobMaster);
             return "ok";
@@ -56,6 +60,13 @@ public class JobMasterController {
     @PutMapping
     public String updateJobMaster(@RequestBody JobMaster jobMaster){
         try {
+
+
+            for (JobMasterHasItem jobMasterHasItem : jobMaster.getJobMasterHasItems()) {
+                jobMasterHasItem.setJobmaster_id(jobMaster);
+            }
+
+
             jobDao.save(jobMaster);
             return "ok";
         }catch (Exception e){
@@ -69,6 +80,12 @@ public class JobMasterController {
         try {
             JobMasterStatus deleteStatus = jobMasterStatusDao.getReferenceById(3);
             jobMaster.setJobmasterstatus_id(deleteStatus);
+
+
+            for (JobMasterHasItem jobMasterHasItem : jobMaster.getJobMasterHasItems()) {
+                jobMasterHasItem.setJobmaster_id(jobMaster);
+            }
+
             jobDao.save(jobMaster);
             return "ok";
         }catch (Exception e){

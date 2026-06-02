@@ -153,10 +153,52 @@
 <!--    fifth row end-->
 
 
+<!--    job master has item details section  start-->
+    <div class="row mt-5">
+        <div class="col-md-3"></div>
+
+        <div class="col-md-3">
+
+            <label for="selectItem" class="form-label fw-bold"> Item <i class="text-danger">*</i>  </label>
+            <select id="selectItem" class="form-select text-start" onchange="selectDBValidator(this,'','jmhsitm','item_id')"></select>
+
+        </div>
+        <div class="col-md-3">
+                <label for="txtQty" class="form-label fw-bold">Item Qty</label>
+                <input type="text" id="txtQty" class="form-control" placeholder="enter item Qty" onkeyup="textValidator(this,'','jmhsitm','jobmaster_has_item_qty');">
+        </div>
+
+
+
+        <div class="col-md-3 text-center">
+
+            <button type="button" class="btn" style="pointer-events: all; background-color: #525252; color: whitesmoke" id="buttonInnerUpdate" onclick="innerUpdate()">update</button>
+            <button type="button" class="btn" style="pointer-events: all; background-color: #525252; color: whitesmoke" id="buttonInnerAdd" onclick="innerAdd()">Add</button>
+
+        </div>
+    </div>
+<!--    job master has item details section  end-->
+
+
+<div class="mt-5">
+    <table class="table table-bordered" id="tableJobMasterItemDetails" style="font-size: 12px">
+        <thead class="text-center">
+        <th>#</th>
+        <th>Item Name</th>
+        <th>Quantity</th>
+        <th>Action</th>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+
+
     <div class="row mt-5 mb-5">
         <div class="col-md-3"></div>
         <div class="col-md-3">
-            <button type="reset" class="btn btn-danger">reset</button>
+            <button type="button" class="btn btn-danger" onclick="window.location.reload()">reset</button>
         </div>
         <div class="col-md-3">
             <button type="button" class="btn btn-warning" style="pointer-events: all" id="buttonUpdateJobMaster" onclick="updateJobMaster()">Update</button>
