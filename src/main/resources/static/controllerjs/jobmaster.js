@@ -539,86 +539,335 @@ const loadDataIntoJobMasterPrintTable = ()=>{
 const printOneJob = async (ob)=>{
     const newWindow = window.open();
     await newWindow.document.write(`
-    
     <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Job Master Print One Item</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Card Form</title>
+    <style>
+        /* --- A4 Page Setup --- */
+        @page {
+            size: A4;
+            margin: 15mm 15mm 15mm 15mm; /* Balanced margins for printing */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .job-card-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        /* --- Typography & Global Layout --- */
+        h1 {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0 0 20px 0;
+            display: inline-block;
+        }
+
+        .date-container {
+            float: right;
+            margin-bottom: 20px;
+        }
+
+        .date-box {
+            display: inline-block;
+            width: 100px;
+            height: 20px;
+            border: 1px solid #777;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* --- Form Fields Base --- */
+        .row {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .field-group {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .field-group:last-child {
+            margin-right: 0;
+        }
+
+        label {
+            font-weight: normal;
+            white-space: nowrap;
+            margin-right: 8px;
+        }
+
+        .input-box {
+            border: 1px solid #777;
+            height: 24px;
+            flex-grow: 1;
+        }
+
+        /* --- Specific Row Customizations --- */
+        .w-full { width: 100%; }
+        .flex-1 { flex: 1; }
+
+        .job-no-box { width: 110px; flex-grow: 0; }
+        .po-no-box { width: 110px; flex-grow: 0; }
+        .order-no-box { width: 110px; flex-grow: 0; }
+
+        .gsm-box { width: 90px; flex-grow: 0; }
+        .qty-box { width: 90px; flex-grow: 0; }
+
+        .checkbox-box {
+            width: 35px;
+            height: 20px;
+            border: 1px solid #777;
+            display: inline-block;
+            margin-left: 5px;
+            margin-right: 15px;
+        }
+
+        /* --- Text Blocks & Details Sections --- */
+        .details-section {
+            border: 1px solid #777;
+            width: 100%;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+
+        .plate-details {
+            height: 55px;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        .printing-details {
+            height: 65px;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        .printing-details label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* --- Finishes Row (Lamination, Foiling etc.) --- */
+        .finishes-row {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 20px;
+        }
+
+        .finish-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .finish-box {
+            width: 90px;
+            height: 22px;
+            border: 1px solid #777;
+            margin-left: 8px;
+        }
+
+        /* --- Table Grid (Description Section) --- */
+        .description-title {
+            margin-bottom: 5px;
+        }
+
+        .grid-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .grid-table th, .grid-table td {
+            border: 1px solid #555;
+            height: 22px; /* Replicates exact thin row design */
+            padding: 0;
+        }
+
+        /* Grid Column Width Allocations */
+        .col-left { width: 13%; }
+        .col-center { width: 74%; }
+        .col-right { width: 13%; }
+
+        /* --- Remarks Block --- */
+        .remarks-section {
+            border: 1px solid #777;
+            height: 90px;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        /* --- Print Optimization styles --- */
+        @media print {
+            body {
+                background-color: transparent;
+            }
+            .job-card-container {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="container-fluid" style="position: relative">
+<div class="job-card-container">
 
-    <div class="row mb-2 text-center" style="margin-top: 2cm">
-        <p style="font-size: 14px; font-weight: bold; font-family: 'Times New Roman'; ">Job Details</p>
+    <div class="clearfix">
+        <h1>Job Card</h1>
+        <div class="date-container">
+            <label>Date :</label><div class="date-box">${ob.jobdate}</div>
+        </div>
     </div>
 
-    <div class="row" style="margin: 2px">
-        <table class="table table-bordered" style="font-size: 11px; font-family: 'Times New Roman'; border: 1px solid black">
-            <thead style="font-weight: bold; font-family: 'Times New Roman'; " class="text-center">
-            <th style="width: 40%">Properties</th>
-            <th>Details</th>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td>Job Date</td>
-                    <td>${ob.jobdate}</td>
-                </tr>
-
-
-                <tr>
-                    <td>Job Number</td>
-                    <td>${ob.jobnumber}</td>
-                </tr>
-
-                <tr>
-                    <td>Customer Name</td>
-                    <td>${ob.customer_id.customername}</td>
-                </tr>
-
-                <tr>
-                    <td>Item Name</td>
-                        <td>
-                        ${
-                        ob.jmhft.map(element => `<p>${element.name}</p>`).join('')
-                        }
-                        </td>
-                </tr>
-
-
-                <tr>
-                    <td>Job Quantity</td>
-                    <td>${Number(ob.jobquantity).toLocaleString('en-US')}</td>
-                </tr>
-
-                <tr>
-                    <td>Job Status</td>
-                    <td>${ob.jobmasterstatus_id.name}</td>
-                </tr>
-
-                <tr>
-                    <td>Job Description</td>
-                    <td>${ob.jobdescription==null ?" ":ob.jobdescription}</td>
-                </tr>
-
-            </tbody>
-
-
-
-        </table>
+    <div class="row">
+        <div class="field-group">
+            <label>Job No</label>
+            <div class="input-box job-no-box">${ob.jobnumber}</div>
+        </div>
+        <div class="field-group">
+            <label>PO NO</label>
+            <div class="input-box po-no-box">${ob.job_master_po_no == null ? '' : ob.job_master_po_no}</div>
+        </div>
+        <div class="field-group flex-1">
+            <label>Order NO</label>
+            <div class="input-box order-no-box">${ob.job_master_order_no == null ? '' : ob.job_master_order_no}</div>
+        </div>
     </div>
 
+    <div class="row">
+        <div class="field-group w-full">
+            <label>Job Name</label>
+            <div class="input-box">${ob.job_master_job_name == null ? '' : ob.job_master_job_name}</div>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="field-group w-full">
+            <label>Material</label>
+            <div class="input-box">${ob.job_master_material == null ? '' : ob.job_master_material}</div>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="field-group flex-1">
+            <label>Print Size</label>
+            <div class="input-box">${ob.job_master_print_size == null ? '' : ob.job_master_print_size}</div>
+        </div>
+        <div class="field-group">
+            <label>gsm</label>
+            <div class="input-box gsm-box">${ob.job_master_gsm == null ? '' : ob.job_master_gsm}</div>
+        </div>
+        <div class="field-group">
+            <label>QTY</label>
+            <div class="input-box qty-box">${ob.jobquantity == null ? '' : ob.jobquantity}</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="field-group flex-1" style="max-width: 55%;">
+            <label>By: Name</label>
+            <div class="input-box">${ob.job_master_by_name == null ? '' : ob.job_master_by_name}</div>
+        </div>
+    </div>
+
+<div class="details-section plate-details">
+    <span style="vertical-align: middle; line-height: 20px;">Plate Details</span>
+    
+    <span style="margin-left: 40px; vertical-align: middle; line-height: 20px;">KROS</span>
+    <div class="checkbox-box" style="vertical-align: middle; text-align: center; line-height: 20px;">
+        ${ob.jmhpd.some(plate => plate.name === "KROS") ? "✔" : ""}
+    </div>
+    
+    <span style="vertical-align: middle; line-height: 20px;">GTO</span>
+    <div class="checkbox-box" style="vertical-align: middle; text-align: center; line-height: 20px;">
+        ${ob.jmhpd.some(plate => plate.name === "GTO") ? "✔" : ""}
+    </div>
 </div>
 
+    <div class="details-section printing-details">
+        <label>Printing Details :</label>
+        <div style="font-size: 13px; color: #111; white-space: pre-wrap;">${ob.jobmaster_printing_details==null ? "" : ob.jobmaster_printing_details}</div>
+    </div>
 
+<div class="finishes-row">
+    <div class="finish-item">
+        <label>Lamination</label>
+        <div class="finish-box" style="text-align: center; line-height: 22px; font-weight: bold;">
+            ${ob.jmhft.some(f => f.name === "Laminating") ? "✔" : ""}
+        </div>
+    </div>
+    
+    <div class="finish-item">
+        <label>Foiling</label>
+        <div class="finish-box" style="text-align: center; line-height: 22px; font-weight: bold;">
+            ${ob.jmhft.some(f => f.name === "Foiling") ? "✔" : ""}
+        </div>
+    </div>
+    
+    <div class="finish-item">
+        <label>Spot UV</label>
+        <div class="finish-box" style="text-align: center; line-height: 22px; font-weight: bold;">
+            ${ob.jmhft.some(f => f.name === "Spot UV") || (ob.jobMasterHasItems[0]?.item_id?.spotuv === "true") ? "✔" : ""}
+        </div>
+    </div>
+    
+    <div class="finish-item">
+        <label>Cutting</label>
+        <div class="finish-box" style="text-align: center; line-height: 22px; font-weight: bold;">
+            ${ob.jmhft.some(f => f.name === "Cutting") ? "✔" : ""}
+        </div>
+    </div>
+</div>
 
+<div class="description-title">Description</div>
+    <table class="grid-table">
+        <tbody>
+            ${(ob.jobMasterHasItems || []).map((item, index) => `
+                <tr>
+                    <td class="col-left" style="text-align: center;">${index + 1}</td>
+                    <td class="col-center">${item.item_id?.itmname || ''}</td>
+                    <td class="col-right" style="text-align: right;">${item.jobmaster_has_item_qty}</td>
+                </tr>
+            `).join('')}
+        </tbody>
+    </table>
+    </table>
 
+<div class="remarks-section" style="height: 90px; padding: 8px; box-sizing: border-box; font-size: 13px; line-height: 1.5;">
+        <strong style="display: block; margin-bottom: 4px;">Remarks:</strong>
+        <div style="color: #111; white-space: pre-wrap;">
+            ${ob.jobdescription || ''}
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>

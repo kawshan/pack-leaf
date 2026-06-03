@@ -59,4 +59,31 @@ public class JobMaster {
 
 
 
+    @Column(name = "job_master_po_no")
+    private String job_master_po_no;
+
+    @Column(name = "job_master_order_no")
+    private String job_master_order_no;
+
+    @Column(name = "job_master_job_name")
+    private String job_master_job_name;
+
+    @Column(name = "job_master_material")
+    private String job_master_material;
+
+    @Column(name = "job_master_print_size")
+    private String job_master_print_size;
+
+    @Column(name = "job_master_gsm")
+    private String job_master_gsm;
+
+    @Column(name = "job_master_by_name")
+    private String job_master_by_name;
+
+    @Column(name = "jobmaster_printing_details")
+    private String jobmaster_printing_details;
+
+
+
+
 }
