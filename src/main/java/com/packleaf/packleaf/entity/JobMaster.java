@@ -53,6 +53,9 @@ public class JobMaster {
     private List<JobMasterHasItem> jobMasterHasItems;
 
 
+    @ManyToMany
+    @JoinTable(name = "jobmaster_has_plate_details", joinColumns = @JoinColumn(name = "jobmaster_id"), inverseJoinColumns = @JoinColumn(name = "plate_details_id"))
+    private List<PlateDetails> jmhpd;
 
 
 

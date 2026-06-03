@@ -15,6 +15,7 @@ const refreshJobMasterForm = ()=>{
 
     //many to many relationship ekata adalawa empty array ekek create kara..
     jobmaster.jmhft = [];
+    jobmaster.jmhpd = [];
 
 
 
@@ -47,10 +48,16 @@ const refreshJobMasterForm = ()=>{
     customersList = ajaxGetRequest("/customer/findall");
     fillDataIntoSelect(selectJobCustomer,"Select Customer",customersList,'customername');
 
+    // finishing types filling
     finishingsList = ajaxGetRequest("/finishing_types/findall")
     fillDataIntoSelect(selectJobFinishing,"",finishingsList,'name');
-
     fillDataIntoSelect(selectedJobFinishing,"",jobmaster.jmhft,'name');
+
+    // plate details type filling
+    plateDetailsList = ajaxGetRequest("/plate_details/find_all");
+    fillDataIntoSelect(selectJobPlateDetails,"",plateDetailsList,'name');
+    fillDataIntoSelect(selectedJobPlateDetails,"",jobmaster.jmhpd,'name');
+
 
 
     jobStautues = ajaxGetRequest("/jobmasterstatus/findall");
@@ -61,6 +68,8 @@ const refreshJobMasterForm = ()=>{
     getMaxJobNumber();
     refreshInnerFormAndTable();
 }
+
+// inner table functions are end
 
 const refreshInnerFormAndTable = ()=>{
     jmhsitm = new Object();
@@ -214,7 +223,7 @@ const innerAdd = ()=>{
 
 
 
-
+// inner table functions are end
 
 
 
@@ -637,6 +646,7 @@ const getMaxJobNumber = ()=>{
 }
 
 
+// finishing type many-to-many relation starts from here
 
 const addOneItem = ()=>{
     console.log(selectJobFinishing.value);
@@ -704,12 +714,77 @@ const removeAllItem = ()=>{
 }
 
 
+// finishing type many-to-many relation end
+
+
+// plate details many-to-many relation start
+
+const addOneItemForPlateDetails = ()=>{
+    console.log(selectJobPlateDetails.value);
+    if (selectJobPlateDetails.value===""){
+        alert("please select item");
+    }else {
+        let selectedItem = JSON.parse(selectJobPlateDetails .value);
+        jobmaster.jmhpd.push(selectedItem);
+
+        let extIndex = plateDetailsList.map(item => item.name).indexOf(selectedItem.name);
+        if (extIndex !== -1) {
+            plateDetailsList.splice(extIndex, 1)
+        }
+
+        fillDataIntoSelect(selectJobPlateDetails, "", plateDetailsList, 'name');
+        fillDataIntoSelect(selectedJobPlateDetails, "", jobmaster.jmhpd, 'name');
+    }
+}
+
+
+const addAllItemForPlateDetails = ()=>{
+
+    plateDetailsList.forEach((item)=>{
+        jobmaster.jmhpd.push(item);
+    })
+    fillDataIntoSelect(selectedJobPlateDetails,"",jobmaster.jmhpd,'name');
+
+    plateDetailsList = [];
+    fillDataIntoSelect(selectJobPlateDetails,"",plateDetailsList,'name');
 
 
 
+}
 
 
+const removeOneItemForPlateDetails = ()=>{
+    console.log(selectedJobPlateDetails.value)
+    if (selectedJobPlateDetails.value==""){
+        alert("please select item for remove");
+    }else {
+        let selectedRemoveItem = JSON.parse(selectedJobPlateDetails.value);
+        plateDetailsList.push(selectedRemoveItem);
 
+        let extIndex = jobmaster.jmhpd.map(item=>item.name).indexOf(selectedRemoveItem.name)
+        if (extIndex !== -1){
+            jobmaster.jmhpd.splice(extIndex,1)
+        }
+
+        fillDataIntoSelect(selectJobPlateDetails,"",plateDetailsList,'name');
+        fillDataIntoSelect(selectedJobPlateDetails,"",jobmaster.jmhpd,'name');
+    }
+}
+
+
+const removeAllItemForPlateDetails = ()=>{
+    jobmaster.jmhpd.forEach((item)=>{
+        plateDetailsList.push(item);
+    })
+    fillDataIntoSelect(selectJobPlateDetails,"",plateDetailsList,'name');
+
+    jobmaster.jmhpd = [];
+    fillDataIntoSelect(selectedJobPlateDetails,"",jobmaster.jmhpd,'name');
+
+
+}
+
+// plate details many-to-many relation end
 
 
 
